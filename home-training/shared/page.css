@@ -1,0 +1,88 @@
+/* Shared styles for exercise and lesson pages. Plain and functional on purpose: the site design comes later. */
+:root {
+  --bg: #eef1ec; --surface: #f9faf7; --ink: #1b2a2f; --muted: #566763; --line: #d3dad3;
+  --accent: #1f6f5c; --accent-ink: #ffffff; --tape: #f2c230; --warn-bg: #fff4d6; --warn-line: #d9a400;
+  --fig-near: #1f6f5c; --fig-far: #8fb8ab; --fig-body: #174f42; --fig-head: #f0c9a4;
+  --stage-bg: #e4ebe5; --ground: #cfd9cf; --prop: #8d9a94; --seat: #6f7c76; --mattress: #b9c9d6; --pillow: #e8eef2;
+  --wall: #dde4de; --bottle: #5aa9d6; --broom: #a0703a;
+  --font-display: "Rubik", "Arial Hebrew", Arial, sans-serif; --font-body: "Assistant", "Arial Hebrew", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111918; --surface: #1a2423; --ink: #e6ece8; --muted: #9bada8; --line: #2d3a38;
+    --accent: #5fc4a8; --accent-ink: #0d1b18; --tape: #e5b92e; --warn-bg: #2d2712; --warn-line: #b8901a;
+    --fig-near: #5fc4a8; --fig-far: #3c7b6b; --fig-body: #8fe0c8; --fig-head: #d9b08c;
+    --stage-bg: #17211f; --ground: #22302d; --prop: #596863; --seat: #7b8a85; --mattress: #4b6275; --pillow: #7a8f9e;
+    --wall: #1f2b29; --bottle: #4a95c0; --broom: #c28a4d; color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.6;
+  padding-block: 20px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrap { max-width: 980px; margin-inline: auto; display: grid; gap: 20px; }
+h1, h2, h3 { font-family: var(--font-display); margin: 0; text-wrap: balance; line-height: 1.2; }
+h1 { font-size: clamp(26px, 5vw, 38px); } h2 { font-size: 21px; }
+a { color: var(--accent); } a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.crumbs { font-size: 14px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.tag { font-size: 14px; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 2px 12px; }
+.tag.bal { background: var(--tape); color: #1b2a2f; border-color: var(--tape); font-weight: 600; }
+.grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 760px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 12px; min-width: 0; }
+.stagebox { position: relative; background: var(--stage-bg); border-radius: 8px; overflow: hidden; direction: ltr; }
+.stagebox svg { display: block; width: 100%; height: auto; }
+.capbar { position: absolute; inset-inline: 10px; top: 8px; display: flex; justify-content: space-between; gap: 8px; direction: rtl; pointer-events: none; }
+.cap { font-family: var(--font-display); font-weight: 600; background: var(--surface); padding: 2px 12px; border-radius: 6px; font-size: 15px; min-height: 28px; }
+.cap:empty { visibility: hidden; }
+.br { font-size: 14px; padding: 2px 12px; border-radius: 6px; background: var(--surface); }
+.br:empty { visibility: hidden; } .br.in { color: #0b6b9a; } .br.out { color: #a5541b; }
+/* figure parts */
+.f-ground { fill: var(--ground); } .f-floor { stroke: var(--prop); stroke-width: 2; } .f-prop { fill: var(--prop); } .f-seat { fill: var(--seat); }
+.f-mattress { fill: var(--mattress); } .f-pillow { fill: var(--pillow); } .f-wall { fill: var(--wall); } .f-prop-line { stroke: var(--prop); stroke-width: 2; }
+.f-limb { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 8; }
+.f-near { stroke: var(--fig-near); } .f-far { stroke: var(--fig-far); }
+.f-body { fill: none; stroke: var(--fig-body); stroke-width: 11; stroke-linecap: round; } .f-thin { stroke-width: 7; }
+.f-head { fill: var(--fig-head); stroke: var(--fig-body); stroke-width: 2.5; }
+.f-bottle-body { fill: var(--bottle); stroke: #fff; stroke-width: 1; } .f-bottle-cap { fill: #fff; } .f-far-b { opacity: .55; }
+.f-broom { stroke: var(--broom); stroke-width: 4.5; stroke-linecap: round; } .f-broom-dot { fill: var(--broom); stroke: #fff; stroke-width: 1.5; }
+.f-rope { stroke: var(--tape); stroke-width: 3; stroke-linecap: round; }
+/* timer */
+.timer { text-align: center; display: grid; gap: 6px; }
+.phase { font-family: var(--font-display); font-size: 18px; color: var(--muted); }
+.time { font-family: var(--font-display); font-weight: 700; font-size: clamp(48px, 12vw, 72px); line-height: 1; font-variant-numeric: tabular-nums; color: var(--accent); direction: ltr; }
+.sub { color: var(--muted); font-size: 15px; }
+.dots { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--accent); } .dot.now { background: var(--tape); border-color: var(--tape); } .dot.done { background: var(--accent); }
+.btns { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+button { font: inherit; cursor: pointer; border-radius: 8px; border: 1px solid var(--accent); background: none; color: var(--accent); padding: 8px 18px; }
+button.primary { background: var(--accent); color: var(--accent-ink); font-weight: 600; font-family: var(--font-display); padding: 10px 28px; font-size: 18px; }
+.facts { display: flex; flex-wrap: wrap; gap: 6px 18px; justify-content: center; font-size: 15px; color: var(--muted); }
+.facts b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.music { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: center; font-size: 15px; }
+.music label { display: flex; gap: 8px; align-items: center; }
+select { font: inherit; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+.hint { font-size: 13.5px; color: var(--muted); text-align: center; margin: 0; }
+/* guidance */
+.guide { display: grid; gap: 14px; }
+.guide h2 { border-top: 1px solid var(--line); padding-top: 14px; }
+.guide h2:first-child { border-top: 0; padding-top: 0; }
+.guide p, .guide ul, .guide ol { margin: 0; } .guide ul, .guide ol { padding-inline-start: 22px; display: grid; gap: 6px; }
+.box { border-radius: 8px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); }
+.box.warn { background: var(--warn-bg); border-color: var(--warn-line); }
+.box.warn h2 { border: 0; padding: 0 0 6px; } .box h2 { border: 0; padding: 0 0 6px; }
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } @media (max-width: 560px) { .two { grid-template-columns: minmax(0, 1fr); } }
+.nav { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.nav a { border: 1px solid var(--line); background: var(--surface); padding: 10px 16px; border-radius: 8px; text-decoration: none; }
+/* lesson index */
+.list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.list a.row { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; padding: 12px 16px; border: 1px solid var(--line); background: var(--surface); border-radius: 8px; text-decoration: none; color: inherit; }
+.list .n { font-family: var(--font-display); font-weight: 700; font-size: 26px; color: var(--accent); min-width: 2ch; text-align: center; }
+.list .t { font-family: var(--font-display); font-weight: 500; font-size: 19px; } .list .m { color: var(--muted); font-size: 14px; }
+.list .done { color: var(--accent); font-weight: 700; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+.mus { list-style: none; padding: 0 !important; margin: 0; display: grid; gap: 8px; }
+.mus li { display: grid; gap: 0; border-inline-start: 4px solid var(--accent); padding-inline-start: 10px; }
+.mus li b { font-family: var(--font-display); font-weight: 500; }
+.mus li span { color: var(--muted); font-size: 15px; }
+.muscles h3 { font-size: 16px; margin: 12px 0 8px; color: var(--muted); }
