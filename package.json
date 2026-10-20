@@ -1,0 +1,12 @@
+{
+  "name": "home-training",
+  "version": "1.0.0",
+  "private": true,
+  "description": "אימון פונקציונלי בבית — אתר סטטי + API קטן מעל Neon",
+  "scripts": {
+    "db:init": "node --use-system-ca scripts/db-init.js"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0"
+  }
+}
