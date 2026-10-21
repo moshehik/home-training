@@ -250,28 +250,30 @@
       var n = [e[1], -e[0]], ang = Math.atan2(e[1], e[0]), W, d = '';
       function pt(f, u) { return [W[0] + e[0] * f + n[0] * u, W[1] + e[1] * f + n[1] * u]; }
       if (mode === 'fist') {
+        /* a closed hand around a bottle or stick: a rounded mass with four finger knuckles stacked across the front */
         W = [end[0] - e[0] * 5.5, end[1] - e[1] * 5.5];
-        d = hull(W, 3.1, end, 4.7);
-        [15, 52, 90].forEach(function (deg) {
-          var t = ang + deg * RAD; d += circ([end[0] + 4.3 * Math.cos(t), end[1] + 4.3 * Math.sin(t)], 2.1);
-        });
-        return { d: d + circ([end[0] + e[0] * 1.4 + n[0] * 4, end[1] + e[1] * 1.4 + n[1] * 4], 1.9), ink: '' };
+        d = hull(W, 2.9, end, 4.9) + hull(end, 4.9, [end[0] + e[0] * 2, end[1] + e[1] * 2], 4.4);
+        [-4.2, -1.4, 1.4, 4.2].forEach(function (u) { d += circ([end[0] + e[0] * 3.6 + n[0] * u, end[1] + e[1] * 3.6 + n[1] * u], 1.9); });
+        return { d: d + circ([end[0] - e[0] * 1 + n[0] * 5.4 * side, end[1] - e[1] * 1 + n[1] * 5.4 * side], 2.2), ink: '' };
       }
       W = [end[0] - e[0] * 4.5, end[1] - e[1] * 4.5];
-      /* a hand: a palm that flows out of the wrist, four separate fingers of different lengths (so the tips are scalloped, not a mitten),
-       * a thumb at the side, and fine lines in the grooves between the fingers. wide < 1 squeezes the fingers together (a hand seen edge-on). */
-      var open = mode === 'open', K = pt(6.2, 0), sp = 2.25 * wide, len = [12.4, 13.8, 12.8, 10.2], spread = open ? [-2, -0.5, 1, 2.5] : [-2.5, -0.8, 0.8, 2.5];
-      d = hull(W, 2.5, K, 2.2 + 0.5 * wide);
+      /* a soft, slightly curved hand: wrist, palm and fingers together as ONE smooth tapering form (no spiky fingers),
+       * a thumb lying along the side, and fine grooves where the fingers meet. wide < 1 = a hand seen edge-on (thinner). */
+      var open = mode === 'open', cv = open ? [0, 1, 3, 5, 8] : [3, 7, 12, 18, 26], seg = [5, 4.6, 4.4, 3.8, 3.2], rad = [2.9, 4.1, 4.1, 3.7, 3.2, 2.5].map(function (r, k) { return k === 0 ? r : r * (0.78 + 0.22 * wide); });
+      var P = [W], ang2 = [], aa = ang;
+      for (var k = 0; k < 5; k++) { aa = ang + cv[k] * RAD; ang2.push(aa); P.push([P[k][0] + seg[k] * Math.cos(aa), P[k][1] + seg[k] * Math.sin(aa)]); }
+      for (k = 0; k < 5; k++) d += hull(P[k], rad[k], P[k + 1], rad[k + 1]);
       var ink = '';
-      for (var i = 0; i < 4; i++) {
-        var u = (i - 1.5) * sp, p0 = [K[0] + n[0] * u, K[1] + n[1] * u], cv = open ? 1 + i : 4 + i * 4;
-        var a1 = ang + (spread[i] + 0) * RAD, a2 = a1 + cv * 0.9 * RAD, a3 = a2 + cv * 0.8 * RAD;
-        var q1 = [p0[0] + len[i] * 0.46 * Math.cos(a1), p0[1] + len[i] * 0.46 * Math.sin(a1)], q2 = [q1[0] + len[i] * 0.32 * Math.cos(a2), q1[1] + len[i] * 0.32 * Math.sin(a2)], q3 = [q2[0] + len[i] * 0.22 * Math.cos(a3), q2[1] + len[i] * 0.22 * Math.sin(a3)];
-        d += hull(p0, 1.15, q1, 1.08) + hull(q1, 1.08, q2, 0.98) + hull(q2, 0.98, q3, 0.8);
-        if (i < 3) { var ub = (i - 1) * sp, b0 = [K[0] + e[0] * 0.6 + n[0] * ub, K[1] + e[1] * 0.6 + n[1] * ub]; ink += 'M' + f1(b0) + 'L' + f1([b0[0] + e[0] * len[i] * 0.78, b0[1] + e[1] * len[i] * 0.78]); }
-      }
-      var ts = side * (1.5 * sp + 1.6), ta = ang + side * (open ? 14 : 7) * RAD, T0 = pt(2.2, ts), T1 = [T0[0] + 3.8 * Math.cos(ta), T0[1] + 3.8 * Math.sin(ta)], T2 = [T1[0] + 3.2 * Math.cos(ta - side * 0.1), T1[1] + 3.2 * Math.sin(ta - side * 0.1)];
-      return { d: d + hull(T0, 1.6, T1, 1.4) + hull(T1, 1.4, T2, 1.15), ink: ink };
+      [-1.5, 0, 1.5].forEach(function (u) {
+        var line = '';
+        for (var j = 2; j < 6; j++) {
+          var aj = ang2[Math.min(j, 4)], nx = Math.sin(aj), ny = -Math.cos(aj), q = P[j], t = u * (rad[j] / 4.1) * wide * 1.1, shrink = j === 5 ? 0.6 : 1;
+          line += (line ? 'L' : 'M') + f1([q[0] + nx * t * shrink, q[1] + ny * t * shrink]);
+        }
+        ink += line;
+      });
+      var ta = ang + side * (open ? 24 : 18) * RAD, T0 = [P[1][0] + n[0] * side * 2.6, P[1][1] + n[1] * side * 2.6], T1 = [T0[0] + 4.6 * Math.cos(ta), T0[1] + 4.6 * Math.sin(ta)], T2 = [T1[0] + 3.8 * Math.cos(ta - side * 0.12), T1[1] + 3.8 * Math.sin(ta - side * 0.12)];
+      return { d: d + hull(T0, 2.4, T1, 2) + hull(T1, 2, T2, 1.5), ink: ink };
     }
     /* the hand pose: grips what is held, lies flat on a surface when the forearm points down onto one, otherwise hangs relaxed */
     var holds = has('bottle') || has('broom') || has('rope') || has('spine'), sinkP = props.filter(function (p) { return p && p.type === 'sink'; })[0];
@@ -399,6 +401,8 @@
       put(bg, 'bottle', rr(-4.8, -10, 9.6, 21, 3.6)); put(bg, 'bottle', rr(-3, -14, 6, 6, 2)); put(bg, 'label', rr(-4.8, -3.5, 9.6, 7, 1.5)); put(bg, 'cap', rr(-3.4, -17, 6.8, 4.4, 1.8));
       return bg.g;
     }) : [];
+    /* the bottles sit behind the hands, so the fingers close in front of them */
+    bottles.forEach(function (bg, bi) { stage.insertBefore(bg, bi === 0 ? gHF.g : gHN.g); });
     var broomDot = has('broom') && view === 'side' ? el('circle', { r: 4.8, fill: COL.wood.near }, clayGroup(1.2, 4.5, WIDE).g) : null;
     var broomLine = has('broom') && view === 'front' ? stick() : null;
     var bottleOn = function (g, p) { g.setAttribute('transform', 'translate(' + p[0].toFixed(1) + ' ' + p[1].toFixed(1) + ')'); };
@@ -509,7 +513,7 @@
       var p0 = poses[i], p1 = poses[(i + 1) % poses.length];
       var u = clamp01((x / p0.w - p0.hd) / (1 - p0.hd || 1));
       var cur = u < 0.5 ? p0 : p1;
-      return { pose: mix(p0, p1, ease(u)), cap: cur.cap, br: cur.br };
+      return { pose: mix(p0, p1, ease(u)), cap: cur.cap, br: cur.br, seg: i, f: x / p0.w };
     }
     /* hold mode: 0 -> move to last pose, then breathe in place */
     function atHold(prog, wob) {
