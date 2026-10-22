@@ -83,7 +83,6 @@ h1, h2, h3, p { margin: 0; }
 .hero::after { content: ""; position: absolute; z-index: 2; left: 0; right: 0; bottom: -1px; height: clamp(100px, 19%, 190px); pointer-events: none; background: linear-gradient(180deg, rgba(239,220,208,0) 0, rgba(239,220,208,.03) 12%, rgba(239,220,208,.11) 26%, rgba(239,220,208,.26) 40%, rgba(239,220,208,.46) 54%, rgba(239,220,208,.68) 68%, rgba(239,220,208,.87) 82%, rgba(239,220,208,.97) 93%, #efdcd0 100%); }
 .rug, .furn { height: auto; }
 .rug { position: absolute; z-index: 1; left: 47%; bottom: -13%; width: min(66vw, 1250px); transform: translateX(-50%); pointer-events: none; filter: drop-shadow(0 18px 14px rgba(120, 60, 60, .22)); }
-.hero .rug { bottom: 0; transform: translate(-50%, 48%); }
 .palm { position: absolute; z-index: 2; left: -2%; bottom: -3%; height: 62%; max-height: 760px; width: auto; pointer-events: none; transform-origin: 50% 100%; animation: breeze 8s ease-in-out infinite; }
 @keyframes breeze { 50% { transform: rotate(1.2deg); } }
 .furn { position: absolute; z-index: 1; bottom: 3%; pointer-events: none; filter: drop-shadow(9px 12px 9px rgba(120, 60, 70, .2)); }
@@ -102,11 +101,18 @@ h1, h2, h3, p { margin: 0; }
 .floor::before { display: none; }
 .floor::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse 70% 38% at 50% 8%, rgba(255, 236, 222, .38), rgba(255, 236, 222, 0)); }
 .rugwrap { position: relative; padding: clamp(30px, 6vw, 84px) clamp(16px, 5vw, 80px) clamp(40px, 7vw, 100px); }
-.meet-rug { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; max-width: none; pointer-events: none; filter: drop-shadow(0 22px 18px rgba(110, 50, 55, .3)); }
-.rugwrap > :not(.meet-rug) { position: relative; z-index: 1; }
+.rugwrap > * { position: relative; z-index: 1; }
+/* the pink rug lies under this whole section (its far edge at the top, its front lip at the bottom): text written straight onto the pile (no cards) */
+#meet { overflow: hidden; }
+#meet > .wrap { position: relative; z-index: 1; }
+#meet .rugwrap { transform: translateX(-3vw); }
+.rugrun { position: absolute; z-index: 0; top: 40px; bottom: 56px; left: 47%; width: min(66vw, 1250px); transform: translateX(-50%); display: flex; flex-direction: column; pointer-events: none; filter: drop-shadow(0 18px 14px rgba(120, 60, 60, .22)); }
+.rugrun .rt { aspect-ratio: 1688 / 225; background: url(assets/landing/rug-top.png) 0 0 / 100% 100% no-repeat; }
+.rugrun .rm { flex: 1; margin-top: -1px; background: url(assets/landing/rug-mid.png) 0 0 / 100% 100% no-repeat; }
+.rugrun .re { aspect-ratio: 1688 / 61; margin-top: -26px; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 26px); mask-image: linear-gradient(to bottom, transparent 0, #000 26px); background: url(assets/landing/rug-end.png) 0 0 / 100% 100% no-repeat; }
 .intro { max-width: 880px; margin-inline: auto; padding: clamp(26px, 4.4vw, 50px) clamp(24px, 5vw, 64px); border-radius: 70px 110px 60px 100px / 80px 60px 100px 70px; text-align: center; }
 .intro h2 { font-size: clamp(56px, 6.4vw, 84px); }
-.intro .box { margin: 18px auto; padding: 16px 24px; border: 2px solid #c79a2f; border-radius: 14px; font-size: 21px; font-weight: 700; color: #5a3a00; background: rgba(255, 244, 205, .35); }
+.intro .box { margin: 18px auto; padding: 16px 24px; border: 2px solid #c79a2f; border-radius: 14px; font-size: 21px; font-weight: 700; color: #5a3a00; }
 .intro p { font-size: 20px; font-weight: 500; margin-top: 10px; }
 .tabs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 18px; }
 .tab { padding: 7px 16px; border-radius: 999px; font-size: 16px; font-weight: 700; color: var(--soft); background: rgba(255, 255, 255, .6); border: 1.5px solid rgba(255, 255, 255, .85); cursor: pointer; font-family: inherit; transition: background .2s, transform .2s; }
@@ -232,7 +238,8 @@ footer b { font-weight: 800; }
   .hero { padding-top: 96px; padding-bottom: 200px; }
   .hero h1 { font-size: clamp(54px, 15vw, 90px); }
   .rug { width: 150vw; left: 52%; bottom: -7%; }
-  .hero .rug { bottom: -7%; transform: translateX(-50%); }
+  .rugrun { left: 52%; width: 150vw; }
+  #meet .rugwrap { transform: none; }
   .palm { height: 30%; left: -16%; }
   .hgo { width: 280px; height: 101px; font-size: 25px; }
   .hgo .in-row { left: 4px; top: 6px; width: 250px; height: 67px; }
@@ -268,7 +275,6 @@ footer b { font-weight: 800; }
 <main>
 <section class="hero room" id="hero">
   <img class="palm" src="assets/landing/palm.png" alt="" width="627" height="826">
-  <img class="rug" src="assets/landing/rug.png" alt="" width="1688" height="433">
   <img class="furn plant" src="assets/room/home-plant.png" alt="" width="256" height="386">
   <img class="furn chair" src="assets/room/home-chair.png" alt="" width="371" height="481">
   <div class="wrapin">
@@ -285,16 +291,16 @@ footer b { font-weight: 800; }
   </section>
 
 <section class="sec room floor" id="meet">
+  <div class="rugrun" aria-hidden="true"><div class="rt"></div><div class="rm"></div><div class="re"></div></div>
   <div class="wrap">
     <div class="rugwrap">
-      <img class="meet-rug" src="assets/landing/rug-meet.png" alt="" width="1500" height="440" loading="lazy">
-      <div class="intro glass">
+      <div class="intro">
         <h2 class="paint berry">נעים להכיר</h2>
         <div class="box">ברכי כהנוביץ, 8 שנים באימון נשים בפילאטיס, בעלת תעודה ממכון וינגייט.</div>
         <p>מתרגשת להגיש לך את הקונספט הייחודי לאימון ביתי, בטיחותי ומקצועי: חדר אחד, בובת פלסטלינה שמראה כל תנועה, ואת, בקצב שלך.</p>
         <p>15 אימונים, 119 תרגילים, וכל אחד מהם עם הוראות בשלבים, גרסה קלה וגרסה קשה.</p>
       </div>
-      <ul class="facts glass" aria-label="במספרים">
+      <ul class="facts" aria-label="במספרים">
         <li><b>15</b><span>אימונים</span></li>
         <li><b>119</b><span>תרגילים</span></li>
         <li><b>15</b><span>מנגינות, אחת לכל אימון</span></li>
