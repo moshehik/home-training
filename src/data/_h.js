@@ -33,5 +33,8 @@ const planted = (x, o) => mk({ k: [x + 4, G - 4], l: [x - 4, G - 4] }, o);
 const squat = (d, o) => mk({ h: [188 - 34 * d, G - 89 + 43 * d], t: 8 + 40 * d, n: -(4 + 20 * d), ap: [90, 56], k: [205, G - 4], l: [200, G - 4] }, o);
 // Seated on a chair whose left edge is cx, facing right; hands rest on the thighs.
 const seated = (cx, o) => mk({ h: [cx + 20, G - 50], t: 0, a: [cx + 46, G - 56], k: [cx + 66, G - 5], l: [cx + 70, G - 5], f: 90 }, o);
+// Tempo of the segment that starts at a pose: `hold` seconds still in the pose, then `move` seconds to the next pose.
+// The w values of all poses are relative, so writing them in seconds works when bpm/beats give the same total cycle.
+const seg = (move, hold = 0) => ({ w: move + hold, hd: hold / (move + hold) });
 
-module.exports = { G, BEDH, BED, chairAt, lieY, sup, supBent, bridge, quad, plank, stand, planted, squat, seated, mk };
+module.exports = { G, BEDH, BED, chairAt, lieY, sup, supBent, bridge, quad, plank, stand, planted, squat, seated, seg, mk };

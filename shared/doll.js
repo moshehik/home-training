@@ -13,6 +13,8 @@
  *      The doll is modelled in plasticine: the spine keeps its length while it bends (clay volume is conserved), so the shoulders
  *      come closer to the hips when the back rounds, the head follows the end of the spine, and belly folds / a shoulder-blade bump appear.
  *   lf: (front view) thigh length factor - the thigh points at the viewer when seated, so it is drawn short (e.g. 0.3)
+ *   sf: (front view) shin length factor, for a bent knee pointing at the viewer (sitting on the floor with the feet in front)
+ *   bh: (front view) 1 = the broom is held behind the body (across the shoulders / behind the back), so it is drawn behind the doll
  *   cap: caption shown while this pose is the current target,  br: 'in' | 'out' breathing cue
  *   w: relative duration of the segment that STARTS at this pose,  hd: fraction of that segment spent holding still
  * Limbs are solved with two-bone IK, so feet and hands stay planted on the floor / props.
@@ -48,7 +50,7 @@
     var b = q.b || (q.bp ? pol(sh, q.bp[0], q.bp[1]) : [a[0] + 5, a[1] - 1]);
     var k = q.k || pol(h, q.kp[0], q.kp[1]);
     var l = q.l || (q.lp ? pol(h, q.lp[0], q.lp[1]) : [k[0] + 4, k[1]]);
-    return { h: h, t: q.t, n: q.n, c: q.c || 0, a: a, b: b, k: k, l: l, f: q.f, g: q.g, cap: q.cap, br: q.br, w: q.w || 1, hd: q.hd || 0 };
+    return { h: h, t: q.t, n: q.n, c: q.c || 0, bi: q.bi || 0, a: a, b: b, k: k, l: l, f: q.f, g: q.g, cap: q.cap, br: q.br, w: q.w || 1, hd: q.hd || 0 };
   }
 
   var FRONT_DEF = { h: [200, G - 89], t: 0, n: 0, ap: [-6, 56], bp: [6, 56], kp: [-2, 84], lp: [2, 84] };
@@ -64,14 +66,36 @@
       h: h, t: q.t, n: q.n,
       a: q.a || pol(fs.sl, q.ap[0], q.ap[1]), b: q.b || pol(fs.sr, q.bp[0], q.bp[1]),
       k: q.k || pol(hl, q.kp[0], q.kp[1]), l: q.l || pol(hr, q.lp[0], q.lp[1]),
-      lf: q.lf, cap: q.cap, br: q.br, w: q.w || 1, hd: q.hd || 0
+      lf: q.lf, sf: q.sf, bh: q.bh || 0, cap: q.cap, br: q.br, w: q.w || 1, hd: q.hd || 0
     };
   }
 
-  function mix(r0, r1, u) {
+  /* limb roots of a resolved pose: shoulders for the arms, hips for the legs (front view: left / right of each) */
+  function roots(r, view) {
+    if (view === 'front') { var fs = frontShoulders(r.h, r.t); return { a: fs.sl, b: fs.sr, k: [r.h[0] - 10, r.h[1]], l: [r.h[0] + 10, r.h[1]] }; }
+    var sh = spinePts(r.h, r.t, r.c || 0)[SEG];
+    return { a: sh, b: sh, k: r.h, l: r.h };
+  }
+  var LIMB_MAX = { a: L.ua + L.fa, b: L.ua + L.fa, k: L.th + L.sh, l: L.th + L.sh };
+  function mix(r0, r1, u, view) {
     var o = {};
     ['h', 'a', 'b', 'k', 'l'].forEach(function (key) { o[key] = lerp2(r0[key], r1[key], u); });
-    ['t', 'n', 'f', 'g', 'c', 'lf'].forEach(function (key) { if (r0[key] !== undefined) o[key] = lerp(r0[key], r1[key], u); });
+    ['t', 'n', 'f', 'g', 'c', 'bi', 'lf', 'sf', 'bh'].forEach(function (key) { if (r0[key] !== undefined) o[key] = lerp(r0[key], r1[key], u); });
+    /* a limb that is (nearly) straight in both key poses swings as a straight limb: its end is interpolated around the joint
+     * (angle and length) instead of along the chord, so a straight-leg raise or a lateral raise does not bend at the knee / elbow
+     * half way. Limbs that bend in either pose, and feet planted while the body moves, keep the plain position blend. */
+    var R0 = roots(r0, view), R1 = roots(r1, view), Rm = roots(o, view);
+    ['a', 'b', 'k', 'l'].forEach(function (key) {
+      var lim = (key === 'k' || key === 'l') && view === 'front' ? L.th * (r0.lf || 1) + L.sh * (r0.sf || 1) : LIMB_MAX[key];
+      var d0x = r0[key][0] - R0[key][0], d0y = r0[key][1] - R0[key][1], d1x = r1[key][0] - R1[key][0], d1y = r1[key][1] - R1[key][1];
+      var n0 = Math.sqrt(d0x * d0x + d0y * d0y), n1 = Math.sqrt(d1x * d1x + d1y * d1y);
+      if (n0 < lim * 0.96 || n1 < lim * 0.96) return;
+      var a0 = Math.atan2(d0x, d0y), a1 = Math.atan2(d1x, d1y), da = a1 - a0;
+      if (da > Math.PI) da -= 2 * Math.PI; else if (da < -Math.PI) da += 2 * Math.PI;
+      if (Math.abs(da) < 0.02) return;
+      var am = a0 + da * u, nm = lerp(n0, n1, u);
+      o[key] = [Rm[key][0] + nm * Math.sin(am), Rm[key][1] + nm * Math.cos(am)];
+    });
     /* a foot that steps FORWARD along the floor is lifted and placed (an arc, toes leading); a foot that moves backward stays down and slides, like a stance foot */
     if (r0.f !== undefined) ['k', 'l'].forEach(function (key) {
       var dx = r1[key][0] - r0[key][0];
@@ -185,7 +209,9 @@
     if (bedP) { shadow.setAttribute('cx', bedP.x + bedP.w / 2); shadow.setAttribute('rx', bedP.w / 2 + 6); }
     var ropeCfg = props.filter(function (p) { return p && p.type === 'rope'; })[0];
     var rope = ropeCfg ? el('path', { fill: 'none', stroke: COL.rope.near, 'stroke-width': 4.6, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, clayGroup(1.0, 4, WIDE).g) : null;
-    if (ropeCfg) clay(clayGroup(1.2, 4.5, [ropeCfg.from[0] - 14, ropeCfg.from[1] - 14, 28, 28]), 'brass', 'near').set(circ(ropeCfg.from, 4.6));
+    var ropeKnot = null;
+    if (ropeCfg && ropeCfg.from) clay(clayGroup(1.2, 4.5, [ropeCfg.from[0] - 14, ropeCfg.from[1] - 14, 28, 28]), 'brass', 'near').set(circ(ropeCfg.from, 4.6));
+    else if (ropeCfg) ropeKnot = el('circle', { r: 3.4, fill: COL.rope.near }, clayGroup(1.0, 4, WIDE).g);
     var spine = has('spine') ? stick() : null;
 
     /* A group of flat shapes: the blurred silhouette is a height map lit from the top-left (round, pillowy volume),
@@ -259,7 +285,7 @@
       W = [end[0] - e[0] * 4.5, end[1] - e[1] * 4.5];
       /* a soft, slightly curved hand: wrist, palm and fingers together as ONE smooth tapering form (no spiky fingers),
        * a thumb lying along the side, and fine grooves where the fingers meet. wide < 1 = a hand seen edge-on (thinner). */
-      var open = mode === 'open', cv = open ? [0, 1, 3, 5, 8] : [3, 7, 12, 18, 26], seg = [5, 4.6, 4.4, 3.8, 3.2], rad = [2.9, 4.1, 4.1, 3.7, 3.2, 2.5].map(function (r, k) { return k === 0 ? r : r * (0.78 + 0.22 * wide); });
+      var open = mode === 'open', cv = open ? [0, 1, 3, 5, 8] : [3, 7, 12, 18, 26], seg = [4.6, 4.4, 4.4, 4, 3.6], rad = [2.7, 3.5, 3.5, 3.3, 3, 2.5].map(function (r, k) { return k === 0 ? r : r * (0.78 + 0.22 * wide); });
       var P = [W], ang2 = [], aa = ang;
       for (var k = 0; k < 5; k++) { aa = ang + cv[k] * RAD; ang2.push(aa); P.push([P[k][0] + seg[k] * Math.cos(aa), P[k][1] + seg[k] * Math.sin(aa)]); }
       for (k = 0; k < 5; k++) d += hull(P[k], rad[k], P[k + 1], rad[k + 1]);
@@ -272,21 +298,24 @@
         }
         ink += line;
       });
-      var ta = ang + side * (open ? 24 : 18) * RAD, T0 = [P[1][0] + n[0] * side * 2.6, P[1][1] + n[1] * side * 2.6], T1 = [T0[0] + 4.6 * Math.cos(ta), T0[1] + 4.6 * Math.sin(ta)], T2 = [T1[0] + 3.8 * Math.cos(ta - side * 0.12), T1[1] + 3.8 * Math.sin(ta - side * 0.12)];
-      return { d: d + hull(T0, 2.4, T1, 2) + hull(T1, 2, T2, 1.5), ink: ink };
+      var ta = ang + side * (open ? 24 : 18) * RAD, T0 = [P[1][0] + n[0] * side * 2.2, P[1][1] + n[1] * side * 2.2], T1 = [T0[0] + 4 * Math.cos(ta), T0[1] + 4 * Math.sin(ta)], T2 = [T1[0] + 3 * Math.cos(ta - side * 0.1), T1[1] + 3 * Math.sin(ta - side * 0.1)];
+      return { d: d + hull(T0, 2.2, T1, 1.9) + hull(T1, 1.9, T2, 1.5), ink: ink };
     }
     /* the hand pose: grips what is held, lies flat on a surface when the forearm points down onto one, otherwise hangs relaxed */
     var holds = has('bottle') || has('broom') || has('rope') || has('spine'), sinkP = props.filter(function (p) { return p && p.type === 'sink'; })[0];
+    var wallP = props.filter(function (p) { return p && p.type === 'wall'; })[0];
+    /* a hand pressing a wall: the wrist is at the wall face, so the palm lies flat on it with the fingers pointing up */
+    function onWall(end) { return wallP && view === 'side' && Math.abs(end[0] - wallP.x) < 6 && end[1] < G - 60; }
     function handMode(mid, end) {
       if (holds) return 'fist';
       var dx = end[0] - mid[0], dy = end[1] - mid[1], l = Math.sqrt(dx * dx + dy * dy) || 1;
       var onSink = sinkP && Math.abs(end[1] - (G - (sinkP.h || 88) - 4)) < 8;
-      return view === 'side' && (end[1] > G - 52 || onSink) ? 'open' : 'relaxed';
+      return view === 'side' && (end[1] > G - 52 || onSink || onWall(end)) ? 'open' : 'relaxed';
     }
     /* one arm = sleeve + skin (forearm, hand). Returns the two path strings. */
     function armD(s0, mid, end, near) {
       var dx = end[0] - mid[0], dy = end[1] - mid[1], l = Math.sqrt(dx * dx + dy * dy) || 1, e = [dx / l, dy / l], mode = handMode(mid, end);
-      if (mode === 'open' && !(Math.abs(dx) > 3 * Math.abs(dy) && dx < 0)) e = [1, 0];
+      if (mode === 'open') e = onWall(end) ? [0, -1] : !(Math.abs(dx) > 3 * Math.abs(dy) && dx < 0) ? [1, 0] : e;
       /* a relaxed hand hangs: it droops toward straight down instead of following the slant of the forearm */
       if (mode === 'relaxed') { var wx = e[0] * 0.35, wy = e[1] * 0.35 + 0.65, wl = Math.sqrt(wx * wx + wy * wy); e = [wx / wl, wy / wl]; }
       var wr = mode === 'fist' ? [end[0] - e[0] * 5.5, end[1] - e[1] * 5.5] : [end[0] - e[0] * 4.5, end[1] - e[1] * 4.5];
@@ -352,8 +381,9 @@
           B = clayGroup(2.2, 7, area(x - 40, G - h - 10, 80, 20));
           put(B, 'cushion', rr(x - 36, G - h - 4, 72, 8, 4));
         } else if (k === 'wall') {
-          A = clayGroup(2.4, 8, area(p.x - 8, -40, 40, G + 46));
-          put(A, 'plaster', rr(p.x, -40, 24, G + 40, 6)); put(A, 'plasterDk', rr(p.x - 4, G - 16, 28, 16, [3, 3, 0, 0]));
+          var wt = p.top != null ? p.top : 50;   /* the wall stops below the instruction text painted on the room's wall */
+          A = clayGroup(2.4, 8, area(p.x - 8, wt - 6, 40, G - wt + 12));
+          put(A, 'plaster', rr(p.x, wt, 24, G - wt, 6)); put(A, 'plasterDk', rr(p.x - 4, G - 16, 28, 16, [3, 3, 0, 0]));
           if (p.handle) put(clayGroup(1.2, 4.5, area(p.x - 12, p.handle - 8, 22, 16)), 'brass', circ([p.x - 3, p.handle], 4.8));
         } else if (k === 'sink') {
           x = p.x; var st = p.h ? G - p.h : G - 88;
@@ -372,10 +402,8 @@
           var y0 = p.y0 || 60;
           A = clayGroup(1.5, 6, area(p.x - 8, y0 - 6, 24, G - y0 + 10));
           put(A, 'wood', rr(p.x, y0, 6, G - y0, 3)); put(A, 'woodDk', rr(p.x - 5, G - 6, 16, 6, 3));
-        } else if (k === 'mat') {
-          A = clayGroup(1.7, 6, area(p.x - 4, G - 10, p.w + 8, 14));
-          put(A, 'mat', rr(p.x, G - 5, p.w, 5, 2.5));
         }
+        /* 'mat': nothing is drawn - the room's round rug already lies under the doll, and a thin line on it read as a stick */
       });
     }
 
@@ -391,6 +419,8 @@
     var fArmT = clay(FR ? gTor : gArm2, 'top', sd), fArmS = clay(gArm2, 'skin', sd), fHand = clay(gHand2, 'skin', sd), fInk = el('path', { fill: 'none', stroke: '#9a6450', 'stroke-width': 0.6, 'stroke-linecap': 'round', opacity: 0.7 }, gHand2.g);
     var tSkin = clay(gTor, 'skin', 'near');
     var folds = [];   /* no crease marks: the rounded back is shown by the shape of the clay itself */
+    /* a raised near arm is in front of the head (side view), so its sleeve joins the arm group, which is then drawn above the head */
+    var nArmT2 = clay(gArm, 'top', 'near');
     var nArmT = clay(gTor, 'top', 'near'), nArmS = clay(gArm, 'skin', 'near'), nHand = clay(gHN, 'skin', 'near'), nInk = el('path', { fill: 'none', stroke: '#b27c66', 'stroke-width': 0.6, 'stroke-linecap': 'round', opacity: 0.7 }, gHN.g);
     var hHair = clay(gHead, 'hair', 'near'), hSkin = clay(gHead, 'skin', 'near'), hEar = clay(gHead, 'ear', 'near');
     var eyes = (view === 'side' ? [0] : [0, 1]).map(function () { return el('circle', { r: view === 'side' ? 1.9 : 1.7, fill: INK }, gHead.g); });
@@ -403,7 +433,9 @@
     }) : [];
     /* the bottles sit behind the hands, so the fingers close in front of them */
     bottles.forEach(function (bg, bi) { stage.insertBefore(bg, bi === 0 ? gHF.g : gHN.g); });
-    var broomDot = has('broom') && view === 'side' ? el('circle', { r: 4.8, fill: COL.wood.near }, clayGroup(1.2, 4.5, WIDE).g) : null;
+    /* side view: the stick is seen almost end-on, so it is a short rod through the fists (a dot alone did not read as a broom); it sits behind the near hand */
+    var broomBar = null, bbg = null, broomBehind = false;
+    if (has('broom') && view === 'side') { bbg = clayGroup(1.3, 5, WIDE); broomBar = el('line', { stroke: COL.wood.near, 'stroke-width': 6, 'stroke-linecap': 'round' }, bbg.g); stage.insertBefore(bbg.g, gHN.g); }
     var broomLine = has('broom') && view === 'front' ? stick() : null;
     var bottleOn = function (g, p) { g.setAttribute('transform', 'translate(' + p[0].toFixed(1) + ' ' + p[1].toFixed(1) + ')'); };
 
@@ -443,6 +475,8 @@
         folds[k].setAttribute('opacity', ac > 10 ? Math.min(0.5, (ac - 10) / 50).toFixed(2) : 0);
       });
     }
+    var armOver = false;
+    var BIN = [2, 5.4, 3, 0, 0, 0, 0];   /* how much a belly drawn in (pose bi = 1; negative = relaxed, a little full) takes off the torso radius, mostly at the lower belly */
     var TRAD = [11.4, 10, 9.4, 10.4, 11.4, 10.8, 9];     /* torso radius along the spine: hips, waist, chest, shoulders */
 
     function draw(r) {
@@ -458,31 +492,46 @@
         var fl2 = legD(h, Lg.mid, Lg.end, false), fa = armD(sh, B.mid, B.end, false), nl = legD(h, K.mid, K.end, true), na = armD(sh, A.mid, A.end, true);
         fLegP.set(fl2.pants); fLegS.set(footD(Lg.end, fg, [fg[1], -fg[0]])); fArmT.set(fa.sleeve); fArmS.set(fa.skin); fHand.set(fa.hand.d); fInk.setAttribute('d', fa.hand.ink);
         var torso = '', i;
-        for (i = 0; i < SEG; i++) torso += hull(sp[i], TRAD[i], sp[i + 1], TRAD[i + 1]);
+        var bi = r.bi || 0;
+        for (i = 0; i < SEG; i++) torso += hull(sp[i], TRAD[i] - bi * BIN[i], sp[i + 1], TRAD[i + 1] - bi * BIN[i + 1]);
         tTop.set(torso);
-        tPants.set(hull(h, 10.4, lerp2(h, sp[1], 0.45), 10) + nl.pants);
+        tPants.set(hull(h, 10.4 - bi * 1.2, lerp2(h, sp[1], 0.45), 10 - bi * 2.6) + nl.pants);
         setBack(sp, r.t, cu);
         var tg = (r.t + cu / 2) * RAD;
         setHead(sh, tg, hc, hd);
         tSkin.set(footD(K.end, fk, [fk[1], -fk[0]]) + tSkin.neck);
-        nArmT.set(na.sleeve); nArmS.set(na.skin); nHand.set(na.hand.d); nInk.setAttribute('d', na.hand.ink);
+        /* the near arm points toward the head (overhead / past the head): it passes the head on the viewer's side, so it is drawn in front of it, never behind */
+        var ax = A.end[0] - sh[0], ay = A.end[1] - sh[1], hx = hc[0] - sh[0], hy = hc[1] - sh[1];
+        var over = (ax * hx + ay * hy) / ((Math.sqrt(ax * ax + ay * ay) * Math.sqrt(hx * hx + hy * hy)) || 1) > 0.35;
+        nArmT.set(over ? '' : na.sleeve); nArmT2.set(over ? na.sleeve : '');
+        if (over !== armOver) { armOver = over; stage.insertBefore(gHead.g, over ? gArm.g : gHN.g.nextSibling); }
+        nArmS.set(na.skin); nHand.set(na.hand.d); nInk.setAttribute('d', na.hand.ink);
         gFar.T && gFar.T.mv(sh); gTor.T && gTor.T.mv(h); gArm.T && gArm.T.mv(sh);
         shadow.setAttribute('opacity', Math.max(0.25, Math.min(1, 1 - (G - Math.max(K.end[1], Lg.end[1])) / 60)));
         if (!bedP) shadow.setAttribute('cx', ((h[0] + K.end[0] + Lg.end[0]) / 3).toFixed(1));
         if (bottles.length) { bottleOn(bottles[0], B.end); bottleOn(bottles[1], A.end); }
-        if (broomDot) at(broomDot, A.end);
+        if (broomBar) {
+          /* hands behind the body (chest stretch): the rod goes behind the doll, so only its ends show past the hips */
+          var bb = A.end[0] < sh[0];
+          if (bb !== broomBehind) { broomBehind = bb; stage.insertBefore(bbg.g, bb ? gFar.g : gHN.g); }
+          broomBar.setAttribute('x1', (A.end[0] - 19).toFixed(1)); broomBar.setAttribute('x2', (A.end[0] + 19).toFixed(1)); broomBar.setAttribute('y1', A.end[1].toFixed(1)); broomBar.setAttribute('y2', A.end[1].toFixed(1)); }
         if (spine) {
           var u = [Math.sin(th), -Math.cos(th)], nf = [Math.cos(th), Math.sin(th)];
           spine.setAttribute('x1', h[0] - nf[0] * 8 - u[0] * 32); spine.setAttribute('y1', h[1] - nf[1] * 8 - u[1] * 32);
           spine.setAttribute('x2', sh[0] - nf[0] * 8 + u[0] * 44); spine.setAttribute('y2', sh[1] - nf[1] * 8 + u[1] * 44);
         }
-        if (rope) rope.setAttribute('d', P([ropeCfg.from, A.end]) + 'M' + ropeCfg.from[0] + ' ' + ropeCfg.from[1] + 'L' + B.end[0].toFixed(1) + ' ' + B.end[1].toFixed(1));
+        if (rope) {
+          /* the rope / towel runs from its anchor to both hands; `to: 'k' | 'l'` anchors it to a foot (a towel around the sole) */
+          var anchor = ropeCfg.to === 'k' ? K.end : ropeCfg.to === 'l' ? Lg.end : ropeCfg.from;
+          rope.setAttribute('d', P([anchor, A.end]) + P([anchor, B.end]));
+          if (ropeKnot) at(ropeKnot, anchor);
+        }
       } else {
         var fs = frontShoulders(h, r.t), hl = [h[0] - 10, h[1]], hr = [h[0] + 10, h[1]];
         sh = fs.s; hd = (r.t + r.n) * RAD;
         var hc2 = [sh[0] + (L.head + 3) * Math.sin(hd), sh[1] - (L.head + 3) * Math.cos(hd)];
         var AL = ik(fs.sl, r.a, L.ua, L.fa, 1), AR = ik(fs.sr, r.b, L.ua, L.fa, -1);
-        var lth = L.th * (r.lf || 1), KL = ik(hl, r.k, lth, L.sh, 1), KR = ik(hr, r.l, lth, L.sh, -1);
+        var lth = L.th * (r.lf || 1), lsh = L.sh * (r.sf || 1), KL = ik(hl, r.k, lth, lsh, 1), KR = ik(hr, r.l, lth, lsh, -1);
         var th0l = [h[0] - 6.5, h[1] + 8], th0r = [h[0] + 6.5, h[1] + 8];
         var rl = legD(th0r, KR.mid, KR.end, false, true), ra = armD(fs.sr, AR.mid, AR.end, false), ll = legD(th0l, KL.mid, KL.end, true, true), la = armD(fs.sl, AL.mid, AL.end, true);
         fLegP.set(''); fLegS.set(footD(KR.end, [1, 0], [0, -1])); fArmT.set(ra.sleeve); fArmS.set(ra.skin); fHand.set(ra.hand.d); fInk.setAttribute('d', ra.hand.ink);
@@ -497,6 +546,9 @@
         if (!bedP) shadow.setAttribute('cx', ((KL.end[0] + KR.end[0]) / 2).toFixed(1));
         if (bottles.length) { bottleOn(bottles[0], AR.end); bottleOn(bottles[1], AL.end); }
         if (broomLine) {
+          /* held behind the back (bh): the stick goes behind the doll, so only its ends show past the shoulders */
+          var behind = (r.bh || 0) >= 0.5, bg = broomLine.parentNode;
+          if (behind !== (bg.nextSibling === gFar.g)) stage.insertBefore(bg, behind ? gFar.g : null);
           var dx = AR.end[0] - AL.end[0], dy = AR.end[1] - AL.end[1], dl = Math.sqrt(dx * dx + dy * dy) || 1;
           broomLine.setAttribute('x1', AL.end[0] - dx / dl * 34); broomLine.setAttribute('y1', AL.end[1] - dy / dl * 34);
           broomLine.setAttribute('x2', AR.end[0] + dx / dl * 34); broomLine.setAttribute('y2', AR.end[1] + dy / dl * 34);
@@ -506,25 +558,34 @@
     function at(b, p) { b.setAttribute('cx', p[0].toFixed(1)); b.setAttribute('cy', p[1].toFixed(1)); }
 
     var totalW = poses.reduce(function (s, p) { return s + p.w; }, 0);
-    /* phase in [0,1) over one repetition -> pose, caption and breathing cue */
+    /* phase in [0,1) over one repetition -> pose, caption and breathing cue.
+     * A pose's cap / br describe the movement TOWARD it ("מרימים", נשיפה), so they are shown for the whole segment that
+     * leads to it; while the doll still holds the segment's first pose (hd) the cue of that pose stays. A pose without a
+     * breathing cue keeps the cue of the pose before it (a lowered knee between two raised ones). */
     function atPhase(phase) {
       var x = ((phase % 1) + 1) % 1 * totalW, i = 0;
       while (i < poses.length - 1 && x >= poses[i].w) { x -= poses[i].w; i++; }
-      var p0 = poses[i], p1 = poses[(i + 1) % poses.length];
-      var u = clamp01((x / p0.w - p0.hd) / (1 - p0.hd || 1));
-      var cur = u < 0.5 ? p0 : p1;
-      return { pose: mix(p0, p1, ease(u)), cap: cur.cap, br: cur.br, seg: i, f: x / p0.w };
+      var p0 = poses[i], p1 = poses[(i + 1) % poses.length], f = x / p0.w, hold = f < p0.hd;
+      var u = clamp01((f - p0.hd) / (1 - p0.hd || 1));
+      var cur = hold ? p0 : p1;
+      return { pose: mix(p0, p1, ease(u), view), cap: cur.cap || p0.cap, br: cur.br || p0.br, seg: i, f: f, hold: hold };
+    }
+    /* pose by keyframe position q (0..count, wraps): q = 1.5 is halfway from pose 1 to pose 2 -- used to play one step of the instructions */
+    function atIdx(q) {
+      var m = poses.length; q = ((q % m) + m) % m;
+      var i = Math.floor(q), f = q - i;
+      return { pose: mix(poses[i], poses[(i + 1) % m], ease(f), view) };
     }
     /* hold mode: 0 -> move to last pose, then breathe in place */
     function atHold(prog, wob) {
-      var r = mix(poses[0], poses[poses.length - 1], ease(clamp01(prog)));
+      var r = mix(poses[0], poses[poses.length - 1], ease(clamp01(prog)), view);
       if (wob) r.h = [r.h[0], r.h[1] + wob];
       return { pose: r, cap: prog < 1 ? poses[0].cap : poses[poses.length - 1].cap, br: undefined };
     }
     /* mirrored by flipping the whole svg element on the compositor (rotateY): an SVG-level scale(-1,1) makes Chrome light the clay filters from behind, so the doll went black */
     function setMirror(on) { if ((mir === -1) === !!on) return; mir = on ? -1 : 1; svg.style.transform = on ? 'rotateY(180deg)' : ''; lights.forEach(function (l) { l.setAttribute('azimuth', on ? 315 : 225); }); }
     draw(poses[0]);
-    return { draw: draw, atPhase: atPhase, atHold: atHold, setMirror: setMirror, count: poses.length };
+    return { draw: draw, atPhase: atPhase, atHold: atHold, atIdx: atIdx, setMirror: setMirror, count: poses.length };
   }
 
   root.HTDoll = { create: Figure, G: G };

@@ -4,75 +4,82 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>סקוואט עם לחיצה (תרסטר) – שיעור 9</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playpen+Sans+Hebrew:wght@500;700;800&family=Rubik:wght@500;700&family=Assistant:wght@400;600;700&display=swap">
 <link rel="stylesheet" href="../../shared/page.css">
 </head>
 <body>
-<div class="page">
-<header class="head"><div class="head-in">
+<header class="band concrete"><div class="wrap">
 <nav class="crumbs"><a href="../../index.html">כל השיעורים</a><span>›</span><a href="index.html">שיעור 9: בקבוקים בתנועה</a><span>›</span><span>תרגיל 3 מתוך 9</span></nav>
-<h1>סקוואט עם לחיצה (תרסטר)</h1>
-<div class="tags"><span class="tag">בקבוק מים</span><span class="tag">מתקדם</span><span class="tag">גוף שלם, ירכיים, כתפיים</span></div>
-<div class="paper timer">
+<h1 class="h-title">סקוואט עם לחיצה (תרסטר)</h1>
+</div></header><div class="wrap board">
+<section class="need"><h2 class="h-pink">מה צריך לתרגיל?</h2><div class="card pad-stack"><p><b>בקבוק מים</b></p><p class="small">גוף שלם, ירכיים, כתפיים</p><div class="tags"><span class="tag">מתקדם</span></div></div></section>
+<div class="badge-cell"><div class="badge"><span class="k">רמת קושי:</span><span class="v">5</span></div></div>
+<section class="anim"><div class="panel concrete"><div class="stagebox"><svg id="stage" aria-label="אנימציה של התרגיל: סקוואט עם לחיצה (תרסטר)"></svg>
+<div class="capbar"><span class="cap" id="cap"></span><span class="br" id="br"></span></div></div></div>
+<p class="hint">האנימציה מראה את התנועה בקצב המוזיקה: חזרה אחת = 4 פעימות.</p></section>
+<section class="info"><h2 class="h-pink">זמן, קצב, ניקוד</h2>
+<div class="card timer">
   <div class="phase" id="phase"></div>
   <div class="time" id="time">0:00</div>
   <div class="sub" id="sub"></div>
   <div class="dots" id="dots"></div>
   <div class="btns"><button class="primary" id="go" data-state="idle">התחל תרגיל</button><button id="skip">דלג</button><button id="reset">איפוס</button></div>
-  <div class="facts"><span>3 סטים × 10 חזרות</span><span>מנוחה: <b>30</b> שנ׳</span><span>זמן כולל: <b id="totalAll">2:54</b></span><span>נשאר: <b id="totalLeft">2:54</b></span></div>
+  <div class="facts"><span>נשאר: <b id="totalLeft">2:54</b></span><span>מתוך <b id="totalAll">2:54</b></span></div>
 </div>
-</div></header>
-<aside class="stage-col"><div class="stage-sticky">
-<div class="stagebox"><svg id="stage" aria-label="אנימציה של התרגיל: סקוואט עם לחיצה (תרסטר)"></svg>
-  <div class="capbar"><span class="cap" id="cap"></span><span class="br" id="br"></span></div></div>
-<p class="hint on-concrete">האנימציה מראה את התנועה בקצב המוזיקה: חזרה אחת = 4 פעימות.</p>
-<div class="paper music">
+<div class="card pad-stack">
+  <p class="row"><b>זמן כולל לתרגיל:</b> 2:54 דקות</p>
+  <p class="row"><b>3 סטים × 10 חזרות</b></p>
+  <p class="row"><b>מנוחה בין סטים:</b> 30 שנ׳</p>
+  <p class="row"><b>קצב:</b> קצבי (בקצב המוזיקה) · 66 פעימות לדקה</p>
+  <p class="row small">בשלוש השניות האחרונות של כל שלב נשמע צליל ספירה.</p>
+  <p class="row">בסיום התרגיל מקבלים <b>10 נקודות</b>. סה״כ שלך: <b class="points" data-points>0</b></p>
+</div>
+<div class="card music">
+  <button type="button" class="primary" id="musicBtn">נגן מוזיקה</button>
   <label>מוזיקה <select id="musicStyle"><option value="auto">לפי התרגיל (קצבי)</option><option value="beat">קצבי</option><option value="steady">רגוע-קצבי</option><option value="calm">רגוע</option><option value="click">מטרונום</option><option value="off">כבוי</option></select></label>
   <label>עוצמה <input id="vol" type="range" min="0" max="1" step="0.05" value="0.7" aria-label="עוצמת מוזיקה"></label>
-  <p class="hint">קצב: 66 פעימות לדקה. בשלוש השניות האחרונות של כל שלב נשמע צליל ספירה.</p>
 </div>
-</div></aside>
-<main class="guide"><div class="guide-in">
-<section class="box"><h2>מה עושים</h2><p>משלבים סקוואט עם לחיצה מעל הראש בתנועה אחת רציפה. תרגיל גוף שלם שמעלה דופק.</p></section>
-<section class="box muscles"><h2>שרירים עיקריים</h2><ul class="mus">
+</section>
+</div>
+<div class="wrap blobs">
+<section class="blob b-blue"><h2>שימו לב:</h2><ul>
+<li>הכוח מהרגליים עובר לידיים.</li>
+<li>הגב ישר, הבטן מכווצת.</li>
+<li>הבקבוקים נעים בקו ישר.</li>
+</ul></section>
+<section class="blob b-green"><h2>היזהרו מ:</h2><ul>
+<li>לא לקמר את הגב כשדוחפים למעלה.</li>
+<li>לא לבצע אם יש כאב בכתף.</li>
+<li>אם קשה, עושים בנפרד: סקוואט ואז לחיצה.</li>
+</ul></section>
+<section class="blob b-pink"><h2>חשוב שתדעו:</h2><p>משלבים סקוואט עם לחיצה מעל הראש בתנועה אחת רציפה. תרגיל גוף שלם שמעלה דופק.</p><p>שאיפה בירידה, נשיפה בלחיצה.</p></section>
+</div>
+<div class="wrap sections">
+<div class="two">
+  <section><h2 class="h-pink">עמדת פתיחה</h2><div class="card"><p>עומדים עם רגליים ברוחב הכתפיים, בקבוק בכל יד בגובה הכתפיים.</p></div></section>
+  <section><h2 class="h-pink">שרירים עיקריים</h2><div class="card"><ul class="mus">
 <li><b>הירך הקדמית (ארבע ראשי)</b><span>מיישרת את הברך. הכוח העיקרי לקימה מכיסא ולעלייה במדרגות.</span></li>
 <li><b>שריר הישבן הגדול (גלוטאוס מקסימוס)</b><span>מיישר את הירך ודוחף את הגוף למעלה בקימה, בעלייה ובצעידה.</span></li>
 <li><b>הכתף הקדמית</b><span>מרימה את הזרוע קדימה ועוזרת בכל דחיפה.</span></li>
 <li><b>השריר התלת-ראשי (זרוע אחורית)</b><span>מיישר את המרפק, וחשוב בכל דחיפה.</span></li>
 </ul><h3>שרירים תומכים</h3><ul class="mus"><li><b>שריר הבטן הרוחבי (הליבה העמוקה)</b><span>פועל כמו חגורה שמייצבת את עמוד השדרה ואת האגן בכל תנועה.</span></li>
 <li><b>הטרפז ושרירי השכמות</b><span>מקרבים את השכמות ומייצבים את הכתפיים. קריטיים ליציבה טובה.</span></li>
-<li><b>הירך האחורית (המסטרינגס)</b><span>מכופפת את הברך ומיישרת את הירך. חיונית להטיית הגוף קדימה בגב ישר.</span></li></ul></section>
-<div class="two">
-  <section class="box"><h2>עמדת פתיחה</h2><p>עומדים עם רגליים ברוחב הכתפיים, בקבוק בכל יד בגובה הכתפיים.</p></section>
-  <section class="box"><h2>נשימה</h2><p>שאיפה בירידה, נשיפה בלחיצה.</p></section>
+<li><b>הירך האחורית (המסטרינגס)</b><span>מכופפת את הברך ומיישרת את הירך. חיונית להטיית הגוף קדימה בגב ישר.</span></li></ul></div></section>
 </div>
-<section class="box"><h2>ביצוע שלב אחר שלב</h2><ol class="steps">
+<section><h2 class="h-pink">ביצוע שלב אחר שלב</h2><div class="card"><ol class="steps">
 <li>יורדים לסקוואט כשהבקבוקים בכתפיים.</li>
 <li>דוחפים את הרצפה וקמים.</li>
 <li>בעת הקימה דוחפים את הבקבוקים מעל הראש ביישור מלא.</li>
 <li>מורידים את הבקבוקים לכתפיים ומתחילים שוב.</li>
-</ol></section>
+</ol></div></section>
 <div class="two">
-  <section class="box"><h2>למה לשים לב</h2><ul>
-<li>הכוח מהרגליים עובר לידיים.</li>
-<li>הגב ישר, הבטן מכווצת.</li>
-<li>הבקבוקים נעים בקו ישר.</li>
-</ul></section>
-  <section class="box warn"><h2>ממה להיזהר</h2><ul>
-<li>לא לקמר את הגב כשדוחפים למעלה.</li>
-<li>לא לבצע אם יש כאב בכתף.</li>
-<li>אם קשה, עושים בנפרד: סקוואט ואז לחיצה.</li>
-</ul></section>
+  <section><h2 class="h-pink">גרסה קלה יותר</h2><div class="card"><p>בלי בקבוקים או עם בקבוקים קטנים.</p></div></section>
+  <section><h2 class="h-pink">גרסה קשה יותר</h2><div class="card"><p>בקבוקים כבדים יותר.</p></div></section>
 </div>
-<div class="two">
-  <section class="box"><h2>גרסה קלה יותר</h2><p>בלי בקבוקים או עם בקבוקים קטנים.</p></section>
-  <section class="box"><h2>גרסה קשה יותר</h2><p>בקבוקים כבדים יותר.</p></section>
 </div>
-<div class="nav"><a href="02-bottle-lunge.html">‹ מכרעים עם בקבוקים</a><a href="04-front-raise.html">הרמות קדמיות ›</a></div>
-</div></main>
-</div>
-<script>window.EX = {"id":"09-03","name":"סקוואט עם לחיצה (תרסטר)","sets":3,"reps":10,"hold":0,"sides":false,"rest":30,"bpm":66,"beats":4,"music":"beat","scene":{"props":["bottle"],"poses":[{"h":[159.1,152.55],"t":42,"n":-21,"ap":[75,26],"k":[205,201],"l":[200,201],"cap":"סקוואט, בקבוקים בכתפיים","br":"in"},{"h":[188,116],"t":8,"n":-4,"ap":[172,56],"k":[205,201],"l":[200,201],"cap":"קמים ולוחצים למעלה","br":"out"}]}};</script>
+<div class="wrap actions"><a class="main" href="03-thruster-guide.html">הוראות לתרגיל</a><a href="02-bottle-lunge.html">‹ מכרעים עם בקבוקים</a><span class="sp"></span><a href="04-front-raise.html">הרמות קדמיות ›</a></div>
+<script>window.EX = {"id":"09-03","name":"סקוואט עם לחיצה (תרסטר)","sets":3,"reps":10,"hold":0,"sides":false,"rest":30,"bpm":66,"beats":4,"music":"beat","scene":{"props":["bottle"],"poses":[{"h":[159.1,152.55],"t":42,"n":-21,"ap":[75,26],"k":[205,201],"l":[200,201],"cap":"סקוואט, בקבוקים בכתפיים","br":"in"},{"h":[188,116],"t":8,"n":-4,"ap":[172,56],"k":[205,201],"l":[200,201],"cap":"קמים ולוחצים למעלה","br":"out"}]},"points":10};</script>
 <script src="../../shared/figure.js"></script>
 <script src="../../shared/music.js"></script>
 <script src="../../shared/runner.js"></script>
+<script>try{var p=+localStorage.getItem('ht-points')||0;document.querySelectorAll('[data-points]').forEach(function(e){e.textContent=p;});}catch(e){}</script>
 </body></html>

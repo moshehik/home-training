@@ -1,8 +1,8 @@
 // Muscle dictionary and the muscles worked in every exercise (by exercise slug).
 // p = primary muscles, s = supporting muscles. k = 'stretch' (muscles being stretched) or 'mobility' (joints and muscles moving).
 const DICT = {
-  glutes: ['שריר הישבן הגדול (גלוטאוס מקסימוס)', 'מיישר את הירך ודוחף את הגוף למעלה בקימה, בעלייה ובצעידה.'],
-  glutemed: ['שרירי הישבן הצדדיים (גלוטאוס מדיוס)', 'מייצבים את האגן כשעומדים על רגל אחת ומונעים מהברך ליפול פנימה.'],
+  glutes: ['שריר האגן הגדול (גלוטאוס מקסימוס)', 'מיישר את הירך ודוחף את הגוף למעלה בקימה, בעלייה ובצעידה.'],
+  glutemed: ['שרירי האגן הצדדיים (גלוטאוס מדיוס)', 'מייצבים את האגן כשאת עומדת על רגל אחת ומונעים מהברך ליפול פנימה.'],
   hamstrings: ['הירך האחורית (המסטרינגס)', 'מכופפת את הברך ומיישרת את הירך. חיונית להטיית הגוף קדימה בגב ישר.'],
   quads: ['הירך הקדמית (ארבע ראשי)', 'מיישרת את הברך. הכוח העיקרי לקימה מכיסא ולעלייה במדרגות.'],
   calves: ['שרירי השוק (תאומים וסוליאוס)', 'מרימים את העקב. אחראים על דחיפה בהליכה ועל יציבות הקרסול.'],
@@ -128,6 +128,40 @@ const MAP = {
   'stair-reverse-lunge': M(['quads', 'glutes'], ['hamstrings', 'glutemed', 'transverse']),
   'step-down-tap': M(['quads', 'glutemed'], ['glutes', 'calves', 'ankle']),
   'stair-calf-stretch': M(['calves'], [], 'stretch'),
-  'lateral-step-up': M(['glutemed', 'quads', 'glutes'], ['adductors', 'calves'])
+  'lateral-step-up': M(['glutemed', 'quads', 'glutes'], ['adductors', 'calves']),
+  // lesson 12 (back stretches)
+  'single-knee-to-chest': M(['erectors', 'glutes'], ['hamstrings', 'hipflex'], 'stretch'),
+  'sphinx': M(['rectus', 'hipflex'], ['pecs', 'erectors'], 'stretch'),
+  'seated-cat-cow': M(['erectors', 'rectus'], ['transverse', 'traps'], 'mobility'),
+  'seated-forward-fold': M(['erectors', 'hamstrings'], ['glutes', 'lats'], 'stretch'),
+  'standing-roll-down': M(['erectors', 'hamstrings'], ['glutes', 'calves'], 'mobility'),
+  'upper-back-stretch': M(['traps', 'delts_rear'], ['lats', 'rotator'], 'stretch'),
+  'wall-back-stretch': M(['lats', 'erectors'], ['delts_front', 'hamstrings', 'pecs'], 'stretch'),
+  // lesson 13 (hypopressive)
+  'hypo-rib-prep': M(['diaphragm'], ['transverse', 'obliques'], 'mobility'),
+  'hypo-lying-basic': M(['transverse', 'diaphragm'], ['rectus']),
+  'hypo-bridge': M(['glutes', 'transverse'], ['diaphragm', 'hamstrings']),
+  'hypo-quadruped': M(['transverse', 'rectus'], ['diaphragm', 'erectors']),
+  'hypo-seated': M(['transverse', 'diaphragm'], ['erectors', 'rectus']),
+  'hypo-standing-forward': M(['transverse', 'diaphragm'], ['delts_front', 'traps', 'pecs']),
+  'hypo-standing-ski': M(['transverse', 'quads'], ['diaphragm', 'glutes']),
+  'hypo-standing-back': M(['transverse', 'diaphragm'], ['pecs', 'traps', 'delts_rear']),
+  // lesson 14 (belly in)
+  'draw-lying': M(['transverse'], ['rectus', 'diaphragm']),
+  'draw-tilt': M(['transverse', 'rectus'], ['glutes', 'erectors']),
+  'draw-heel-slide': M(['transverse'], ['hipflex', 'rectus', 'quads']),
+  'draw-toe-tap': M(['transverse', 'rectus'], ['hipflex', 'obliques']),
+  'draw-quad': M(['transverse'], ['rectus', 'erectors', 'delts_front']),
+  'draw-seated': M(['transverse'], ['rectus', 'erectors']),
+  'draw-wall': M(['transverse'], ['erectors', 'glutes', 'traps']),
+  'draw-plank': M(['transverse', 'rectus'], ['delts_front', 'glutes', 'obliques'])
 };
-module.exports = { DICT, MAP };
+// Body area that tightens and slims for each muscle (muscles screen). Stretch/mobility moves have none.
+const SLIM = {
+  transverse: 'הצרת מותניים ובטן שטוחה', obliques: 'הצרת מותניים', ql: 'הצרת מותניים', rectus: 'בטן שטוחה ומחוטבת',
+  glutes: 'אגן מורם ומהודק', glutemed: 'אגן וירכיים מהודקים', hamstrings: 'הירך האחורית', quads: 'הירך הקדמית', adductors: 'הירך הפנימית',
+  calves: 'השוקיים', hipflex: 'הבטן התחתונה', erectors: 'הגב', lats: 'הגב', traps: 'הגב העליון',
+  delts_front: 'הכתפיים', delts_side: 'הכתפיים', delts_rear: 'הכתפיים', pecs: 'אזור החזה', biceps: 'הזרועות', triceps: 'הידוק הזרוע האחורית'
+};
+
+module.exports = { DICT, MAP, SLIM };

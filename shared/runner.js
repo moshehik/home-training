@@ -69,8 +69,7 @@
     }
     fig.draw(r.pose);
     if (!started || run.done || ph.type === 'work') setCaption(r.cap, r.br);
-    else setCaption(ph.type === 'rest' ? 'נוחו ונשמו' : ph.type === 'switch' ? 'עוברים לצד השני' : 'מתכוננים לעמדת הפתיחה', '');
-    requestAnimationFrame(frame);
+    else setCaption(ph.type === 'rest' ? 'נוחי ונשמי' : ph.type === 'switch' ? 'עברי לצד השני' : 'התכוני לעמדת הפתיחה', '');
   }
 
   /* ---- timer logic ---- */
@@ -91,12 +90,12 @@
     var rem = 0;
     for (var j = run.i + 1; j < plan.length; j++) rem += plan[j].dur;
     elTotal.textContent = fmt(rem + remain);
-    if (p.type === 'prep') { elPhase.textContent = 'התכוננו'; elTime.textContent = fmt(remain); elSub.textContent = 'קחו את עמדת הפתיחה'; }
+    if (p.type === 'prep') { elPhase.textContent = 'התכוני'; elTime.textContent = fmt(remain); elSub.textContent = 'קחי את עמדת הפתיחה'; }
     else if (p.type === 'rest') { elPhase.textContent = 'מנוחה'; elTime.textContent = fmt(remain); elSub.textContent = 'הסט הבא: ' + (p.set + 1) + ' מתוך ' + EX.sets; }
     else if (p.type === 'switch') { elPhase.textContent = 'החלפת צד'; elTime.textContent = fmt(remain); elSub.textContent = 'עכשיו צד שמאל'; }
     else {
       elPhase.textContent = 'סט ' + p.set + ' מתוך ' + EX.sets + (p.side ? ' · צד ' + p.side : '');
-      if (isHold) { elTime.textContent = fmt(remain); elSub.textContent = 'החזיקו את התנוחה'; }
+      if (isHold) { elTime.textContent = fmt(remain); elSub.textContent = 'החזיקי את התנוחה'; }
       else {
         var rep = Math.min(Math.floor(run.t / cycle) + 1, EX.reps);
         elTime.textContent = rep + ' / ' + EX.reps; elSub.textContent = 'חזרות · נשארו ' + fmt(remain);
@@ -123,7 +122,14 @@
     run.running = false; run.done = true; started = false;
     HTMusic.tick(true); setTimeout(function () { HTMusic.tick(true); }, 220);
     if (musicOn()) HTMusic.stop();
-    elPhase.textContent = 'כל הכבוד!'; elTime.textContent = '✓'; elSub.textContent = 'סיימת את התרגיל';
+    var msg = 'סיימת את התרגיל';
+    try {
+      var key = 'ht-done-' + EX.id, pts = +localStorage.getItem('ht-points') || 0;
+      if (!localStorage.getItem(key)) { pts += EX.points || 10; localStorage.setItem('ht-points', pts); msg = 'קיבלת ' + (EX.points || 10) + ' נקודות! סה״כ: ' + pts; }
+      else msg = 'סיימת שוב. הנקודות של התרגיל הזה כבר נספרו.';
+      document.querySelectorAll('[data-points]').forEach(function (e) { e.textContent = pts; });
+    } catch (e) {}
+    elPhase.textContent = 'כל הכבוד!'; elTime.textContent = '✓'; elSub.textContent = msg;
     dotEls.forEach(function (d) { d.el.className = 'dot done'; });
     elTotal.textContent = '0:00'; btnGo.textContent = 'שוב'; btnGo.dataset.state = 'done';
     document.dispatchEvent(new CustomEvent('ex-finished'));
@@ -142,19 +148,28 @@
     if (elMusic.value !== 'off' && started === false && !run.done) { /* preview music while idle */ HTMusic.start(EX.bpm, elMusic.value === 'auto' ? EX.music : elMusic.value); idleT0 = performance.now(); }
     else if (elMusic.value !== 'off' && !HTMusic.isPlaying()) HTMusic.start(EX.bpm, elMusic.value === 'auto' ? EX.music : elMusic.value);
   });
+  var elMusicBtn = $('musicBtn');
+  function syncMusicBtn() { if (elMusicBtn) elMusicBtn.textContent = HTMusic.isPlaying() ? 'עצרי מוזיקה' : 'נגני מוזיקה'; }
+  if (elMusicBtn) elMusicBtn.addEventListener('click', function () {
+    HTMusic.unlock();
+    if (HTMusic.isPlaying()) HTMusic.stop();
+    else { var v = elMusic.value === 'off' ? 'auto' : elMusic.value; elMusic.value = v; HTMusic.start(EX.bpm, v === 'auto' ? EX.music : v); }
+    syncMusicBtn();
+  });
+  setInterval(syncMusicBtn, 500);
   elVol.addEventListener('input', function () { HTMusic.volume(parseFloat(elVol.value)); });
 
   btnGo.addEventListener('click', function () {
     HTMusic.unlock();
     if (!started) {                                     /* start (or restart) */
       started = true; run.done = false; run.running = true; run.last = performance.now(); btnGo.dataset.state = 'run';
-      btnGo.textContent = 'השהה';
+      btnGo.textContent = 'השהי';
       if (musicOn()) { HTMusic.stop(); HTMusic.start(EX.bpm, elMusic.value === 'auto' ? EX.music : elMusic.value); }
       enter(0);
     } else if (run.running) {
-      run.running = false; btnGo.textContent = 'המשך'; HTMusic.pause();
+      run.running = false; btnGo.textContent = 'המשיכי'; HTMusic.pause();
     } else {
-      run.running = true; run.last = performance.now(); btnGo.textContent = 'השהה'; HTMusic.resume();
+      run.running = true; run.last = performance.now(); btnGo.textContent = 'השהי'; HTMusic.resume();
     }
   });
   btnSkip.addEventListener('click', function () {
@@ -163,15 +178,15 @@
   });
   btnReset.addEventListener('click', function () {
     started = false; run.running = false; run.done = false; run.i = 0; run.t = 0; HTMusic.stop(); HTMusic.resume();
-    btnGo.textContent = 'התחל תרגיל'; btnGo.dataset.state = 'idle'; initialRender(); idleT0 = performance.now();
+    btnGo.textContent = 'התחילי תרגיל'; btnGo.dataset.state = 'idle'; initialRender(); idleT0 = performance.now();
   });
 
   function initialRender() {
-    elPhase.textContent = 'מוכנים?'; elTime.textContent = fmt(total); elSub.textContent = 'זמן כולל לתרגיל';
+    elPhase.textContent = 'מוכנה?'; elTime.textContent = fmt(total); elSub.textContent = 'זמן כולל לתרגיל';
     elTotal.textContent = fmt(total);
     dotEls.forEach(function (d) { d.el.className = 'dot'; });
   }
   initialRender();
-  requestAnimationFrame(frame);
+  setInterval(function () { frame(performance.now()); }, 33);
   setInterval(tickLoop, 100);
 })();

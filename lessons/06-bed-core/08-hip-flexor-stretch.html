@@ -4,70 +4,77 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>מתיחת מכופפי ירך – שיעור 6</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playpen+Sans+Hebrew:wght@500;700;800&family=Rubik:wght@500;700&family=Assistant:wght@400;600;700&display=swap">
 <link rel="stylesheet" href="../../shared/page.css">
 </head>
 <body>
-<div class="page">
-<header class="head"><div class="head-in">
+<header class="band concrete"><div class="wrap">
 <nav class="crumbs"><a href="../../index.html">כל השיעורים</a><span>›</span><a href="index.html">שיעור 6: ליבה על המיטה</a><span>›</span><span>תרגיל 8 מתוך 8</span></nav>
-<h1>מתיחת מכופפי ירך</h1>
-<div class="tags"><span class="tag">מיטה</span><span class="tag">קל</span><span class="tag">מכופפי ירך, ירך קדמית</span></div>
-<div class="paper timer">
+<h1 class="h-title">מתיחת מכופפי ירך</h1>
+</div></header><div class="wrap board">
+<section class="need"><h2 class="h-pink">מה צריך לתרגיל?</h2><div class="card pad-stack"><p><b>מיטה</b></p><p class="small">מכופפי ירך, ירך קדמית</p><div class="tags"><span class="tag">קל</span></div></div></section>
+<div class="badge-cell"><div class="badge"><span class="k">רמת קושי:</span><span class="v">1</span></div></div>
+<section class="anim"><div class="panel concrete"><div class="stagebox"><svg id="stage" aria-label="אנימציה של התרגיל: מתיחת מכופפי ירך"></svg>
+<div class="capbar"><span class="cap" id="cap"></span><span class="br" id="br"></span></div></div></div>
+<p class="hint">האנימציה מראה את התנועה בקצב המוזיקה: חזרה אחת = 4 פעימות.</p></section>
+<section class="info"><h2 class="h-pink">זמן, קצב, ניקוד</h2>
+<div class="card timer">
   <div class="phase" id="phase"></div>
   <div class="time" id="time">0:00</div>
   <div class="sub" id="sub"></div>
   <div class="dots" id="dots"></div>
   <div class="btns"><button class="primary" id="go" data-state="idle">התחל תרגיל</button><button id="skip">דלג</button><button id="reset">איפוס</button></div>
-  <div class="facts"><span>1 סטים × 30 שניות לכל צד</span><span>מנוחה: <b>10</b> שנ׳</span><span>זמן כולל: <b id="totalAll">1:10</b></span><span>נשאר: <b id="totalLeft">1:10</b></span></div>
+  <div class="facts"><span>נשאר: <b id="totalLeft">1:10</b></span><span>מתוך <b id="totalAll">1:10</b></span></div>
 </div>
-</div></header>
-<aside class="stage-col"><div class="stage-sticky">
-<div class="stagebox"><svg id="stage" aria-label="אנימציה של התרגיל: מתיחת מכופפי ירך"></svg>
-  <div class="capbar"><span class="cap" id="cap"></span><span class="br" id="br"></span></div></div>
-<p class="hint on-concrete">האנימציה מראה את התנועה בקצב המוזיקה: חזרה אחת = 4 פעימות.</p>
-<div class="paper music">
+<div class="card pad-stack">
+  <p class="row"><b>זמן כולל לתרגיל:</b> 1:10 דקות</p>
+  <p class="row"><b>1 סטים × 30 שניות לכל צד</b></p>
+  <p class="row"><b>מנוחה בין סטים:</b> 10 שנ׳</p>
+  <p class="row"><b>קצב:</b> רגוע (בקצב המוזיקה) · 48 פעימות לדקה</p>
+  <p class="row small">בשלוש השניות האחרונות של כל שלב נשמע צליל ספירה.</p>
+  <p class="row">בסיום התרגיל מקבלים <b>10 נקודות</b>. סה״כ שלך: <b class="points" data-points>0</b></p>
+</div>
+<div class="card music">
+  <button type="button" class="primary" id="musicBtn">נגן מוזיקה</button>
   <label>מוזיקה <select id="musicStyle"><option value="auto">לפי התרגיל (רגוע)</option><option value="beat">קצבי</option><option value="steady">רגוע-קצבי</option><option value="calm">רגוע</option><option value="click">מטרונום</option><option value="off">כבוי</option></select></label>
   <label>עוצמה <input id="vol" type="range" min="0" max="1" step="0.05" value="0.7" aria-label="עוצמת מוזיקה"></label>
-  <p class="hint">קצב: 48 פעימות לדקה. בשלוש השניות האחרונות של כל שלב נשמע צליל ספירה.</p>
 </div>
-</div></aside>
-<main class="guide"><div class="guide-in">
-<section class="box"><h2>מה עושים</h2><p>מתיחה בכריעה על ברך אחת. פותחת את חזית הירך שמתקצרת מישיבה ממושכת ומשחררת את הגב התחתון.</p></section>
-<section class="box muscles"><h2>שרירים שנמתחים</h2><ul class="mus">
-<li><b>מכופפי הירך (איליופסואס)</b><span>מרימים את הברך לכיוון החזה. נוטים להתקצר מישיבה ממושכת.</span></li>
-<li><b>הירך הקדמית (ארבע ראשי)</b><span>מיישרת את הברך. הכוח העיקרי לקימה מכיסא ולעלייה במדרגות.</span></li>
-</ul><h3>שרירים תומכים</h3><ul class="mus"><li><b>שריר הישבן הגדול (גלוטאוס מקסימוס)</b><span>מיישר את הירך ודוחף את הגוף למעלה בקימה, בעלייה ובצעידה.</span></li></ul></section>
-<div class="two">
-  <section class="box"><h2>עמדת פתיחה</h2><p>כורעים על ברך אחת על המזרן. כף הרגל השנייה על המזרן לפניכם והברך מעל הקרסול. הידיים על האגן.</p></section>
-  <section class="box"><h2>נשימה</h2><p>נשימות איטיות, נשיפה ארוכה.</p></section>
+</section>
 </div>
-<section class="box"><h2>ביצוע שלב אחר שלב</h2><ol class="steps">
-<li>מכווצים את הישבן של הרגל שמאחור.</li>
-<li>מזיזים את האגן קדימה עד שמרגישים מתיחה בחזית הירך.</li>
-<li>מחזיקים לפי הטיימר, הגב זקוף, ומחליפים רגל.</li>
-</ol></section>
-<div class="two">
-  <section class="box"><h2>למה לשים לב</h2><ul>
+<div class="wrap blobs">
+<section class="blob b-blue"><h2>שימו לב:</h2><ul>
 <li>הגב ישר, לא מקמר.</li>
 <li>הברך הקדמית לא עוברת את אצבעות הרגל.</li>
 <li>הישבן של הרגל האחורית מכווץ.</li>
 </ul></section>
-  <section class="box warn"><h2>ממה להיזהר</h2><ul>
+<section class="blob b-green"><h2>היזהרו מ:</h2><ul>
 <li>לא להקמר בגב התחתון.</li>
 <li>כאב בברך הכורעת: מניחים כרית מתחתיה.</li>
 <li>לא להתנדנד.</li>
 </ul></section>
+<section class="blob b-pink"><h2>חשוב שתדעו:</h2><p>מתיחה בכריעה על ברך אחת. פותחת את חזית הירך שמתקצרת מישיבה ממושכת ומשחררת את הגב התחתון.</p><p>נשימות איטיות, נשיפה ארוכה.</p></section>
 </div>
+<div class="wrap sections">
 <div class="two">
-  <section class="box"><h2>גרסה קלה יותר</h2><p>מקטינים את הצעד.</p></section>
-  <section class="box"><h2>גרסה קשה יותר</h2><p>מרימים את היד שבצד הרגל האחורית מעל הראש.</p></section>
+  <section><h2 class="h-pink">עמדת פתיחה</h2><div class="card"><p>כורעים על ברך אחת על המזרן. כף הרגל השנייה על המזרן לפניכם והברך מעל הקרסול. הידיים על האגן.</p></div></section>
+  <section><h2 class="h-pink">שרירים שנמתחים</h2><div class="card"><ul class="mus">
+<li><b>מכופפי הירך (איליופסואס)</b><span>מרימים את הברך לכיוון החזה. נוטים להתקצר מישיבה ממושכת.</span></li>
+<li><b>הירך הקדמית (ארבע ראשי)</b><span>מיישרת את הברך. הכוח העיקרי לקימה מכיסא ולעלייה במדרגות.</span></li>
+</ul><h3>שרירים תומכים</h3><ul class="mus"><li><b>שריר הישבן הגדול (גלוטאוס מקסימוס)</b><span>מיישר את הירך ודוחף את הגוף למעלה בקימה, בעלייה ובצעידה.</span></li></ul></div></section>
 </div>
-<div class="nav"><a href="07-bed-pushup.html">‹ שכיבות סמיכה על שפת המיטה</a><a href="index.html">סיום השיעור ›</a></div>
-</div></main>
+<section><h2 class="h-pink">ביצוע שלב אחר שלב</h2><div class="card"><ol class="steps">
+<li>מכווצים את הישבן של הרגל שמאחור.</li>
+<li>מזיזים את האגן קדימה עד שמרגישים מתיחה בחזית הירך.</li>
+<li>מחזיקים לפי הטיימר, הגב זקוף, ומחליפים רגל.</li>
+</ol></div></section>
+<div class="two">
+  <section><h2 class="h-pink">גרסה קלה יותר</h2><div class="card"><p>מקטינים את הצעד.</p></div></section>
+  <section><h2 class="h-pink">גרסה קשה יותר</h2><div class="card"><p>מרימים את היד שבצד הרגל האחורית מעל הראש.</p></div></section>
 </div>
-<script>window.EX = {"id":"06-08","name":"מתיחת מכופפי ירך","sets":1,"reps":10,"hold":30,"sides":true,"rest":10,"bpm":48,"beats":4,"music":"calm","scene":{"props":[{"type":"bed","x":30,"w":320,"h":40}],"poses":[{"h":[150,118],"t":0,"a":[160,118],"k":[104,161],"l":[208,161],"f":0,"cap":"כריעה","br":"in"},{"h":[172,124],"t":-4,"a":[182,124],"k":[104,161],"l":[208,161],"f":0,"cap":"האגן קדימה, מחזיקים","br":"out"}]}};</script>
+</div>
+<div class="wrap actions"><a class="main" href="08-hip-flexor-stretch-guide.html">הוראות לתרגיל</a><a href="07-bed-pushup.html">‹ שכיבות סמיכה על שפת המיטה</a><span class="sp"></span><a href="index.html">סיום השיעור ›</a></div>
+<script>window.EX = {"id":"06-08","name":"מתיחת מכופפי ירך","sets":1,"reps":10,"hold":30,"sides":true,"rest":10,"bpm":48,"beats":4,"music":"calm","scene":{"props":[{"type":"bed","x":30,"w":320,"h":40}],"poses":[{"h":[150,118],"t":0,"a":[160,118],"k":[104,161],"l":[208,161],"f":0,"cap":"כריעה","br":"in"},{"h":[172,124],"t":-4,"a":[182,124],"k":[104,161],"l":[208,161],"f":0,"cap":"האגן קדימה, מחזיקים","br":"out"}]},"points":10};</script>
 <script src="../../shared/figure.js"></script>
 <script src="../../shared/music.js"></script>
 <script src="../../shared/runner.js"></script>
+<script>try{var p=+localStorage.getItem('ht-points')||0;document.querySelectorAll('[data-points]').forEach(function(e){e.textContent=p;});}catch(e){}</script>
 </body></html>

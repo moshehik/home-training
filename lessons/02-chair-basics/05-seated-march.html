@@ -4,70 +4,77 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>צעידה בישיבה – שיעור 2</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playpen+Sans+Hebrew:wght@500;700;800&family=Rubik:wght@500;700&family=Assistant:wght@400;600;700&display=swap">
 <link rel="stylesheet" href="../../shared/page.css">
 </head>
 <body>
-<div class="page">
-<header class="head"><div class="head-in">
+<header class="band concrete"><div class="wrap">
 <nav class="crumbs"><a href="../../index.html">כל השיעורים</a><span>›</span><a href="index.html">שיעור 2: ישיבה וקימה</a><span>›</span><span>תרגיל 5 מתוך 8</span></nav>
-<h1>צעידה בישיבה</h1>
-<div class="tags"><span class="tag">כיסא</span><span class="tag">קל</span><span class="tag">מכופפי ירך, בטן</span></div>
-<div class="paper timer">
+<h1 class="h-title">צעידה בישיבה</h1>
+</div></header><div class="wrap board">
+<section class="need"><h2 class="h-pink">מה צריך לתרגיל?</h2><div class="card pad-stack"><p><b>כיסא</b></p><p class="small">מכופפי ירך, בטן</p><div class="tags"><span class="tag">קל</span></div></div></section>
+<div class="badge-cell"><div class="badge"><span class="k">רמת קושי:</span><span class="v">1</span></div></div>
+<section class="anim"><div class="panel concrete"><div class="stagebox"><svg id="stage" aria-label="אנימציה של התרגיל: צעידה בישיבה"></svg>
+<div class="capbar"><span class="cap" id="cap"></span><span class="br" id="br"></span></div></div></div>
+<p class="hint">האנימציה מראה את התנועה בקצב המוזיקה: חזרה אחת = 4 פעימות.</p></section>
+<section class="info"><h2 class="h-pink">זמן, קצב, ניקוד</h2>
+<div class="card timer">
   <div class="phase" id="phase"></div>
   <div class="time" id="time">0:00</div>
   <div class="sub" id="sub"></div>
   <div class="dots" id="dots"></div>
   <div class="btns"><button class="primary" id="go" data-state="idle">התחל תרגיל</button><button id="skip">דלג</button><button id="reset">איפוס</button></div>
-  <div class="facts"><span>3 סטים × 20 חזרות</span><span>מנוחה: <b>30</b> שנ׳</span><span>זמן כולל: <b id="totalAll">3:35</b></span><span>נשאר: <b id="totalLeft">3:35</b></span></div>
+  <div class="facts"><span>נשאר: <b id="totalLeft">3:35</b></span><span>מתוך <b id="totalAll">3:35</b></span></div>
 </div>
-</div></header>
-<aside class="stage-col"><div class="stage-sticky">
-<div class="stagebox"><svg id="stage" aria-label="אנימציה של התרגיל: צעידה בישיבה"></svg>
-  <div class="capbar"><span class="cap" id="cap"></span><span class="br" id="br"></span></div></div>
-<p class="hint on-concrete">האנימציה מראה את התנועה בקצב המוזיקה: חזרה אחת = 4 פעימות.</p>
-<div class="paper music">
+<div class="card pad-stack">
+  <p class="row"><b>זמן כולל לתרגיל:</b> 3:35 דקות</p>
+  <p class="row"><b>3 סטים × 20 חזרות</b></p>
+  <p class="row"><b>מנוחה בין סטים:</b> 30 שנ׳</p>
+  <p class="row"><b>קצב:</b> קצבי (בקצב המוזיקה) · 96 פעימות לדקה</p>
+  <p class="row small">בשלוש השניות האחרונות של כל שלב נשמע צליל ספירה.</p>
+  <p class="row">בסיום התרגיל מקבלים <b>10 נקודות</b>. סה״כ שלך: <b class="points" data-points>0</b></p>
+</div>
+<div class="card music">
+  <button type="button" class="primary" id="musicBtn">נגן מוזיקה</button>
   <label>מוזיקה <select id="musicStyle"><option value="auto">לפי התרגיל (קצבי)</option><option value="beat">קצבי</option><option value="steady">רגוע-קצבי</option><option value="calm">רגוע</option><option value="click">מטרונום</option><option value="off">כבוי</option></select></label>
   <label>עוצמה <input id="vol" type="range" min="0" max="1" step="0.05" value="0.7" aria-label="עוצמת מוזיקה"></label>
-  <p class="hint">קצב: 96 פעימות לדקה. בשלוש השניות האחרונות של כל שלב נשמע צליל ספירה.</p>
 </div>
-</div></aside>
-<main class="guide"><div class="guide-in">
-<section class="box"><h2>מה עושים</h2><p>מרימים ברכיים לסירוגין בישיבה כאילו צועדים. חימום טוב לירכיים ולבטן, והוא גם מעלה דופק.</p></section>
-<section class="box muscles"><h2>שרירים עיקריים</h2><ul class="mus">
-<li><b>מכופפי הירך (איליופסואס)</b><span>מרימים את הברך לכיוון החזה. נוטים להתקצר מישיבה ממושכת.</span></li>
-</ul><h3>שרירים תומכים</h3><ul class="mus"><li><b>שריר הבטן הישר ("קוביות")</b><span>מכופף את הגו קדימה ומקרב את החזה לאגן.</span></li>
-<li><b>שריר הבטן הרוחבי (הליבה העמוקה)</b><span>פועל כמו חגורה שמייצבת את עמוד השדרה ואת האגן בכל תנועה.</span></li></ul></section>
-<div class="two">
-  <section class="box"><h2>עמדת פתיחה</h2><p>יושבים זקוף בקצה הכיסא, הגב לא נשען. הרגליים ברוחב הירכיים והידיים על הירכיים או לצדי הגוף.</p></section>
-  <section class="box"><h2>נשימה</h2><p>נשימה קצבית: שאיפה בהרמת ברך אחת, נשיפה בשנייה.</p></section>
+</section>
 </div>
-<section class="box"><h2>ביצוע שלב אחר שלב</h2><ol class="steps">
-<li>מכווצים בטן ומרימים ברך ימין לגובה נוח.</li>
-<li>מורידים אותה ומרימים את ברך שמאל.</li>
-<li>ממשיכים לסירוגין בקצב המוזיקה, אפשר לשלב תנועת ידיים.</li>
-</ol></section>
-<div class="two">
-  <section class="box"><h2>למה לשים לב</h2><ul>
+<div class="wrap blobs">
+<section class="blob b-blue"><h2>שימו לב:</h2><ul>
 <li>הגב זקוף והכתפיים רפויות.</li>
 <li>הרמה מכוונת מהבטן, לא מהגב.</li>
 <li>חזרה אחת = ברך ימין וברך שמאל.</li>
 </ul></section>
-  <section class="box warn"><h2>ממה להיזהר</h2><ul>
+<section class="blob b-green"><h2>היזהרו מ:</h2><ul>
 <li>לא להישען לאחור על הכיסא.</li>
 <li>לא לבצע בתנופה מהירה.</li>
 <li>אם יש כאב בירך, מקטינים את גובה ההרמה.</li>
 </ul></section>
+<section class="blob b-pink"><h2>חשוב שתדעו:</h2><p>מרימים ברכיים לסירוגין בישיבה כאילו צועדים. חימום טוב לירכיים ולבטן, והוא גם מעלה דופק.</p><p>נשימה קצבית: שאיפה בהרמת ברך אחת, נשיפה בשנייה.</p></section>
 </div>
+<div class="wrap sections">
 <div class="two">
-  <section class="box"><h2>גרסה קלה יותר</h2><p>מקטינים את גובה ההרמה.</p></section>
-  <section class="box"><h2>גרסה קשה יותר</h2><p>מחזיקים כל ברך למעלה לשתי שניות.</p></section>
+  <section><h2 class="h-pink">עמדת פתיחה</h2><div class="card"><p>יושבים זקוף בקצה הכיסא, הגב לא נשען. הרגליים ברוחב הירכיים והידיים על הירכיים או לצדי הגוף.</p></div></section>
+  <section><h2 class="h-pink">שרירים עיקריים</h2><div class="card"><ul class="mus">
+<li><b>מכופפי הירך (איליופסואס)</b><span>מרימים את הברך לכיוון החזה. נוטים להתקצר מישיבה ממושכת.</span></li>
+</ul><h3>שרירים תומכים</h3><ul class="mus"><li><b>שריר הבטן הישר ("קוביות")</b><span>מכופף את הגו קדימה ומקרב את החזה לאגן.</span></li>
+<li><b>שריר הבטן הרוחבי (הליבה העמוקה)</b><span>פועל כמו חגורה שמייצבת את עמוד השדרה ואת האגן בכל תנועה.</span></li></ul></div></section>
 </div>
-<div class="nav"><a href="04-chair-dips.html">‹ דיפס טריצפס</a><a href="06-seated-leg-extension.html">יישור ברך בישיבה ›</a></div>
-</div></main>
+<section><h2 class="h-pink">ביצוע שלב אחר שלב</h2><div class="card"><ol class="steps">
+<li>מכווצים בטן ומרימים ברך ימין לגובה נוח.</li>
+<li>מורידים אותה ומרימים את ברך שמאל.</li>
+<li>ממשיכים לסירוגין בקצב המוזיקה, אפשר לשלב תנועת ידיים.</li>
+</ol></div></section>
+<div class="two">
+  <section><h2 class="h-pink">גרסה קלה יותר</h2><div class="card"><p>מקטינים את גובה ההרמה.</p></div></section>
+  <section><h2 class="h-pink">גרסה קשה יותר</h2><div class="card"><p>מחזיקים כל ברך למעלה לשתי שניות.</p></div></section>
 </div>
-<script>window.EX = {"id":"02-05","name":"צעידה בישיבה","sets":3,"reps":20,"hold":0,"sides":false,"rest":30,"bpm":96,"beats":4,"music":"beat","scene":{"props":[{"type":"chair","x":150}],"poses":[{"h":[170,155],"t":0,"a":[196,149],"k":[216,200],"l":[220,200],"f":90,"cap":"ברכיים למטה"},{"h":[170,155],"t":0,"a":[196,149],"k":[214,127],"l":[220,200],"f":90,"cap":"ברך ימין למעלה","br":"out"},{"h":[170,155],"t":0,"a":[196,149],"k":[216,200],"l":[220,200],"f":90,"cap":"למטה"},{"h":[170,155],"t":0,"a":[196,149],"k":[216,200],"l":[218,127],"f":90,"g":90,"cap":"ברך שמאל למעלה","br":"in"}]}};</script>
+</div>
+<div class="wrap actions"><a class="main" href="05-seated-march-guide.html">הוראות לתרגיל</a><a href="04-chair-dips.html">‹ דיפס טריצפס</a><span class="sp"></span><a href="06-seated-leg-extension.html">יישור ברך בישיבה ›</a></div>
+<script>window.EX = {"id":"02-05","name":"צעידה בישיבה","sets":3,"reps":20,"hold":0,"sides":false,"rest":30,"bpm":96,"beats":4,"music":"beat","scene":{"props":[{"type":"chair","x":150}],"poses":[{"h":[170,155],"t":0,"a":[196,149],"k":[216,200],"l":[220,200],"f":90,"cap":"ברכיים למטה"},{"h":[170,155],"t":0,"a":[196,149],"k":[214,127],"l":[220,200],"f":90,"cap":"ברך ימין למעלה","br":"out"},{"h":[170,155],"t":0,"a":[196,149],"k":[216,200],"l":[220,200],"f":90,"cap":"למטה"},{"h":[170,155],"t":0,"a":[196,149],"k":[216,200],"l":[218,127],"f":90,"g":90,"cap":"ברך שמאל למעלה","br":"in"}]},"points":10};</script>
 <script src="../../shared/figure.js"></script>
 <script src="../../shared/music.js"></script>
 <script src="../../shared/runner.js"></script>
+<script>try{var p=+localStorage.getItem('ht-points')||0;document.querySelectorAll('[data-points]').forEach(function(e){e.textContent=p;});}catch(e){}</script>
 </body></html>
