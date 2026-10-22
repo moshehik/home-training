@@ -77,6 +77,7 @@
     var l = store.g('ht-last');
     $('[data-a=last]', bar).disabled = !(l && findEx(l));
     $('[data-a=back]', bar).disabled = !cur || !cur.parent;
+    $('[data-a=back]', bar).lastChild.textContent = cur && cur.backLabel ? cur.backLabel : 'חזרה';
     if (pop) { var p = $('.pts', bar); p.classList.remove('pop'); void p.offsetWidth; p.classList.add('pop'); }
   }
   bar.addEventListener('click', function (e) {
@@ -308,7 +309,7 @@
           wallLum([B1, B2], function (l) {
             p1.style.setProperty('--ink', l[0] < 0.45 ? '#fff3ec' : '#4a3b3a');
             p2.style.setProperty('--ink', l[1] < 0.45 ? '#ffe7ae' : '#a3304f');
-            if (introPlayed || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) finish(); else intro();
+            if ((window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) finish(); else intro();
           });
         });
       }
@@ -363,7 +364,7 @@
             p1.style.setProperty('--ink', l[0] < 0.45 ? '#fff3ec' : '#4a3b3a');
             p2.style.setProperty('--ink', l[1] < 0.45 ? '#ffe7ae' : '#a3304f');
             p3.style.setProperty('--ink', l[2] < 0.45 ? '#fff3ec' : '#7b4a58');
-            if (roomPlayed[cfg.key] || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { finish(); return; }
+            if ((window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { finish(); return; }
             roomPlayed[cfg.key] = true;
             tween(450, function () {})
               .then(function () { return paintLines(p1, tween); })
@@ -472,7 +473,7 @@
         wallLum([[420, 80, 1000, 150], [420, 230, 1000, 90]], function (l) {
           p1.style.setProperty('--ink', l[0] < 0.45 ? '#fff3ec' : '#4a3b3a');
           p2.style.setProperty('--ink', l[1] < 0.45 ? '#ffe7ae' : '#a3304f'); btn.style.setProperty('--ink', l[1] < 0.45 ? '#ffe7ae' : '#a3304f');
-          if (roomPlayed.how || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { finish(); return; }
+          if ((window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { finish(); return; }
           roomPlayed.how = true;
           tween(450, function () {})
             .then(function () { return paintLines(p1, tween); })
@@ -571,7 +572,7 @@
       } else if (g) location.hash = '#/ex/' + L.n + '/' + E.i + '/' + g.dataset.go;
     });
     return {
-      el: el, parent: '#/ex/' + L.n + '/' + E.i, destroy: function () { dead = true; },
+      el: el, parent: '#/ex/' + L.n + '/' + E.i, backLabel: 'להוראות', destroy: function () { dead = true; },
       start: function () {
         var fonts = document.fonts && document.fonts.load ? Promise.all([document.fonts.load('50px "OH Noa Price"', 'אבגד'), document.fonts.load('50px "OH Noa Price"', '8,.!?')]).then(function () { return document.fonts.ready; }).catch(function () {}) : Promise.resolve();
         fonts.then(function () {
@@ -582,7 +583,7 @@
           wallLum([[420, 80, 1000, 150], [420, 230, 1000, 90]], function (l) {
             p1.style.setProperty('--ink', l[0] < 0.45 ? '#fff3ec' : '#4a3b3a');
             p2.style.setProperty('--ink', l[1] < 0.45 ? '#ffe7ae' : '#a3304f');
-            if (roomPlayed.note || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { finish(); return; }
+            if ((window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { finish(); return; }
             roomPlayed.note = true;
             tween(450, function () {})
               .then(function () { return paintLines(p1, tween); })
@@ -652,7 +653,7 @@
         layoutLines(el);
         wallLum([[376, 66, 954, 150]], function (l) {
           p1.style.setProperty('--ink', l[0] < 0.45 ? '#fff3ec' : '#4a3b3a');
-          if (roomPlayed.muscles || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { finish(); return; }
+          if ((window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { finish(); return; }
           roomPlayed.muscles = true;
           tween(300, function () {})
             .then(function () { return paintLines(p1, tween); })
@@ -694,7 +695,7 @@
       '<div class="clock" id="clock" role="button" aria-label="טיימר"><div class="face"></div><div id="digits"></div><div class="cl" id="cl">' + E.dose + '</div></div>' +
       '<div class="tip u" id="clkTip" style="left:1490px;top:420px;width:370px">לחצי על השעון להפעלת הטיימר</div>' +
       '<div class="status" style="top:335px"><div class="chip stat" id="stat"></div><div style="display:flex;gap:8px"><button type="button" class="hgo in sm" id="pz" style="display:none"><span class="in-row"><span>עצרי</span></span></button><button type="button" class="hgo in sm" id="skip"><span class="in-row"><span>דלגי</span></span></button><button type="button" class="hgo in sm" id="reset"><span class="in-row"><span>מההתחלה</span></span></button></div></div>' +
-      '<button type="button" class="hgo in" id="tohow" data-nav="#/ex/' + L.n + '/' + E.i + '" style="left:795px;top:955px;width:330px"><span class="in-row"><span>חזרה להוראות</span><svg viewBox="0 0 40 16" aria-hidden="true"><path d="M39 8H3M10 1.5 3 8l7 6.5"/></svg></span></button>' +
+      '<button type="button" class="hgo in" id="tohow" data-nav="#/ex/' + L.n + '/' + E.i + '" style="left:795px;top:955px;width:330px"><span class="in-row"><span>להוראות</span><svg viewBox="0 0 40 16" aria-hidden="true"><path d="M39 8H3M10 1.5 3 8l7 6.5"/></svg></span></button>' +
       '<div class="go-acts" id="acts" style="left:420px;top:915px;width:1000px;justify-content:center"></div>';
     var $e = function (id) { return el.querySelector('#' + id); };
     var fig, wall = $e('wall'), wallbox = $e('wallbox'), breath = $e('breath'), stat = $e('stat'), digits = $e('digits'), clock = $e('clock');
@@ -945,7 +946,7 @@
         wallLum([[420, 80, 1000, 150], [470, 215, 900, 200]], function (l) {
           p1.style.setProperty('--ink', l[0] < 0.45 ? '#fff3ec' : '#4a3b3a');
           wall.style.setProperty('--ink', l[1] < 0.45 ? '#ffe7ae' : '#a3304f');
-          if (roomPlayed.go || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { finishIntro(); return; }
+          if ((window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { finishIntro(); return; }
           roomPlayed.go = true;
           tween(350, function () {})
             .then(function () { return paintLines(p1, tween); })
