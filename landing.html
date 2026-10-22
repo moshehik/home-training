@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>פונקציונלי עם ברכי</title>
-<meta name="description" content="התוצאות? סטודיו. הנוחות? בית. 15 אימונים, 119 תרגילים ובובה שמראה לך בדיוק איך, מהבית ובקצב שלך.">
+<meta name="description" content="התוצאות? סטודיו. הנוחות? בית. 16 אימונים, 127 תרגילים ובובה שמראה לך בדיוק איך, מהבית ובקצב שלך.">
 <link rel="icon" href="assets/room/broom.png">
 <link rel="preload" as="image" href="assets/landing/room.jpg" fetchpriority="high">
 <script>try { if (!location.hash) { history.scrollRestoration = "manual"; scrollTo(0, 0); } } catch (e) {}
@@ -78,6 +78,15 @@ h1, h2, h3, p { margin: 0; }
 @keyframes wipe { from { clip-path: inset(-10% 0 -10% 100%); } to { clip-path: inset(-10% 0 -10% -5%); } }
 .hero .lead { margin: 14px 0 6px; max-width: 24em; font-size: clamp(19px, 2vw, 25px); font-weight: 600; animation: rise .9s ease 6.6s both; }
 .hero .hgo { animation: rise .9s ease 7s both; }
+/* a soft arrow at the bottom of the opening that points down: scroll for more */
+.down { position: absolute; z-index: 5; left: 0; right: 0; margin: 0 auto; width: fit-content; bottom: clamp(14px, 3.5vh, 34px); display: flex; flex-direction: column; align-items: center; gap: 4px; text-decoration: none; color: var(--berry); animation: rise .9s ease 8.6s both; transition: opacity .4s ease; }
+.down .dt { font-family: "OH Noa Price", "Gveret Levin", cursive; font-size: 26px; line-height: 1; color: #4a2230; }
+.down svg { width: 42px; height: 42px; padding: 8px; border-radius: 50%; background: rgba(255, 255, 255, .6); border: 1.5px solid rgba(255, 255, 255, .85); box-shadow: 0 6px 16px rgba(130, 70, 80, .22); fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; animation: nudge 1.7s ease-in-out infinite; }
+.down:hover svg, .down:focus-visible svg { background: #fff; outline: none; }
+.down.gone { opacity: 0; pointer-events: none; }
+@keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(9px); } }
+.pre .down { animation: none; opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .down svg { animation: none; } }
 .hero .micro { position: relative; top: var(--my, 7.8vh); margin-top: 2px; font-size: 16px; color: var(--soft); font-weight: 600; animation: rise .9s ease 7.4s both; }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 /* the bottom of the hero room dissolves into the floor of the next section (no hard edge) */
@@ -244,7 +253,7 @@ h1, h2, h3, p { margin: 0; }
 .feat .sw-nm { font-size: 6.6cqw; }
 .feat .sw-sub { font-size: 4.3cqw; }
 .feat .sw-sub.tagline { font-weight: 800; font-size: 3.8cqw; opacity: .7; }
-/* the note about lessons 13-15 is handwritten on the floor itself: no box, slanted as if lying on the floor */
+/* the note about lessons 13-16 is handwritten on the floor itself: no box, slanted as if lying on the floor */
 .lnote { margin: 10px auto -70px; max-width: min(19em, 80%); padding: 0 10px; text-align: center; font-size: clamp(22px, 3vw, 34px); line-height: 1.2; color: #4a3234; -webkit-text-stroke: 1.2px currentColor; transform: perspective(1500px) rotateX(46deg); transform-origin: 50% 0; mix-blend-mode: multiply; opacity: .86; }
 .lnote .w { display: inline-block; white-space: nowrap; }
 .lnote .ch { visibility: hidden; }
@@ -265,6 +274,7 @@ details p { padding: 0 26px 22px; font-size: 18px; font-weight: 500; color: var(
 /* closing */
 .close { position: relative; z-index: 2; overflow-x: clip; overflow-y: visible; min-height: 100svh; padding: 100px 20px clamp(120px, 24vh, 260px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .close h2 { font-size: clamp(56px, min(10vh, 7.4vw), 118px); line-height: 1; }
+.close .box .usb { display: inline-block; margin-top: 6px; font-size: .86em; font-weight: 700; color: #7a4a00; }
 .close .box { margin: 22px auto 20px; padding: 16px 28px; max-width: 28em; border: 2px solid #c79a2f; border-radius: 14px; font-size: 21px; font-weight: 700; color: #5a3a00; background: rgba(255, 244, 205, .45); }
 
 button.hgo { border: 0; background: none; padding: 0; font-family: inherit; cursor: pointer; }
@@ -278,7 +288,8 @@ button.hgo { border: 0; background: none; padding: 0; font-family: inherit; curs
 .cbox { position: relative; z-index: 1; width: min(100%, 640px); margin: auto; padding: 30px 34px 28px; background: rgba(255, 255, 255, .66); border: 1.5px solid rgba(255, 255, 255, .9); border-radius: 30px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: 0 18px 46px rgba(130, 70, 80, .24); color: #3f2c29; text-align: right; }
 .cbox h2 { font-size: clamp(48px, 7vw, 66px); text-align: center; margin: 0 0 4px; }
 .cbox .csub { text-align: center; font-size: 17px; font-weight: 600; margin: 0 0 18px; }
-.cx { position: absolute; top: 14px; left: 14px; width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, .9); background: rgba(255, 255, 255, .7); color: #6b4f55; font-size: 22px; line-height: 1; cursor: pointer; }
+.cx { position: absolute; z-index: 6; top: 12px; left: 12px; width: 46px; height: 46px; border-radius: 50%; border: 1.5px solid rgba(163, 48, 79, .45); background: rgba(255, 255, 255, .92); color: var(--berry); font-size: 28px; line-height: 1; cursor: pointer; box-shadow: 0 4px 12px rgba(130, 70, 80, .25); transition: transform .25s, background .25s; }
+.cx:hover { transform: rotate(90deg) scale(1.06); }
 .cx:hover, .cx:focus-visible { outline: none; background: #fff; }
 .cbox label { display: block; margin: 0 0 12px; font-size: 16px; font-weight: 700; }
 .cbox input, .cbox textarea { display: block; width: 100%; margin-top: 5px; padding: 11px 16px; border: 1.5px solid rgba(190, 140, 140, .55); border-radius: 16px; background: rgba(255, 255, 255, .82); font: inherit; font-size: 17px; font-weight: 500; color: #3f2c29; text-align: right; }
@@ -368,6 +379,7 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
     <p class="lead">אימון פונקציונלי בקצב שלך, עם ציוד שכבר יש לך בבית, ובובה שמראה לך כל תרגיל צעד אחר צעד.</p>
     <p class="micro">הגישה לאתר ברכישה של 100 ש"ח. בלי להוריד כלום, והכי נוח במסך רחב או בטלפון מסובב.</p>
   </div>
+  <a class="down" id="down" href="#meet" aria-label="גללי למטה לעוד"><span class="dt">גללי למטה</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></a>
   </section>
 
 <section class="sec room floor" id="meet">
@@ -378,12 +390,12 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
         <h2 class="paint berry">נעים להכיר</h2>
         <div class="box">ברכי כהנוביץ, 8 שנים באימון נשים בפילאטיס, בעלת תעודה ממכון וינגייט.</div>
         <p>מתרגשת להגיש לך את הקונספט הייחודי לאימון ביתי, בטיחותי ומקצועי: חדר אחד, בובת פלסטלינה שמראה כל תנועה, ואת, בקצב שלך.</p>
-        <p>15 אימונים, 119 תרגילים, וכל אחד מהם עם הוראות בשלבים, גרסה קלה וגרסה קשה.</p>
+        <p>16 אימונים, 127 תרגילים, וכל אחד מהם עם הוראות בשלבים, גרסה קלה וגרסה קשה.</p>
       </div>
       <ul class="facts" aria-label="במספרים">
-        <li><b>15</b><span>אימונים</span></li>
-        <li><b>119</b><span>תרגילים</span></li>
-        <li><b>15</b><span>מנגינות, אחת לכל אימון</span></li>
+        <li><b>16</b><span>אימונים</span></li>
+        <li><b>127</b><span>תרגילים</span></li>
+        <li><b>16</b><span>מנגינות, אחת לכל אימון</span></li>
         <li><b>16-48</b><span>דקות לאימון</span></li>
       </ul>
     </div>
@@ -425,7 +437,7 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
       <article class="card glass"><div class="q">אין לי זמן</div><p>אימון נמשך בערך 16 עד 48 דקות, בסטים קצרים עם מנוחות. אפשר גם תרגיל אחד ולסמן "עשיתי את זה".</p></article>
     </div>
     <div class="steps">
-      <div class="step"><div class="n">1</div><h3>בוחרת אימון</h3><p>מדליקה אחד מ-15 מתגי הקיר, לפי הציוד שיש לך ולפי הכוח שיש לך היום.</p></div>
+      <div class="step"><div class="n">1</div><h3>בוחרת אימון</h3><p>מדליקה אחד מ-16 מתגי הקיר, לפי הציוד שיש לך ולפי הכוח שיש לך היום.</p></div>
       <div class="step"><div class="n">2</div><h3>רואה איך</h3><p>הבובה מדגימה את התרגיל לאט, עם הוראות, גרסה קלה, גרסה קשה ומה להיזהר.</p></div>
       <div class="step"><div class="n">3</div><h3>מתאמנת</h3><p>טיימר, מוזיקה והבובה שמראה מתי לשאוף ומתי לנשוף. את עושה, היא סופרת.</p></div>
       <div class="step"><div class="n">4</div><h3>מסמנת "עשיתי!"</h3><p>10 נקודות על כל תרגיל שסיימת, ואפשר לחזור בדיוק למקום שעצרת בו.</p></div>
@@ -436,13 +448,14 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
 
 <section class="sec room" id="lessons">
   <div class="wrap">
-    <h2 class="paint">15 אימונים, מתג לכל אחד</h2>
+    <h2 class="paint">16 אימונים, מתג לכל אחד</h2>
     <p class="sub">לחצי על מתג והאימון נפתח.</p>
     <div class="sws" id="sws"></div>
     <div class="lnote paint">
       <p class="lh">שימי לב</p>
       <p><b>אימון 13 (היפופרסיב)</b> מיועד רק לנשים שכבר מכירות את הטכניקה, וזה לא שיעור למתחילות מאפס.</p>
       <p><b>אימון 14 (הכנסת בטן)</b> ו<b>אימון 15 (הצרת ירכיים)</b> מתאימים לכולן. התרגילים מחזקים ומעצבים את האזור, אבל הגוף מחליט בעצמו מאיפה להוריד במשקל. מה שמשנה את הקו זה לחזור לאימון שוב ושוב.</p>
+      <p><b>אימון 16 (טבטה)</b> הוא אימון עצים של 20 שניות עבודה ו-10 מנוחה, בלי קפיצות. לא מתאים להריון, לאחר לידה, לבעיות לב או לחץ דם בלי אישור רופא.</p>
     </div>
   </div>
 </section>
@@ -456,8 +469,9 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
       <details><summary>האם זה בטיחותי?</summary><p>האימונים בנויים בזהירות: כל תרגיל מגיע עם הוראות בשלבים, גרסה קלה, ודגש על נשימה, יציבות ומה להיזהר ממנו, ואפשר לעצור בכל רגע ולעבור לגרסה הקלה. עם זאת, זה מידע כללי ולא תחליף לייעוץ רפואי. אם יש לך בעיה רפואית, כאב, פציעה, או שאת בהריון או אחרי לידה, התייעצי עם רופא לפני שמתחילה, ועצרי מיד אם מופיע כאב חד, סחרחורת או קוצר נשימה.</p></details>
       <details><summary>באיזו רמה האימונים?</summary><p>רוב האימונים בנויים לקל עד בינוני, ויש כמה מתקדמים יותר. כל תרגיל מגיע עם גרסה קלה וגרסה קשה, ואת בוחרת לפי איך שאת מרגישה היום.</p></details>
       <details><summary>איזה ציוד צריך?</summary><p>מיטה, כיסא יציב, מקל מטאטא, שני בקבוקי מים, כיור, מדרגות, וכמה אימונים עם מחצלת וכרית. אימון 1 דורש רק מיטה.</p></details>
-      <details><summary>אפשר בהריון או אחרי לידה?</summary><p>התייעצי עם רופא או רופאה לפני שמתחילה. תרגילי בטן והיפופרסיב רגישים במיוחד, ולכן בהריון ובתקופה שאחרי לידה חשוב לקבל אישור לפני שמתחילות.</p></details>
-      <details><summary>כמה זה עולה?</summary><p>הגישה לאתר ברכישה של 100 ש"ח. בתמורה מקבלים את כל 15 האימונים, 119 התרגילים, הבובה, המוזיקה והמילון.</p></details>
+      <details><summary>אפשר בהריון או אחרי לידה?</summary><p>התייעצי עם רופא או רופאה לפני שמתחילה. תרגילי בטן, היפופרסיב ואימון הטבטה העצים רגישים במיוחד, ולכן בהריון ובתקופה שאחרי לידה חשוב לקבל אישור לפני שמתחילות.</p></details>
+      <details><summary>כמה זה עולה?</summary><p>הגישה לאתר ברכישה של 100 ש"ח. בתמורה מקבלים את כל 16 האימונים, 127 התרגילים, הבובה, המוזיקה והמילון. אפשר גם לרכוש על דיסק און קי, בתוספת של 30 ש"ח (130 ש"ח בסך הכול).</p></details>
+      <details><summary>אפשר לקבל את זה על דיסק און קי?</summary><p>כן. אפשר לרכוש גם על דיסק און קי, בתוספת של 30 ש"ח לעלות הגישה. לחצי על "יצירת קשר", השאירי פרטים ונחזור אלייך עם כל הפרטים להזמנה.</p></details>
       <details><summary>מה נשמר עליי?</summary><p>הנקודות והתרגילים שסימנת נשמרים בדפדפן של המכשיר שלך, ואם תנקי את הדפדפן או תחליפי מכשיר הם יימחקו.</p></details>
       <details><summary>כמה קלוריות אשרוף?</summary><p>האתר מציג הערכה כללית בלבד, לאישה במשקל ממוצע. היא לא מדויקת, ואל תסתמכי עליה כמדד להתקדמות או לתזונה.</p></details>
       <details><summary>איך זה נראה בטלפון?</summary><p>האתר בנוי כחדר רחב, ולכן הכי נוח בטאבלט, במחשב או בטלפון מסובב לרוחב. בטלפון אנחנו מציעים לסובב, ואפשר גם להמשיך בלי.</p></details>
@@ -475,7 +489,7 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
   <img class="furn chair" src="assets/room/home-chair.png" alt="" width="371" height="481" loading="lazy">
   <div class="wrapin">
     <h2 class="paint">יאללה, מתחילה?</h2>
-    <div class="box">הגישה לאתר ברכישה של 100 ש"ח</div>
+    <div class="box">הגישה לאתר ברכישה של 100 ש"ח<br><span class="usb">אפשר גם על דיסק און קי, בתוספת 30 ש"ח</span></div>
     <a class="hgo login" href="index.html#/lessons"><span class="in-row"><span>כניסה</span><svg viewBox="0 0 40 16" aria-hidden="true"><path d="M39 8H3M10 1.5 3 8l7 6.5"/></svg></span></a>
     <button type="button" class="hgo login ctbtn" id="ctBtn" aria-haspopup="dialog"><span class="in-row"><span>יצירת קשר</span></span></button>
   </div>
@@ -539,7 +553,7 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
 <script src="assets/landing/look-data.js"></script>
 <script>
 (function () {
-  var LESSONS = [{"n":1,"title":"התעוררות על המיטה","eq":"מיטה","ex":8,"min":33},{"n":2,"title":"ישיבה וקימה","eq":"כיסא","ex":8,"min":38},{"n":3,"title":"מטאטא בתנועה","eq":"מקל מטאטא","ex":7,"min":23},{"n":4,"title":"בקבוקים בידיים","eq":"בקבוק מים","ex":9,"min":44},{"n":5,"title":"שגרת חדר רחצה","eq":"חדר רחצה","ex":7,"min":31},{"n":6,"title":"ליבה על המיטה","eq":"מיטה","ex":8,"min":34},{"n":7,"title":"כיסא עם אתגר","eq":"כיסא","ex":7,"min":34},{"n":8,"title":"מטאטא בכוח ובאיזון","eq":"מקל מטאטא","ex":8,"min":32},{"n":9,"title":"בקבוקים בתנועה","eq":"בקבוק מים","ex":9,"min":42},{"n":10,"title":"סיום וגמישות","eq":"חדר רחצה","ex":8,"min":23},{"n":11,"title":"אימון מדרגות","eq":"מדרגות","ex":9,"min":42},{"n":12,"title":"מתיחות לגב","eq":"מחצלת וכיסא","ex":7,"min":16},{"n":13,"title":"היפופרסיב","eq":"מחצלת וכיסא","ex":8,"min":19},{"n":14,"title":"הכנסת בטן","eq":"מחצלת, כיסא וקיר","ex":8,"min":33},{"n":15,"title":"הצרת ירכיים","eq":"מחצלת, כיסא וכרית","ex":8,"min":48}];
+  var LESSONS = [{"n":1,"title":"התעוררות על המיטה","eq":"מיטה","ex":8,"min":33},{"n":2,"title":"ישיבה וקימה","eq":"כיסא","ex":8,"min":38},{"n":3,"title":"מטאטא בתנועה","eq":"מקל מטאטא","ex":7,"min":23},{"n":4,"title":"בקבוקים בידיים","eq":"בקבוק מים","ex":9,"min":44},{"n":5,"title":"שגרת חדר רחצה","eq":"חדר רחצה","ex":7,"min":31},{"n":6,"title":"ליבה על המיטה","eq":"מיטה","ex":8,"min":34},{"n":7,"title":"כיסא עם אתגר","eq":"כיסא","ex":7,"min":34},{"n":8,"title":"מטאטא בכוח ובאיזון","eq":"מקל מטאטא","ex":8,"min":32},{"n":9,"title":"בקבוקים בתנועה","eq":"בקבוק מים","ex":9,"min":42},{"n":10,"title":"סיום וגמישות","eq":"חדר רחצה","ex":8,"min":23},{"n":11,"title":"אימון מדרגות","eq":"מדרגות","ex":9,"min":42},{"n":12,"title":"מתיחות לגב","eq":"מחצלת וכיסא","ex":7,"min":16},{"n":13,"title":"היפופרסיב","eq":"מחצלת וכיסא","ex":8,"min":19},{"n":14,"title":"הכנסת בטן","eq":"מחצלת, כיסא וקיר","ex":8,"min":33},{"n":15,"title":"הצרת ירכיים","eq":"מחצלת, כיסא וכרית","ex":8,"min":48},{"n":16,"title":"טבטה","eq":"מחצלת וכיסא","ex":8,"min":31}];
 
   /* ---- opening: write the logo in the middle, then slide it to its place in the top bar ---- */
   (function () {
@@ -711,6 +725,7 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
   function close() { dlg.classList.remove('on'); dlg.hidden = true; document.documentElement.style.overflow = ''; if (last && last.focus) last.focus(); }
   btn.addEventListener('click', open);
   document.getElementById('cx').addEventListener('click', close);
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
   addEventListener('keydown', function (e) { if (e.key === 'Escape' && !dlg.hidden) close(); });
   var TO = 'b0556722245@gmail.com', sending = false;
   function draft(name, phone, email, q) {
@@ -735,6 +750,21 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
       msg.textContent = 'השליחה האוטומטית לא הצליחה. נפתחת טיוטת מייל, ואפשר גם להתקשר: 055-672-2245.';
       draft(name, phone, email, q);
     }).then(function () { sending = false; if (timer) clearTimeout(timer); });
+  });
+})();
+</script>
+<script>
+(function () {
+  var dn = document.getElementById("down");
+  function chk() { if (dn) dn.classList.toggle("gone", (window.scrollY || 0) > 60); }
+  addEventListener("scroll", chk, { passive: true }); chk();
+  /* a click glides down to the next part (own animation, so it also works where native smooth scrolling is off) */
+  if (dn) dn.addEventListener("click", function (e) {
+    var tg = document.getElementById("meet"); if (!tg) return;
+    e.preventDefault();
+    var y0 = window.scrollY || 0, y1 = Math.max(0, tg.getBoundingClientRect().top + y0 - 8), t0 = performance.now(), D = 900;
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) { window.scrollTo(0, y1); return; }
+    (function step(now) { var k = Math.min(1, (now - t0) / D), e2 = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; window.scrollTo(0, y0 + (y1 - y0) * e2); if (k < 1) requestAnimationFrame(step); })(t0);
   });
 })();
 </script>
@@ -837,6 +867,7 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
     a.addEventListener("click", function (e) { if (has()) return; e.preventDefault(); target = a.getAttribute("href"); open(); });
   });
   document.getElementById("ax").addEventListener("click", close);
+  dlg.addEventListener("click", function (e) { if (e.target === dlg || e.target.classList.contains("cdecor")) close(); });
   addEventListener("keydown", function (e) { if (e.key === "Escape" && !dlg.hidden) close(); });
   form.addEventListener("submit", function (e) {
     e.preventDefault();

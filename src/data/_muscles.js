@@ -163,7 +163,16 @@ const MAP = {
   'hip-curtsy': M(['glutemed', 'glutes', 'quads'], ['adductors', 'hamstrings', 'transverse']),
   'hip-bridge-squeeze': M(['glutes', 'adductors'], ['hamstrings', 'transverse']),
   'hip-leg-circles': M(['hipflex', 'adductors'], ['glutemed', 'quads', 'transverse']),
-  'hip-figure-four': M(['glutemed', 'glutes'], ['erectors'], 'stretch')
+  'hip-figure-four': M(['glutemed', 'glutes'], ['erectors'], 'stretch'),
+  // lesson 16
+  'tabata-warmup': M(['hipflex', 'quads'], ['calves', 'delts_front', 'transverse'], 'mobility'),
+  'tabata-squat': M(['quads', 'glutes'], ['hamstrings', 'adductors', 'transverse', 'erectors']),
+  'tabata-high-knees': M(['hipflex', 'quads', 'calves'], ['rectus', 'glutes', 'ankle']),
+  'tabata-reverse-lunge': M(['quads', 'glutes', 'glutemed'], ['hamstrings', 'calves', 'transverse']),
+  'tabata-bridge': M(['glutes', 'hamstrings'], ['erectors', 'transverse', 'adductors']),
+  'tabata-plank': M(['transverse', 'rectus'], ['delts_front', 'glutes', 'quads', 'obliques']),
+  'tabata-squat-press': M(['quads', 'glutes', 'delts_front'], ['triceps', 'hamstrings', 'transverse', 'delts_side']),
+  'tabata-cooldown': M(['erectors', 'glutes'], ['lats', 'delts_rear'], 'stretch')
 };
 // Body area that tightens and slims for each muscle (muscles screen). Stretch/mobility moves have none.
 const SLIM = {

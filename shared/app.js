@@ -390,7 +390,7 @@
       key: 'lessons', parent: '#/',
       p1: { text: 'בחרי אימון', size: 115 },
       p2: LESSONS.length + ' אימונים · ' + total + ' תרגילים · לכל אימון ציוד אחר מהבית',
-      p3: { head: 'לפני שאת מתחילה:', body: D.home.safety, size: 38, top: 790 },
+      p3: { head: 'לפני שאת מתחילה:', body: D.home.safety, size: 38, top: LESSONS.length > 15 ? 905 : 790 },   /* a 4th row of switches (16+ workouts) pushes the safety note lower */
       g: LESSONS.length > 12 ? { BW: 372, BH: 133, GX: 376, GY: 137, COLS: 5, X0: 10, Y0: 340, CW: 1900, BX0: 20, BCW: 1872, LCW: 1680 }   /* 13+ switches: 5 per row across the room; the two full rows end above the armchair (y<629), the short last row is centred in LCW so it stays left of the plant */
         : { BW: 388, BH: 139, GX: 392, GY: 142, COLS: 4, X0: 10, Y0: 340, CW: 1900, BX0: 20, BCW: 1544 },   /* 12 switches as 4+4+4, kept left of the plant and armchair */
       items: LESSONS.map(function (L) {
