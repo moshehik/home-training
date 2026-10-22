@@ -77,7 +77,7 @@ h1, h2, h3, p { margin: 0; }
 @keyframes wipe { from { clip-path: inset(-10% 0 -10% 100%); } to { clip-path: inset(-10% 0 -10% -5%); } }
 .hero .lead { margin: 14px 0 6px; max-width: 24em; font-size: clamp(19px, 2vw, 25px); font-weight: 600; animation: rise .9s ease 2.6s both; }
 .hero .hgo { animation: rise .9s ease 3s both; }
-.hero .micro { margin-top: 2px; font-size: 16px; color: var(--soft); font-weight: 600; animation: rise .9s ease 3.3s both; }
+.hero .micro { position: relative; top: var(--my, 7.8vh); margin-top: 2px; font-size: 16px; color: var(--soft); font-weight: 600; animation: rise .9s ease 3.3s both; }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 /* the bottom of the hero room dissolves into the floor of the next section (no hard edge) */
 .hero::after { content: ""; position: absolute; z-index: 2; left: 0; right: 0; bottom: -1px; height: clamp(100px, 19%, 190px); pointer-events: none; background: linear-gradient(180deg, rgba(239,220,208,0) 0, rgba(239,220,208,.03) 12%, rgba(239,220,208,.11) 26%, rgba(239,220,208,.26) 40%, rgba(239,220,208,.46) 54%, rgba(239,220,208,.68) 68%, rgba(239,220,208,.87) 82%, rgba(239,220,208,.97) 93%, #efdcd0 100%); }
@@ -103,9 +103,13 @@ h1, h2, h3, p { margin: 0; }
 .rugwrap { position: relative; padding: clamp(30px, 6vw, 84px) clamp(16px, 5vw, 80px) clamp(40px, 7vw, 100px); }
 .meet-rug { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; max-width: none; pointer-events: none; filter: drop-shadow(0 22px 18px rgba(110, 50, 55, .3)); }
 .rugwrap > :not(.meet-rug) { position: relative; z-index: 1; }
-/* the writing is dyed into the pile: fibre-rough edges, speckled where the hairs catch the light, and it takes the rug's shading */
-#meet .intro h2, #meet .intro .box, #meet .intro p, #meet .facts li { filter: url(#fur); mix-blend-mode: multiply; text-shadow: 0 1px 0 rgba(255, 255, 255, .5); }
-#meet .intro h2 { filter: url(#paint) url(#fur); }
+/* the writing lies on the pile (it takes the rug's shading) but stays solid and large so it reads clearly */
+#meet .intro h2, #meet .intro .box, #meet .intro p, #meet .facts li { mix-blend-mode: multiply; text-shadow: 0 1px 0 rgba(255, 255, 255, .55); }
+#meet .intro .box { font-size: 30px; font-weight: 800; line-height: 1.3; padding: 20px 28px; color: #4a2c00; border-style: dashed; border-color: rgba(150, 100, 40, .8); }
+#meet .intro p { font-size: 28px; font-weight: 700; line-height: 1.4; margin-top: 14px; color: #2e2220; }
+#meet .intro h2 { mix-blend-mode: normal; font-size: clamp(64px, 7.4vw, 100px); color: #4a2230; }
+#meet .facts b { font-size: 92px; }
+#meet .facts span { font-size: 26px; font-weight: 800; color: #3d2d33; }
 #meet .intro .box { border-style: dashed; border-color: rgba(150, 100, 40, .75); }
 .intro { max-width: 880px; margin-inline: auto; padding: clamp(26px, 4.4vw, 50px) clamp(24px, 5vw, 64px); border-radius: 70px 110px 60px 100px / 80px 60px 100px 70px; text-align: center; }
 .intro h2 { font-size: clamp(56px, 6.4vw, 84px); }
@@ -258,7 +262,7 @@ footer b { font-weight: 800; }
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="fur" x="-2%" y="-10%" width="104%" height="120%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.8 0.55" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.4" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="1" seed="3" result="n2"/><feColorMatrix in="n2" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.85" result="m"/><feComposite in="d" in2="m" operator="in"/></filter><filter id="paint" x="-3%" y="-8%" width="106%" height="116%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="4" result="w"/><feDisplacementMap in="SourceGraphic" in2="w" scale="1.2" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="9" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.8 1.3" result="a"/><feComposite in="d" in2="a" operator="in"/></filter></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="paint" x="-3%" y="-8%" width="106%" height="116%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="4" result="w"/><feDisplacementMap in="SourceGraphic" in2="w" scale="1.2" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="9" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.8 1.3" result="a"/><feComposite in="d" in2="a" operator="in"/></filter></svg>
 
 <div class="ilogo" id="ilogo" aria-hidden="true"><i></i><i></i></div>
 
@@ -304,8 +308,6 @@ footer b { font-weight: 800; }
     </div>
   </div>
 </section>
-<div class="rugsep" aria-hidden="true"><img src="assets/landing/rug-edge.png" alt="" width="1400" height="605" loading="lazy"></div>
-
 <section class="sec room" id="look">
   <div class="wrap">
     <h2 class="paint">איך זה נראה?</h2>
@@ -466,6 +468,17 @@ footer b { font-weight: 800; }
 
   /* ---- top bar + sticky CTA ---- */
   var top = document.getElementById('top'), sticky = document.getElementById('sticky');
+  /* the price line sits in the middle of the bench in the room photo (its face is y 757-836 of 1080 in room.jpg, which covers the hero) */
+  var micro = document.querySelector('.hero .micro'), hero = document.getElementById('hero');
+  function seatMicro() {
+    if (!micro || !hero) return;
+    micro.style.setProperty('--my', '0px');
+    var w = micro.offsetParent, y = micro.offsetTop + micro.offsetHeight / 2, k = Math.max(hero.offsetWidth / 1920, hero.offsetHeight / 1080);
+    for (var e = w; e && e !== hero; e = e.offsetParent) y += e.offsetTop;
+    micro.style.setProperty('--my', Math.round(hero.offsetHeight / 2 + (796.5 - 540) * k - y) + 'px');
+  }
+  seatMicro(); addEventListener('resize', seatMicro); addEventListener('load', seatMicro);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(seatMicro);
   function onScroll() {
     var y = window.scrollY;
     top.classList.toggle('solid', y > 40);
