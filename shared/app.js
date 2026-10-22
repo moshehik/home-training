@@ -67,9 +67,10 @@
     lessons: ic('<path d="M6.5 6.5v11"/><path d="M17.5 6.5v11"/><path d="M3.5 9v6"/><path d="M20.5 9v6"/><path d="M6.5 12h11"/>'),
     last: ic('<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7.5V12l3 2"/>'),
     gloss: ic('<path d="M5 4.5h10a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h10"/><path d="M9.5 8.5h5"/>'),
+    who: ic('<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c.8-4 3.7-6 7.5-6s6.7 2 7.5 6"/>'),
     star: '<svg class="ic star" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3.2l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17.2 6.6 20.1l1-6.1L3.2 9.7l6.1-.9z"/></svg>'
   };
-  bar.innerHTML = '<button type="button" data-a="back">' + ICONS.back + 'חזרה</button><button type="button" data-a="home">' + ICONS.home + 'ראשי</button><button type="button" data-a="lessons">' + ICONS.lessons + 'תרגילים</button><button type="button" data-a="last">' + ICONS.last + 'התרגיל האחרון</button><button type="button" data-a="gloss">' + ICONS.gloss + 'מושגים</button><span class="sep"></span><span class="pts">' + ICONS.star + '<span><b id="ptsN">0</b> נקודות</span></span>';
+  bar.innerHTML = '<button type="button" data-a="back">' + ICONS.back + 'חזרה</button><button type="button" data-a="home">' + ICONS.home + 'ראשי</button><button type="button" data-a="lessons">' + ICONS.lessons + 'תרגילים</button><button type="button" data-a="last">' + ICONS.last + 'התרגיל האחרון</button><button type="button" data-a="gloss">' + ICONS.gloss + 'מושגים</button><button type="button" data-a="who">' + ICONS.who + 'מי אני?</button><span class="sep"></span><span class="pts">' + ICONS.star + '<span><b id="ptsN">0</b> נקודות</span></span>';
   stage.appendChild(bar);
   var cur = null;
   function updateBar(pop) {
@@ -87,6 +88,7 @@
     else if (a === 'home') location.hash = '#/';
     else if (a === 'lessons') location.hash = '#/lessons';
     else if (a === 'gloss') HTGlossary.open();
+    else if (a === 'who') location.href = 'landing.html';
     else if (a === 'last') { var l = findEx(store.g('ht-last')); if (l) location.hash = '#/ex/' + l.L.n + '/' + l.E.i; }
   });
 
