@@ -101,7 +101,12 @@ h1, h2, h3, p { margin: 0; }
 .floor::before { display: none; }
 .floor::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse 70% 38% at 50% 8%, rgba(255, 236, 222, .38), rgba(255, 236, 222, 0)); }
 .rugwrap { position: relative; padding: clamp(30px, 6vw, 84px) clamp(16px, 5vw, 80px) clamp(40px, 7vw, 100px); }
-.rugwrap > * { position: relative; z-index: 1; }
+.meet-rug { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; max-width: none; pointer-events: none; filter: drop-shadow(0 22px 18px rgba(110, 50, 55, .3)); }
+.rugwrap > :not(.meet-rug) { position: relative; z-index: 1; }
+/* the writing is dyed into the pile: fibre-rough edges, speckled where the hairs catch the light, and it takes the rug's shading */
+#meet .intro h2, #meet .intro .box, #meet .intro p, #meet .facts li { filter: url(#fur); mix-blend-mode: multiply; text-shadow: 0 1px 0 rgba(255, 255, 255, .5); }
+#meet .intro h2 { filter: url(#paint) url(#fur); }
+#meet .intro .box { border-style: dashed; border-color: rgba(150, 100, 40, .75); }
 .intro { max-width: 880px; margin-inline: auto; padding: clamp(26px, 4.4vw, 50px) clamp(24px, 5vw, 64px); border-radius: 70px 110px 60px 100px / 80px 60px 100px 70px; text-align: center; }
 .intro h2 { font-size: clamp(56px, 6.4vw, 84px); }
 .intro .box { margin: 18px auto; padding: 16px 24px; border: 2px solid #c79a2f; border-radius: 14px; font-size: 21px; font-weight: 700; color: #5a3a00; }
@@ -253,7 +258,7 @@ footer b { font-weight: 800; }
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="paint" x="-3%" y="-8%" width="106%" height="116%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="4" result="w"/><feDisplacementMap in="SourceGraphic" in2="w" scale="1.2" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="9" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.8 1.3" result="a"/><feComposite in="d" in2="a" operator="in"/></filter></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="fur" x="-2%" y="-10%" width="104%" height="120%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.8 0.55" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.4" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="1" seed="3" result="n2"/><feColorMatrix in="n2" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.85" result="m"/><feComposite in="d" in2="m" operator="in"/></filter><filter id="paint" x="-3%" y="-8%" width="106%" height="116%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="4" result="w"/><feDisplacementMap in="SourceGraphic" in2="w" scale="1.2" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="9" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.8 1.3" result="a"/><feComposite in="d" in2="a" operator="in"/></filter></svg>
 
 <div class="ilogo" id="ilogo" aria-hidden="true"><i></i><i></i></div>
 
@@ -283,6 +288,7 @@ footer b { font-weight: 800; }
 <section class="sec room floor" id="meet">
   <div class="wrap">
     <div class="rugwrap">
+      <img class="meet-rug" src="assets/landing/rug-meet.png" alt="" width="1500" height="440" loading="lazy">
       <div class="intro">
         <h2 class="paint berry">נעים להכיר</h2>
         <div class="box">ברכי כהנוביץ, 8 שנים באימון נשים בפילאטיס, בעלת תעודה ממכון וינגייט.</div>
