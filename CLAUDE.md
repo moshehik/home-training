@@ -51,6 +51,18 @@
 - לכולן. 8 תרגילים: הרמת רגל לצד בעמידה, הרמת רגל בשכיבה על הצד, הרמת רגל לאחור, סקוואט סומו, מכרע חוצה, גשר עם לחיצת כרית בין הברכיים, עיגולי רגל בשכיבה, מתיחת ירך חיצונית בישיבה. ציוד: מחצלת, כיסא וכרית. קובץ: `src/data/lesson15.js`; שרירים ב-`_muscles.js`; ערכת מוזיקה 15 ב-`music.js`.
 - הטקסט לא מבטיח "הורדה נקודתית": כתוב שאי אפשר לבחור מאיפה יורדים, ושחיזוק ועקביות מעצבים את קו הירך. ב-`lessonsScreen` 15 מתגים = 3 שורות של 5; השורה השלישית נוגעת בקצה העליון של הכורסה אך לא חופפת.
 
+## דף נחיתה (`landing.html`) — מתועד 2026-10-22
+- **איפה:** `landing.html` בשורש הריפו, ליד `index.html` (עמוד נפרד, לא חלק מהאפליקציה). נמצא ב-`main`.
+- **קישור ישיר (GitHub Pages):** https://moshehik.github.io/home-training/landing.html — האתר הרגיל באותו מקום: https://moshehik.github.io/home-training/ . מקומית: `node serve.js` ואז `/landing.html`.
+- **מבנה:** עמוד אחד ארוך בעברית RTL, קטעים (`section`) בסגנון החדר: `hero` (פתיחה) ← `meet` (נעים להכיר) ← `look` (איך זה נראה? — העתק של מסך תרגיל, נתונים מ-`assets/landing/look-data.js`) ← `inside` ← `why` ← `lessons` ← `faq` ← `start` (סגירה). בנוסף כפתור דביק (`#sticky`) ו-`#mbox`. אותם גופנים כמו האתר (נועה פרייס + Asparagos), הקובץ כולל CSS ו-JS פנימיים.
+- **נכסים:** `assets/landing/` (`room.jpg`, `palm.png`, `rug.png`, `rug-edge.png`, `rug-meet.png`, `look-data.js`). תמונות המקור ב-`תמונות/` (`חדר לפתיחת דף נחיתה..png`, `אלמנטיים לדף נחיתה.png`, `שטיח למעבר.png`, `שטיח למי אני (1).png`).
+- **סקריפטים (ליצירת הנכסים; אין לערוך אותם ידנית):** `node scripts/make-landing-parts.js` (דקל + שטיח ורוד), `node scripts/make-rug-edge.js` (שולי השטיח בין קטעים), `node scripts/make-meet-rug.js` (שטיח "נעים להכיר"), `node scripts/make-landing-data.js` (`look-data.js` מתרגילי `shared/data.js`; אחרי שינוי תרגילים מריצים `cd src && node build.js` ואז אותו).
+- `landing.html` נערך ישירות (לא נוצר ע"י `src/build.js`).
+
+## עבודה על הריפו בגיט בלבד (הוגדר 2026-10-22)
+- מעכשיו עובדים **רק על הריפו בגיטהב** (`moshehik/home-training`): כל שינוי הוא קומיט בענף `claude/...`, בלי תלות בקבצים שנמצאים רק במחשב המשתמש (למשל `C:\Users\MOSHE\Downloads\...`). קובץ מקור שחסר בריפו — מבקשים מהמשתמש להעלות אותו ל-`תמונות/`.
+- האתר החי לבדיקה הוא GitHub Pages (הכתובות למעלה); הכלל על Vercel (למעלה) בתוקף.
+
 ## מסד נתונים (Neon) — מוכן, עדיין לא מחובר
 - מסמך מלא: `README-DB.md`. סכמה: `db/schema.sql` (users / subscriptions / settings, בדומה ל"אתר חומרים לבגרות"). API: `api/` (`_db.js`, `health.js`). הקמת טבלאות: `npm run db:init`.
 - `DATABASE_URL` נשמר רק ב-`.env.local` (מחוץ ל-git) וב-Vercel Environment Variables. **לעולם לא בצ'אט, בקוד או ב-commit.** טוקנים שהודבקו בצ'אט נחשבים חשופים — לא משתמשים בהם, ומבקשים לבטל.
