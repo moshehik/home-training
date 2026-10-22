@@ -479,7 +479,7 @@
             .then(function () { return paintLines(p1, tween); })
             .then(function () { return tween(450, function () {}); })
             .then(function () { return paintLines(p2, tween); })
-            .then(function () { if (!dead && !done) { el.classList.add('lamp-on'); btn.classList.add('in'); done = true; } });
+            .then(function () { if (!dead && !done) { $$('.ln', btn).forEach(function (ln) { ln.style.setProperty('--w', 112); ln.style.setProperty('--g', -40); }); el.classList.add('lamp-on'); btn.classList.add('in'); done = true; } });
         }, 'empty.jpg');
       });
     };

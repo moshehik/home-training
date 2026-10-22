@@ -24,7 +24,8 @@
     { r: [164.81, 98, 146.83, 130.81],     q: ['m', 'M', 'M', 'M'],     b: [0, -1, 0, 7, -1, 0, -1, 7],    lead: 'triangle', sw: 0.12, ex: [3, 7] },     /* 11 E minor, folk */
     { r: [98, 164.81, 130.81, 146.83],     q: ['s', 'm', 's', 'M'],     b: [0, -1, -1, 7, -1, -1, 0, -1],  lead: 'sine',     sw: 0,    ex: [7] },        /* 12 G sus, airy */
     { r: [103.83, 87.31, 138.59, 155.56],  q: ['M', 'm', 'M', 'M'],     b: [0, -1, -1, -1, -1, -1, -1, -1], lead: 'sine',    sw: 0,    ex: [] },         /* 13 Ab, deep calm */
-    { r: [110, 146.83, 130.81, 98],        q: ['s', 'M', 'M', 'M'],     b: [0, -1, -1, 7, -1, -1, 0, -1],  lead: 'triangle', sw: 0,    ex: [7] }         /* 14 A sus, soft and steady */
+    { r: [110, 146.83, 130.81, 98],        q: ['s', 'M', 'M', 'M'],     b: [0, -1, -1, 7, -1, -1, 0, -1],  lead: 'triangle', sw: 0,    ex: [7] },        /* 14 A sus, soft and steady */
+    { r: [130.81, 98, 110, 87.31],         q: ['M', 'M', 'm', 'M'],     b: [0, -1, 0, -1, 7, -1, 5, -1],    lead: 'triangle', sw: 0.1,  ex: [3, 7] }      /* 15 C major, light and flowing */
   ];
   var th = THEMES[1];
   function hz(base, semis) { return base * Math.pow(2, semis / 12); }

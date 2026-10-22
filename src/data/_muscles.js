@@ -154,7 +154,16 @@ const MAP = {
   'draw-quad': M(['transverse'], ['rectus', 'erectors', 'delts_front']),
   'draw-seated': M(['transverse'], ['rectus', 'erectors']),
   'draw-wall': M(['transverse'], ['erectors', 'glutes', 'traps']),
-  'draw-plank': M(['transverse', 'rectus'], ['delts_front', 'glutes', 'obliques'])
+  'draw-plank': M(['transverse', 'rectus'], ['delts_front', 'glutes', 'obliques']),
+  // lesson 15 (hips and thighs)
+  'hip-side-raise': M(['glutemed'], ['glutes', 'ankle', 'transverse']),
+  'hip-side-lying': M(['glutemed'], ['glutes', 'obliques', 'transverse']),
+  'hip-back-kick': M(['glutes'], ['hamstrings', 'glutemed', 'transverse']),
+  'hip-sumo-squat': M(['adductors', 'quads', 'glutes'], ['hamstrings', 'glutemed', 'transverse']),
+  'hip-curtsy': M(['glutemed', 'glutes', 'quads'], ['adductors', 'hamstrings', 'transverse']),
+  'hip-bridge-squeeze': M(['glutes', 'adductors'], ['hamstrings', 'transverse']),
+  'hip-leg-circles': M(['hipflex', 'adductors'], ['glutemed', 'quads', 'transverse']),
+  'hip-figure-four': M(['glutemed', 'glutes'], ['erectors'], 'stretch')
 };
 // Body area that tightens and slims for each muscle (muscles screen). Stretch/mobility moves have none.
 const SLIM = {

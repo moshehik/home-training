@@ -146,7 +146,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .clock .cl { position: absolute; left: 0; right: 0; bottom: 20px; text-align: center; font-size: 15px; font-weight: 700; letter-spacing: .5px; color: #555; }
 .clock.run .face { filter: drop-shadow(0 0 12px rgba(255, 245, 190, .9)); }
 .status { position: absolute; left: 1480px; top: 480px; width: 390px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.wall { left: 470px; top: 215px; width: 900px; text-align: center; font-size: 46px; line-height: 1.1; z-index: 1; }
+.wall { left: 420px; top: 215px; width: 1000px; text-align: center; font-size: 66px; line-height: 1.1; z-index: 1; }
 .wall.big { font-size: 90px; line-height: .95; }
 .go-acts { position: absolute; display: flex; gap: 18px; z-index: 6; }
 .go-acts .hgo { position: relative; flex: none; }
@@ -416,9 +416,9 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .hgo.in.on .in-row { color: #fff; text-shadow: 0 0 10px rgba(255, 255, 255, .95), 0 0 24px rgba(255, 245, 210, .9), 0 0 42px rgba(255, 235, 180, .7); }
 
 /* run screen: the instruction and, under it, the breath (in / out) written on the wall */
-.wallbox { position: absolute; left: 470px; top: 215px; width: 900px; z-index: 1; text-align: center; }
+.wallbox { position: absolute; left: 420px; top: 215px; width: 1000px; z-index: 1; text-align: center; }
 .wallbox .wall, .wallbox .paint.breath { position: static; width: auto; left: auto; top: auto; }
-.wallbox .paint.breath { display: none; font-size: 44px; line-height: 1.1; height: 48px; margin-top: 8px; cursor: help; pointer-events: auto; }
+.wallbox .paint.breath { display: none; font-size: 54px; line-height: 1.1; height: 60px; margin-top: 8px; cursor: help; pointer-events: auto; }
 .wallbox.hasbr .paint.breath { display: block; }
 .wallbox .paint.breath.in { color: #3b6670; }
 .wallbox .paint.breath.out { color: #8a4a30; }
