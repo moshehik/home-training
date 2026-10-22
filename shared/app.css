@@ -221,6 +221,10 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .hbig.in:hover, .hbig.in:focus-visible { outline: none; transform: scale(1.05); text-shadow: 0 0 18px rgba(255, 255, 255, .9); }
 .hbig.in:hover svg, .hbig.in:focus-visible svg { transform: translateX(-10px); }
 .hgo.in { opacity: 1; transform: none; pointer-events: auto; }
+/* home "בואי נתחיל": half size, same centre */
+#start.hgo { width: 165px; height: 60px; font-size: 15px; }
+#start.hgo .in-row { left: 3px; top: 4px; width: 147px; height: 40px; gap: 7px; }
+#start.hgo svg { width: 17px; height: 7px; }
 .hgo.in:hover, .hgo.in:focus-visible { outline: none; transform: translateY(-3px) scale(1.04); }
 .hgo.in:hover .in-row, .hgo.in:focus-visible .in-row { color: #fff; text-shadow: 0 0 10px rgba(255, 255, 255, .95), 0 0 24px rgba(255, 245, 210, .9), 0 0 42px rgba(255, 235, 180, .7); }
 .hgo.in:active { transform: translateY(1px) scale(.98); }
