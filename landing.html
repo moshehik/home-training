@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>פונקציונלי עם ברכי</title>
-<meta name="description" content="התוצאות? סטודיו. הנוחות? ביתי! 15 אימונים, 119 תרגילים ובובה שמראה לך בדיוק איך, מהבית ובקצב שלך.">
+<meta name="description" content="התוצאות? סטודיו. הנוחות? בית. 15 אימונים, 119 תרגילים ובובה שמראה לך בדיוק איך, מהבית ובקצב שלך.">
 <link rel="icon" href="assets/room/broom.png">
 <link rel="preload" as="image" href="assets/landing/room.jpg" fetchpriority="high">
-<script>try { if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !location.hash && !window.scrollY) document.documentElement.className = "pre"; } catch (e) {}</script>
+<script>try { if (!location.hash) { history.scrollRestoration = "manual"; scrollTo(0, 0); } } catch (e) {}
+try { if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !location.hash && !window.scrollY) document.documentElement.className = "pre"; } catch (e) {}</script>
 <style>
 @font-face { font-family: "OH Noa Price"; src: url(assets/fonts/OHNoaPrice-Regular.woff2) format("woff2"); font-display: swap; }
 @font-face { font-family: "Asparagos"; src: local("Asparagos Light"), url(assets/fonts/AsparagosLight.ttf) format("truetype"); font-weight: 200 300; font-display: swap; }
@@ -36,7 +37,7 @@ h1, h2, h3, p { margin: 0; }
 .ilogo i + i { filter: brightness(2.6) saturate(.5); -webkit-mask-image: linear-gradient(250deg, transparent calc(var(--s) * 1% - 9%), #000 calc(var(--s) * 1%), transparent calc(var(--s) * 1% + 9%)); mask-image: linear-gradient(250deg, transparent calc(var(--s) * 1% - 9%), #000 calc(var(--s) * 1%), transparent calc(var(--s) * 1% + 9%)); }
 .palm, .rug, .furn { transition: opacity 1.1s ease; }
 .pre .top .logo, .pre .top .pill { opacity: 0; }
-.pre .palm, .pre .rug, .pre .furn { opacity: 0; }
+.pre .palm, .pre .palmwrap, .pre .rug, .pre .rugshadow, .pre .furn { opacity: 0; }
 .pre .hero h1 .l, .pre .hero .lead, .pre .hero .hgo, .pre .hero .micro { animation: none; opacity: 0; }
 
 /* ---------- top bar ---------- */
@@ -73,18 +74,24 @@ h1, h2, h3, p { margin: 0; }
 /* ---------- hero ---------- */
 .hero { min-height: 100svh; padding: 78px 20px clamp(120px, 24vh, 260px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
 .hero h1 { font-size: clamp(50px, min(8.4vh, 6.4vw), 112px); line-height: .98; }
-.hero h1 .l { display: block; animation: wipe 1.15s cubic-bezier(.5, .1, .2, 1) both; animation-delay: var(--d, 0s); }
+.hero h1 .l { display: block; animation: wipe var(--t, 1.5s) linear both; animation-delay: var(--d, 0s); }
 @keyframes wipe { from { clip-path: inset(-10% 0 -10% 100%); } to { clip-path: inset(-10% 0 -10% -5%); } }
-.hero .lead { margin: 14px 0 6px; max-width: 24em; font-size: clamp(19px, 2vw, 25px); font-weight: 600; animation: rise .9s ease 2.6s both; }
-.hero .hgo { animation: rise .9s ease 3s both; }
-.hero .micro { position: relative; top: var(--my, 7.8vh); margin-top: 2px; font-size: 16px; color: var(--soft); font-weight: 600; animation: rise .9s ease 3.3s both; }
+.hero .lead { margin: 14px 0 6px; max-width: 24em; font-size: clamp(19px, 2vw, 25px); font-weight: 600; animation: rise .9s ease 6.6s both; }
+.hero .hgo { animation: rise .9s ease 7s both; }
+.hero .micro { position: relative; top: var(--my, 7.8vh); margin-top: 2px; font-size: 16px; color: var(--soft); font-weight: 600; animation: rise .9s ease 7.4s both; }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 /* the bottom of the hero room dissolves into the floor of the next section (no hard edge) */
 .hero::after { content: ""; position: absolute; z-index: 2; left: 0; right: 0; bottom: -1px; height: clamp(100px, 19%, 190px); pointer-events: none; background: linear-gradient(180deg, rgba(239,220,208,0) 0, rgba(239,220,208,.03) 12%, rgba(239,220,208,.11) 26%, rgba(239,220,208,.26) 40%, rgba(239,220,208,.46) 54%, rgba(239,220,208,.68) 68%, rgba(239,220,208,.87) 82%, rgba(239,220,208,.97) 93%, #efdcd0 100%); }
 .rug, .furn { height: auto; }
-.rug { position: absolute; z-index: 1; left: 47%; bottom: -13%; width: min(66vw, 1250px); transform: translateX(-50%); pointer-events: none; filter: drop-shadow(0 18px 14px rgba(120, 60, 60, .22)); }
-.palm { position: absolute; z-index: 2; left: -2%; bottom: -3%; height: 62%; max-height: 760px; width: auto; pointer-events: none; transform-origin: 50% 100%; animation: breeze 8s ease-in-out infinite; }
-@keyframes breeze { 50% { transform: rotate(1.2deg); } }
+.rug { position: absolute; z-index: 1; left: 47%; bottom: calc(-13% - 60px); width: min(66vw, 1250px); transform: translateX(-50%) rotate(-1.4deg); pointer-events: none; filter: saturate(.82) brightness(.98) drop-shadow(0 5px 5px rgba(70, 35, 35, .3)); }
+.palmwrap { position: absolute; z-index: 2; left: -2%; bottom: -3%; height: 62%; max-height: 760px; pointer-events: none; }
+.palmwrap .palm { position: relative; z-index: 1; left: auto; bottom: auto; height: 100%; max-height: none; width: auto; display: block; }
+/* the pot casts a soft shadow on the floor, away from the light that comes in from the upper left */
+.potshadow { position: absolute; z-index: 0; left: 58%; bottom: 0; width: 95%; height: 10%; transform: translate(-50%, 48%); background: radial-gradient(ellipse at 42% 50%, rgba(55, 28, 28, .55) 0, rgba(55, 28, 28, .28) 42%, rgba(55, 28, 28, 0) 72%); filter: blur(7px); }
+@media (max-width: 900px) { .palmwrap { left: -8%; } }
+.rugshadow { position: absolute; z-index: 0; left: 47%; bottom: calc(-13% - 60px - 18px); width: min(70vw, 1330px); height: clamp(40px, 6vw, 90px); transform: translateX(-50%); pointer-events: none; background: radial-gradient(ellipse at center, rgba(70, 35, 35, .38) 0, rgba(70, 35, 35, .18) 45%, rgba(70, 35, 35, 0) 72%); filter: blur(10px); }
+.palm { position: absolute; z-index: 2; left: -2%; bottom: -3%; height: 62%; max-height: 760px; width: auto; pointer-events: none; transform-origin: 50% 100%; animation: breeze 6.5s ease-in-out infinite; will-change: transform; }
+@keyframes breeze { 0%, 100% { transform: rotate(-.5deg) skewX(1.6deg); } 22% { transform: rotate(.3deg) skewX(-.8deg); } 50% { transform: rotate(.9deg) skewX(-2.4deg); } 78% { transform: rotate(-.2deg) skewX(.6deg); } }
 .furn { position: absolute; z-index: 1; bottom: 3%; pointer-events: none; filter: drop-shadow(9px 12px 9px rgba(120, 60, 70, .2)); }
 .furn.chair { right: 1.5%; width: clamp(120px, 15vw, 290px); }
 .furn.plant { right: calc(1.5% + clamp(120px, 15vw, 290px) - 2%); width: clamp(80px, 10vw, 190px); }
@@ -100,6 +107,33 @@ h1, h2, h3, p { margin: 0; }
 .floor { background: linear-gradient(180deg, #efdcd0 0, #e7cbc0 10%, #dcb7ab 32%, #d1a99e 70%, #c99f94 100%); }
 .floor::before { display: none; }
 .floor::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse 70% 38% at 50% 8%, rgba(255, 236, 222, .38), rgba(255, 236, 222, 0)); }
+/* headings are embroidered: a dotted running stitch draws each letter, then the thread fills it in. Body text is simply written in from the right. */
+.weave.pre, .emb.pre { opacity: 0; }
+.weave.in { animation: weave 1.3s cubic-bezier(.4, .1, .4, 1) both; animation-delay: var(--wd, 0s); }
+@keyframes weave { from { opacity: 1; clip-path: inset(-6% 0 -6% 100%); } to { opacity: 1; clip-path: inset(-6% 0 -6% -6%); } }
+.paint.emb { filter: none; -webkit-text-stroke: 0; line-height: 0; }
+.emb.pre { opacity: 1; }
+.emb svg { display: block; margin: -8px auto -14px; max-width: 100%; height: auto; overflow: visible; }
+.emb.pre:not(.in) svg { opacity: 0; }
+.emb .st { fill: none; stroke: currentColor; stroke-width: 1.5px; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 5 4; }
+.emb .fl { fill: currentColor; opacity: 0; }
+.emb.in .st { animation: embDraw 1.9s linear both; animation-delay: var(--wd, 0s); }
+.emb.in .fl { animation: embFill 1.1s ease-out both; animation-delay: calc(var(--wd, 0s) + 1.5s); }
+@keyframes embDraw { from { clip-path: inset(-10% 0 -10% 100%); } to { clip-path: inset(-10% 0 -10% -6%); } }
+@keyframes embFill { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .weave.pre { opacity: 1; } .weave.in { animation: none; } .emb.pre:not(.in) svg { opacity: 1; } .emb.in .st, .emb.in .fl { animation: none; } .emb .fl { opacity: 1; } }
+/* a pleasant little reaction when the pointer rests on a sentence, a button or a square (the rugs and what is written on them stay still) */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .card, .step, .faq details, .close .box, .sec .sub, .hero .lead, .lnote p, .cl, .tab { transition: transform .35s cubic-bezier(.3, .7, .3, 1.25), box-shadow .35s ease, text-shadow .35s ease, color .3s ease, background .3s ease; }
+  .card:hover { transform: translateY(-7px) scale(1.025); box-shadow: 0 20px 44px rgba(130, 70, 80, .3), 0 0 0 1.5px rgba(255, 255, 255, .9); }
+  .step:hover { transform: translateY(-6px); }
+  .step:hover .n { box-shadow: inset 0 -3px 8px rgba(255, 214, 120, .55), inset 0 2px 4px rgba(255, 255, 255, .9), 0 0 22px 6px rgba(255, 246, 204, .95), 0 0 52px 18px rgba(255, 228, 150, .6), 0 0 90px 34px rgba(255, 220, 140, .32); }
+  .faq details:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(130, 70, 80, .22); }
+  .close .box:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 14px 30px rgba(150, 100, 40, .28); background: rgba(255, 244, 205, .7); }
+  .sec .sub:hover, .hero .lead:hover { transform: translateY(-2px) scale(1.02); text-shadow: 0 0 14px rgba(255, 255, 255, .95); }
+  .lnote p:hover { transform: translateY(-3px) scale(1.02); text-shadow: 0 0 12px rgba(255, 255, 255, .8); }
+  .tab:hover { transform: translateY(-3px) scale(1.05); }
+}
 .rugwrap { position: relative; padding: clamp(30px, 6vw, 84px) clamp(16px, 5vw, 80px) clamp(40px, 7vw, 100px); }
 .meet-rug { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; max-width: none; pointer-events: none; filter: drop-shadow(0 22px 18px rgba(110, 50, 55, .3)); }
 .rugwrap > :not(.meet-rug) { position: relative; z-index: 1; }
@@ -128,8 +162,13 @@ h1, h2, h3, p { margin: 0; }
 .facts span { font-weight: 700; color: var(--soft); font-size: 18px; }
 
 /* "איך זה נראה?": the exercise screen of the site, replayed at a smaller size (same room, rug, doll and instruction box) */
-.mock { position: relative; width: 100%; aspect-ratio: 16 / 9; margin: 20px 0 0; overflow: hidden; }
+.mock { position: relative; width: min(100%, calc((100svh - 100px) * 16 / 9)); aspect-ratio: 16 / 9; margin: 20px auto 0; overflow: hidden; border-radius: 22px; box-shadow: 0 18px 44px rgba(110, 50, 60, .28); }   /* the whole exercise screen always fits in one window height, no scrolling */
 #look { padding-bottom: 70px; }
+/* "איך זה נראה?": the bright strip and the white line at the very top of the room image are cropped away (the ceiling step stays) */
+#look { background: #c99f94; }
+/* under the exercise screen the floor carries on in the light tone of the next room (no dark mauve band beside the rug) */
+#look::after { content: ""; position: absolute; z-index: -1; left: 0; right: 0; bottom: 0; height: 170px; pointer-events: none; background: linear-gradient(180deg, rgba(244,214,208,0) 0, rgba(244,214,208,.35) 35%, rgba(244,214,208,.8) 70%, #f4d6d0 100%); }
+#look::before { top: -46px; clip-path: inset(46px 0 0 0); -webkit-mask-image: linear-gradient(180deg, transparent 46px, rgba(0,0,0,.18) 90px, rgba(0,0,0,.5) 150px, rgba(0,0,0,.82) 215px, #000 290px); mask-image: linear-gradient(180deg, transparent 46px, rgba(0,0,0,.18) 90px, rgba(0,0,0,.5) 150px, rgba(0,0,0,.82) 215px, #000 290px); }
 .mstage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; direction: rtl; overflow: hidden; color: var(--ink); }
 .mstage .abs, .mstage .img, .mstage .bg { position: absolute; }
 .mstage .bg { inset: 0; background-size: 100% 100%; background-repeat: no-repeat; }
@@ -145,10 +184,10 @@ h1, h2, h3, p { margin: 0; }
 .mstage .doll svg { display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 6px 5px rgba(90, 50, 60, .16)); }
 .mstage .doll .f-ground, .mstage .doll .f-floor { display: none; }
 .mstage .doll .f-far-b { opacity: .7; }
-.mblob { position: absolute; z-index: 3; padding: 16px 40px 20px; background: #f4e0de; border-radius: 86px 140px 70px 130px / 100px 70px 120px 80px; color: var(--ink); box-shadow: 0 10px 30px rgba(150, 90, 90, .12); }
-.mblob h3 { margin: 0 0 8px; font-family: "OH Noa Price", "Gveret Levin", "Segoe Script", cursive; font-weight: 400; font-size: 46px; line-height: 1; color: #a3304f; }
-.mblob p { font-size: 25px; line-height: 1.45; }
-.mctl { position: absolute; z-index: 3; left: 820px; top: 770px; width: 760px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.mblob { position: absolute; z-index: 3; padding: 19px 48px 24px; background: #f4e0de; border-radius: 86px 140px 70px 130px / 100px 70px 120px 80px; color: var(--ink); box-shadow: 0 10px 30px rgba(150, 90, 90, .12); }
+.mblob h3 { margin: 0 0 8px; font-family: "OH Noa Price", "Gveret Levin", "Segoe Script", cursive; font-weight: 400; font-size: 55px; line-height: 1; color: #a3304f; }
+.mblob p { font-size: 30px; line-height: 1.45; }
+.mctl { position: absolute; z-index: 3; left: 700px; top: 900px; width: 760px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .mctl .dots i { width: 16px; height: 16px; border-radius: 50%; display: inline-block; margin-inline-start: 10px; background: rgba(110, 80, 80, .25); }
 .mctl .dots i.on { background: #d6a01a; }
 .mctl .row { display: flex; direction: rtl; gap: 24px; }
@@ -159,28 +198,35 @@ h1, h2, h3, p { margin: 0; }
 
 /* a strip of the pink rug across the seam between two sections (its fluffy corner pokes into the next one) */
 .rugsep { position: relative; z-index: 6; height: 0; pointer-events: none; }
-.rugsep img { position: absolute; left: 0; top: -64px; width: 100%; height: auto; max-width: none; transform: scaleY(.46); transform-origin: 50% 0; filter: drop-shadow(0 14px 12px rgba(100, 45, 50, .3)); -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 24%); mask-image: linear-gradient(to bottom, transparent 0, #000 24%); }
+.rugsep::before { content: ""; position: absolute; left: 0; right: 0; top: -98px; height: 270px; pointer-events: none; background: linear-gradient(180deg, rgba(222,172,162,0) 0, rgba(222,172,162,.2) 10%, rgba(222,172,162,.55) 22%, rgba(222,172,162,.9) 34%, rgb(222,172,162) 44%, rgb(222,172,162) 52%, rgba(222,172,162,.7) 66%, rgba(222,172,162,.32) 80%, rgba(222,172,162,.1) 91%, rgba(222,172,162,0) 100%); }   /* the rug sits in a soft pink halo: the room fades out above it (inside each section, behind the writing) and below it */
+#inside::after, #why::after, #lessons::after, #faq::after { content: ""; position: absolute; z-index: -1; left: 0; right: 0; bottom: -2px; height: 202px; pointer-events: none; background: linear-gradient(180deg, rgba(222,172,162,0) 0, rgba(222,172,162,.2) 16%, rgba(222,172,162,.55) 38%, rgba(222,172,162,.9) 62%, rgb(222,172,162) 82%, rgb(222,172,162) 100%); }
+.rugsep img { position: absolute; left: 0; top: -40px; width: 100%; height: auto; max-width: none; transform: scaleY(.46); transform-origin: 50% 0; filter: drop-shadow(0 14px 12px rgba(100, 45, 50, .3)); -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.04) 6%, rgba(0,0,0,.14) 13%, rgba(0,0,0,.32) 21%, rgba(0,0,0,.56) 30%, rgba(0,0,0,.8) 40%, rgba(0,0,0,.94) 50%, #000 58%); mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.04) 6%, rgba(0,0,0,.14) 13%, rgba(0,0,0,.32) 21%, rgba(0,0,0,.56) 30%, rgba(0,0,0,.8) 40%, rgba(0,0,0,.94) 50%, #000 58%); }
 .rugsep.flip img { transform: scaleX(-1) scaleY(.46); }
-.rugsep + .sec { padding-top: clamp(150px, 17vw, 270px); }
-.rugsep + .close { padding-top: clamp(170px, 19vw, 300px); }
+.rugsep + .sec { padding-top: clamp(170px, 19vw, 290px); }
+.rugsep + .close { padding-top: clamp(190px, 21vw, 320px); }
 
 /* objection cards */
-.cards { margin-top: 48px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
-.card { padding: 30px 26px 28px; border-radius: 60px 90px 50px 80px / 70px 50px 80px 60px; }
+.cards { margin: 48px auto 0; width: 80%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }   /* "למה דווקא בבית?": the answer boxes and their writing at 80% */
+.card { padding: 24px 21px 22px; border-radius: 60px 90px 50px 80px / 70px 50px 80px 60px; }
 .card:nth-child(even) { border-radius: 90px 50px 80px 60px / 50px 80px 60px 70px; }
-.card .q { font-family: "OH Noa Price", "Gveret Levin", cursive; font-size: 40px; line-height: 1; color: var(--berry); margin-bottom: 10px; }
-.card p { font-size: 18px; font-weight: 500; }
+.card .q { font-family: "OH Noa Price", "Gveret Levin", cursive; font-size: 32px; line-height: 1; color: var(--berry); margin-bottom: 8px; }
+.card p { font-size: 14.4px; font-weight: 500; }
 
 /* steps */
 .steps { margin-top: 56px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
 .step { text-align: center; padding: 0 6px; }
-.step .n { width: 86px; height: 86px; margin: 0 auto 14px; border-radius: 50%; display: grid; place-items: center; font-family: "OH Noa Price", "Gveret Levin", cursive; font-size: 64px; line-height: 1; padding-top: 6px; color: #6b4f55; background: radial-gradient(circle at 50% 30%, #fff, #ead7e0 70%); box-shadow: inset 0 3px 6px rgba(60, 35, 30, .25), inset 0 -2px 3px rgba(255, 255, 255, .7), 0 8px 18px rgba(130, 70, 80, .2); }
+.step .n { width: 86px; height: 86px; margin: 0 auto 14px; border-radius: 50%; display: grid; place-items: center; font-family: "OH Noa Price", "Gveret Levin", cursive; font-size: 64px; line-height: 1; padding-top: 6px; color: #6b4f55; background: radial-gradient(circle at 50% 42%, #fffef6 0, #fff9dc 48%, #ffeeb4 100%); box-shadow: inset 0 -3px 8px rgba(255, 214, 120, .55), inset 0 2px 4px rgba(255, 255, 255, .9), 0 0 14px 3px rgba(255, 244, 196, .85), 0 0 34px 10px rgba(255, 228, 150, .5), 0 0 64px 22px rgba(255, 220, 140, .25); animation: lamp 4.6s ease-in-out infinite; }   /* soft warm-white lamps */
+.step:nth-child(2) .n { animation-delay: -1.2s; }
+.step:nth-child(3) .n { animation-delay: -2.4s; }
+.step:nth-child(4) .n { animation-delay: -3.5s; }
+@keyframes lamp { 50% { box-shadow: inset 0 -3px 8px rgba(255, 214, 120, .55), inset 0 2px 4px rgba(255, 255, 255, .9), 0 0 18px 4px rgba(255, 246, 204, .95), 0 0 42px 14px rgba(255, 228, 150, .62), 0 0 78px 28px rgba(255, 220, 140, .32); } }
+@media (prefers-reduced-motion: reduce) { .step .n { animation: none; } }
 .step h3 { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
 .step p { font-size: 18px; color: var(--ink); font-weight: 500; }
 
 /* wall switches (lessons + "חווית האימון"): the same as on the site; the ring around the number and the text light up on hover */
 .sws { margin: 48px auto 0; max-width: 1020px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px 20px; }
-.sws.feat { max-width: 1180px; grid-template-columns: repeat(2, 1fr); gap: 26px 28px; }
+.sws.feat { max-width: 1100px; grid-template-columns: repeat(3, 1fr); gap: 26px 28px; }   /* "חוויית האימון": each button at about 60% of its former size (3 per row) */
 .sw { position: relative; display: block; text-decoration: none; aspect-ratio: 827 / 297; container-type: inline-size; background: center / 100% 100% no-repeat; color: #5c4349; transition: transform .3s cubic-bezier(.3, .7, .3, 1.2), filter .3s; filter: drop-shadow(0 8px 8px rgba(110, 55, 65, .22)); }
 .sw:hover, .sw:focus-visible, .sw:focus { outline: none; transform: scale(1.06); z-index: 3; filter: brightness(1.03) saturate(1.05) drop-shadow(0 0 14px rgba(255, 236, 160, .8)) drop-shadow(0 10px 10px rgba(70, 35, 45, .4)); }
 .sw:active { transform: translateY(1px) scale(.98); }
@@ -198,12 +244,17 @@ h1, h2, h3, p { margin: 0; }
 .feat .sw-nm { font-size: 6.6cqw; }
 .feat .sw-sub { font-size: 4.3cqw; }
 .feat .sw-sub.tagline { font-weight: 800; font-size: 3.8cqw; opacity: .7; }
-.lnote { margin: 34px auto 0; max-width: 44em; padding: 18px 26px; border-radius: 40px; text-align: center; font-size: 18px; font-weight: 600; }
+/* the note about lessons 13-15 is handwritten on the floor itself: no box, slanted as if lying on the floor */
+.lnote { margin: 10px auto -70px; max-width: min(19em, 80%); padding: 0 10px; text-align: center; font-size: clamp(22px, 3vw, 34px); line-height: 1.2; color: #4a3234; -webkit-text-stroke: 1.2px currentColor; transform: perspective(1500px) rotateX(46deg); transform-origin: 50% 0; mix-blend-mode: multiply; opacity: .86; }
+.lnote .w { display: inline-block; white-space: nowrap; }
+.lnote .ch { visibility: hidden; }
+.lnote .ch.on { visibility: visible; }
 .lnote b { color: var(--berry); }
-.lnote p + p { margin-top: 6px; }
+.lnote .lh { font-size: 1.5em; color: var(--berry); margin-bottom: 8px; }
+.lnote p + p { margin-top: 10px; }
 
 /* faq */
-.faq { max-width: 860px; margin: 44px auto 0; display: grid; gap: 12px; }
+.faq { max-width: 860px; margin: 30px auto 0; display: grid; gap: 12px; }
 details { border-radius: 34px; background: var(--glass); border: 1.5px solid rgba(255, 255, 255, .8); box-shadow: 0 8px 22px rgba(130, 70, 80, .14); backdrop-filter: blur(6px); }
 summary { cursor: pointer; list-style: none; padding: 18px 26px; font-size: 21px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; gap: 12px; border-radius: 34px; }
 summary::-webkit-details-marker { display: none; }
@@ -212,13 +263,42 @@ details[open] summary::after { transform: rotate(45deg); }
 details p { padding: 0 26px 22px; font-size: 18px; font-weight: 500; color: var(--soft); }
 
 /* closing */
-.close { min-height: 100svh; padding: 100px 20px clamp(120px, 24vh, 260px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+.close { position: relative; z-index: 2; overflow-x: clip; overflow-y: visible; min-height: 100svh; padding: 100px 20px clamp(120px, 24vh, 260px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .close h2 { font-size: clamp(56px, min(10vh, 7.4vw), 118px); line-height: 1; }
 .close .box { margin: 22px auto 20px; padding: 16px 28px; max-width: 28em; border: 2px solid #c79a2f; border-radius: 14px; font-size: 21px; font-weight: 700; color: #5a3a00; background: rgba(255, 244, 205, .45); }
 
-footer { background: #c99a96; padding: 36px 0 44px; font-size: 15px; line-height: 1.6; color: #3f2c29; }
-footer .wrap { display: grid; gap: 10px; }
-footer b { font-weight: 800; }
+button.hgo { border: 0; background: none; padding: 0; font-family: inherit; cursor: pointer; }
+.ctbtn { display: block; margin: 14px auto 0; }
+/* contact: the room again, with a white translucent rounded square holding the form */
+.cdlg { position: fixed; inset: 0; z-index: 200; display: none; overflow-y: auto; padding: 24px 16px; background: var(--wall) url(assets/landing/room.jpg) center / cover no-repeat; }
+.cdlg.on { display: grid; place-items: center; animation: cfade .35s ease both; }
+@keyframes cfade { from { opacity: 0; } to { opacity: 1; } }
+.cdecor { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+@media (max-width: 760px) { .cdecor .furn { display: none; } .cdecor .palmwrap { height: 34%; left: -14%; } }
+.cbox { position: relative; z-index: 1; width: min(100%, 640px); margin: auto; padding: 30px 34px 28px; background: rgba(255, 255, 255, .66); border: 1.5px solid rgba(255, 255, 255, .9); border-radius: 30px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: 0 18px 46px rgba(130, 70, 80, .24); color: #3f2c29; text-align: right; }
+.cbox h2 { font-size: clamp(48px, 7vw, 66px); text-align: center; margin: 0 0 4px; }
+.cbox .csub { text-align: center; font-size: 17px; font-weight: 600; margin: 0 0 18px; }
+.cx { position: absolute; top: 14px; left: 14px; width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, .9); background: rgba(255, 255, 255, .7); color: #6b4f55; font-size: 22px; line-height: 1; cursor: pointer; }
+.cx:hover, .cx:focus-visible { outline: none; background: #fff; }
+.cbox label { display: block; margin: 0 0 12px; font-size: 16px; font-weight: 700; }
+.cbox input, .cbox textarea { display: block; width: 100%; margin-top: 5px; padding: 11px 16px; border: 1.5px solid rgba(190, 140, 140, .55); border-radius: 16px; background: rgba(255, 255, 255, .82); font: inherit; font-size: 17px; font-weight: 500; color: #3f2c29; text-align: right; }
+.cbox textarea { min-height: 110px; resize: vertical; }
+.cbox input:focus, .cbox textarea:focus { outline: 3px solid rgba(163, 48, 79, .35); outline-offset: 1px; border-color: var(--berry); }
+.cbox .cr { display: flex; justify-content: center; margin-top: 8px; }
+.cbox .cmsg { min-height: 1.4em; margin: 10px 0 0; text-align: center; font-size: 16px; font-weight: 700; color: var(--berry); }
+.cbox .cdirect { margin: 14px 0 0; padding-top: 12px; border-top: 1.5px dashed rgba(150, 100, 100, .35); text-align: center; font-size: 16px; font-weight: 600; }
+.cbox .cdirect a { color: #3f2c29; font-weight: 800; text-decoration: underline dotted; text-underline-offset: 3px; unicode-bidi: isolate; }
+/* the very end of the page: the floor of the closing room carries on, and the notes are written on it by hand (same look as the lessons note) */
+footer.fine { position: relative; isolation: isolate; overflow: hidden; padding: clamp(120px, 17vw, 210px) 16px 70px; font-family: inherit; color: #4a2230; background: #b3877c; }
+footer.fine::before { content: ""; position: absolute; inset: -30px; filter: blur(18px); z-index: -1; background: url(assets/landing/room.jpg) center bottom / max(100vw, 177.78svh) 30000% no-repeat; }
+footer.fine .lnote { margin: 0 auto; }
+/* the credit line at the very bottom */
+.credit { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 12px; width: fit-content; max-width: 100%; margin: clamp(46px, 7vw, 80px) auto 0; padding: 10px 26px; border-radius: 999px; background: rgba(255, 255, 255, .5); border: 1.5px solid rgba(255, 255, 255, .8); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); box-shadow: 0 8px 22px rgba(90, 40, 50, .16); font-size: 15px; font-weight: 600; color: #4a2230; text-align: center; }
+.credit b { font-family: "Segoe UI", Arial, sans-serif; font-weight: 800; letter-spacing: .08em; color: var(--berry); }
+.credit a { color: #4a2230; font-weight: 800; text-decoration: none; border-bottom: 1.5px dotted rgba(74, 34, 48, .5); unicode-bidi: isolate; transition: color .25s, border-color .25s; }
+.credit a:hover, .credit a:focus-visible { outline: none; color: var(--berry); border-color: var(--berry); }
+.cdot { width: 5px; height: 5px; border-radius: 50%; background: rgba(163, 48, 79, .55); }
+footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-weight: 400; font-size: 26px; color: var(--berry); margin-inline-end: 6px; }
 
 .sticky { display: none; }
 
@@ -227,7 +307,7 @@ footer b { font-weight: 800; }
   .intro h2 { text-align: center; }
   .stage { max-width: 520px; margin-inline: auto; }
   .cards, .steps { grid-template-columns: repeat(2, 1fr); }
-  .sws { grid-template-columns: repeat(2, 1fr); }
+  .sws, .sws.feat { grid-template-columns: repeat(2, 1fr); }
   .facts { grid-template-columns: repeat(2, 1fr); padding: 26px 30px; row-gap: 18px; border-radius: 60px 90px 50px 80px / 70px 50px 80px 60px; }
   .furn { display: none; }
 }
@@ -238,8 +318,10 @@ footer b { font-weight: 800; }
   .pill { padding: 7px 16px; font-size: 16px; }
   .hero { padding-top: 96px; padding-bottom: 200px; }
   .hero h1 { font-size: clamp(54px, 15vw, 90px); }
-  .rug { width: 150vw; left: 52%; bottom: -7%; }
+  .rug { width: 150vw; left: 52%; bottom: calc(-7% - 40px); }
+  .rugshadow { display: none; }
   .palm { height: 30%; left: -16%; }
+  .palmwrap { height: 30%; left: -16%; }
   .hgo { width: 280px; height: 101px; font-size: 25px; }
   .hgo .in-row { left: 4px; top: 6px; width: 250px; height: 67px; }
   .hgo.login { width: 140px; height: 51px; font-size: 13px; }
@@ -251,7 +333,7 @@ footer b { font-weight: 800; }
   .sticky { display: block; position: fixed; z-index: 30; inset: auto 0 0 0; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: rgba(236, 196, 192, .93); backdrop-filter: blur(8px); box-shadow: 0 -6px 20px rgba(130, 70, 80, .2); text-align: center; transform: translateY(110%); transition: transform .35s; }
   .sticky.on { transform: none; }
   .sticky .pill { width: 100%; justify-content: center; font-size: 20px; padding: 12px; background: radial-gradient(circle at 30% 20%, #fffbd6, #f7d85e 48%, #d09a12); color: #3b2606; }
-  footer { padding-bottom: 90px; }
+  footer.fine { padding-bottom: 90px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -277,14 +359,14 @@ footer b { font-weight: 800; }
   <img class="furn plant" src="assets/room/home-plant.png" alt="" width="256" height="386">
   <img class="furn chair" src="assets/room/home-chair.png" alt="" width="371" height="481">
   <div class="wrapin">
-    <h1 class="paint" aria-label="התוצאות? סטודיו. הנוחות? ביתי!">
-      <span class="l" style="--d:.2s">התוצאות?</span>
-      <span class="l mauve" style="--d:.9s">סטודיו.</span>
-      <span class="l" style="--d:1.5s">הנוחות?</span>
-      <span class="l dusty" style="--d:2.1s">ביתי!</span>
+    <h1 class="paint" aria-label="התוצאות? סטודיו. הנוחות? בית.">
+      <span class="l" style="--d:.3s;--t:1.5s">התוצאות?</span>
+      <span class="l mauve" style="--d:1.8s;--t:1.5s">סטודיו.</span>
+      <span class="l" style="--d:3.5s;--t:1.5s">הנוחות?</span>
+      <span class="l dusty" style="--d:5s;--t:1.4s">בית.</span>
     </h1>
     <p class="lead">אימון פונקציונלי בקצב שלך, עם ציוד שכבר יש לך בבית, ובובה שמראה לך כל תרגיל צעד אחר צעד.</p>
-    <p class="micro">הגישה לאתר ברכישה של 200 ש"ח. בלי להוריד כלום, והכי נוח במסך רחב או בטלפון מסובב.</p>
+    <p class="micro">הגישה לאתר ברכישה של 100 ש"ח. בלי להוריד כלום, והכי נוח במסך רחב או בטלפון מסובב.</p>
   </div>
   </section>
 
@@ -357,9 +439,10 @@ footer b { font-weight: 800; }
     <h2 class="paint">15 אימונים, מתג לכל אחד</h2>
     <p class="sub">לחצי על מתג והאימון נפתח.</p>
     <div class="sws" id="sws"></div>
-    <div class="lnote glass">
+    <div class="lnote paint">
+      <p class="lh">שימי לב</p>
       <p><b>אימון 13 (היפופרסיב)</b> מיועד רק לנשים שכבר מכירות את הטכניקה, וזה לא שיעור למתחילות מאפס.</p>
-      <p><b>אימון 14 (הכנסת בטן)</b> ו<b>אימון 15 (הצרת ירכיים)</b> מתאימים לכולן. חיזוק ועקביות מעצבים את הגוף, אבל אי אפשר לבחור מאיפה יורדים.</p>
+      <p><b>אימון 14 (הכנסת בטן)</b> ו<b>אימון 15 (הצרת ירכיים)</b> מתאימים לכולן. התרגילים מחזקים ומעצבים את האזור, אבל הגוף מחליט בעצמו מאיפה להוריד במשקל. מה שמשנה את הקו זה לחזור לאימון שוב ושוב.</p>
     </div>
   </div>
 </section>
@@ -369,10 +452,12 @@ footer b { font-weight: 800; }
   <div class="wrap">
     <h2 class="paint">שאלות שכולן שואלות</h2>
     <div class="faq">
+      <details><summary>מה זה אימון פונקציונלי?</summary><p>אימון פונקציונלי מתרגל את התנועות שאת עושה כל יום: לקום מכיסא, להתכופף, לסחוב, לעלות מדרגות ולשמור על יציבות ושיווי משקל. במקום מכונות משתמשים במשקל הגוף ובחפצים מהבית, ומחזקים כמה שרירים יחד, כדי שהגוף יעבוד טוב יותר גם מחוץ לאימון.</p></details>
+      <details><summary>האם זה בטיחותי?</summary><p>האימונים בנויים בזהירות: כל תרגיל מגיע עם הוראות בשלבים, גרסה קלה, ודגש על נשימה, יציבות ומה להיזהר ממנו, ואפשר לעצור בכל רגע ולעבור לגרסה הקלה. עם זאת, זה מידע כללי ולא תחליף לייעוץ רפואי. אם יש לך בעיה רפואית, כאב, פציעה, או שאת בהריון או אחרי לידה, התייעצי עם רופא לפני שמתחילה, ועצרי מיד אם מופיע כאב חד, סחרחורת או קוצר נשימה.</p></details>
       <details><summary>באיזו רמה האימונים?</summary><p>רוב האימונים בנויים לקל עד בינוני, ויש כמה מתקדמים יותר. כל תרגיל מגיע עם גרסה קלה וגרסה קשה, ואת בוחרת לפי איך שאת מרגישה היום.</p></details>
       <details><summary>איזה ציוד צריך?</summary><p>מיטה, כיסא יציב, מקל מטאטא, שני בקבוקי מים, כיור, מדרגות, וכמה אימונים עם מחצלת וכרית. אימון 1 דורש רק מיטה.</p></details>
       <details><summary>אפשר בהריון או אחרי לידה?</summary><p>התייעצי עם רופא או רופאה לפני שמתחילה. תרגילי בטן והיפופרסיב רגישים במיוחד, ולכן בהריון ובתקופה שאחרי לידה חשוב לקבל אישור לפני שמתחילות.</p></details>
-      <details><summary>כמה זה עולה?</summary><p>הגישה לאתר ברכישה של 200 ש"ח. בתמורה מקבלים את כל 15 האימונים, 119 התרגילים, הבובה, המוזיקה והמילון.</p></details>
+      <details><summary>כמה זה עולה?</summary><p>הגישה לאתר ברכישה של 100 ש"ח. בתמורה מקבלים את כל 15 האימונים, 119 התרגילים, הבובה, המוזיקה והמילון.</p></details>
       <details><summary>מה נשמר עליי?</summary><p>הנקודות והתרגילים שסימנת נשמרים בדפדפן של המכשיר שלך, ואם תנקי את הדפדפן או תחליפי מכשיר הם יימחקו.</p></details>
       <details><summary>כמה קלוריות אשרוף?</summary><p>האתר מציג הערכה כללית בלבד, לאישה במשקל ממוצע. היא לא מדויקת, ואל תסתמכי עליה כמדד להתקדמות או לתזונה.</p></details>
       <details><summary>איך זה נראה בטלפון?</summary><p>האתר בנוי כחדר רחב, ולכן הכי נוח בטאבלט, במחשב או בטלפון מסובב לרוחב. בטלפון אנחנו מציעים לסובב, ואפשר גם להמשיך בלי.</p></details>
@@ -383,26 +468,71 @@ footer b { font-weight: 800; }
 <div class="rugsep flip" aria-hidden="true"><img src="assets/landing/rug-edge.png" alt="" width="1400" height="605" loading="lazy"></div>
 
 <section class="close room" id="start">
-  <img class="palm" src="assets/landing/palm.png" alt="" width="627" height="826" loading="lazy">
+  <div class="palmwrap"><span class="potshadow" aria-hidden="true"></span><img class="palm" src="assets/landing/pot.png" alt="" width="620" height="800" loading="lazy"></div>
+  <div class="rugshadow" aria-hidden="true"></div>
   <img class="rug" src="assets/landing/rug.png" alt="" width="1688" height="433" loading="lazy">
   <img class="furn plant" src="assets/room/home-plant.png" alt="" width="256" height="386" loading="lazy">
   <img class="furn chair" src="assets/room/home-chair.png" alt="" width="371" height="481" loading="lazy">
   <div class="wrapin">
-    <h2 class="paint">מתחילות? <span class="dusty">ביתי!</span></h2>
-    <div class="box">הגישה לאתר ברכישה של 200 ש"ח</div>
+    <h2 class="paint">יאללה, מתחילה?</h2>
+    <div class="box">הגישה לאתר ברכישה של 100 ש"ח</div>
     <a class="hgo login" href="index.html#/lessons"><span class="in-row"><span>כניסה</span><svg viewBox="0 0 40 16" aria-hidden="true"><path d="M39 8H3M10 1.5 3 8l7 6.5"/></svg></span></a>
+    <button type="button" class="hgo login ctbtn" id="ctBtn" aria-haspopup="dialog"><span class="in-row"><span>יצירת קשר</span></span></button>
   </div>
 </section>
 </main>
 
-<footer>
-  <div class="wrap">
-    <p><b>לתשומת לבך:</b> האימונים נועדו למידע כללי ואינם תחליף לייעוץ רפואי. אם יש לך בעיה רפואית, כאב, פציעה, או שאת בהריון או אחרי לידה, התייעצי עם רופא לפני שמתחילה. עצרי בכאב חד, בסחרחורת או בקוצר נשימה. הכיסא חייב להיות יציב וצמוד לקיר, ואת מתאמנת באחריותך.</p>
+<footer class="fine">
+  <div class="lnote paint">
+    <p class="lh">לתשומת לבך</p>
+    <p>האימונים נועדו למידע כללי ואינם תחליף לייעוץ רפואי. אם יש לך בעיה רפואית, כאב, פציעה, או שאת בהריון או אחרי לידה, התייעצי עם רופא לפני שמתחילה. עצרי בכאב חד, בסחרחורת או בקוצר נשימה. הכיסא חייב להיות יציב וצמוד לקיר, ואת מתאמנת באחריותך.</p>
     <p>האתר אינו מבטיח הרזיה, הורדה נקודתית או תוצאה גופנית מסוימת. מספרי הקלוריות הם הערכה כללית.</p>
     <p>נקודות והתקדמות נשמרות בדפדפן שלך. · גופן הכתב: "נועה פרייס" מאת אות.חיים.</p>
   </div>
+  <p class="credit">האתר הוקם על ידי <b dir="ltr">wither</b><span class="cdot" aria-hidden="true"></span>דפי נחיתה ואוטומציה<span class="cdot" aria-hidden="true"></span><a href="tel:0556799588" dir="ltr">055-679-9588</a></p>
 </footer>
 
+
+<div class="cdlg" id="adlg" role="dialog" aria-modal="true" aria-labelledby="atTitle" hidden>
+  <div class="cdecor" aria-hidden="true">
+    <div class="palmwrap"><span class="potshadow"></span><img class="palm" src="assets/landing/pot.png" alt="" width="620" height="800"></div>
+    <img class="furn plant" src="assets/room/home-plant.png" alt="" width="256" height="386">
+    <img class="furn chair" src="assets/room/home-chair.png" alt="" width="371" height="481">
+  </div>
+  <div class="cbox">
+    <button type="button" class="cx" id="ax" aria-label="סגירה">×</button>
+    <h2 class="paint" id="atTitle">כניסה למנויות</h2>
+    <p class="csub">התרגילים פתוחים למי שרכשה את המנוי. הקלידי את קוד הגישה שקיבלת.</p>
+    <form id="aform" novalidate>
+      <label>קוד גישה<input type="text" name="code" autocomplete="off" autocapitalize="characters" spellcheck="false" dir="ltr" style="text-align:center;letter-spacing:.08em" required></label>
+      <div class="cr"><button type="submit" class="hgo login"><span class="in-row"><span>כניסה</span><svg viewBox="0 0 40 16" aria-hidden="true"><path d="M39 8H3M10 1.5 3 8l7 6.5"/></svg></span></button></div>
+      <p class="cmsg" id="amsg" role="status" aria-live="polite"></p>
+    </form>
+    <p class="cdirect">עוד אין לך קוד? <a href="#" id="aToContact">השאירי פרטים ונחזור אלייך</a></p>
+  </div>
+</div>
+<div class="cdlg" id="cdlg" role="dialog" aria-modal="true" aria-labelledby="ctTitle" hidden>
+  <div class="cdecor" aria-hidden="true">
+    <div class="palmwrap"><span class="potshadow"></span><img class="palm" src="assets/landing/pot.png" alt="" width="620" height="800"></div>
+    <img class="furn plant" src="assets/room/home-plant.png" alt="" width="256" height="386">
+    <img class="furn chair" src="assets/room/home-chair.png" alt="" width="371" height="481">
+  </div>
+  <div class="cbox">
+    <button type="button" class="cx" id="cx" aria-label="סגירה">×</button>
+    <h2 class="paint" id="ctTitle">יצירת קשר</h2>
+    <p class="csub">השאירי פרטים ושאלה, ונחזור אלייך.</p>
+    <form id="cform" novalidate>
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
+      <label>שם<input type="text" name="name" autocomplete="name" required></label>
+      <label>טלפון<input type="tel" name="phone" autocomplete="tel" inputmode="tel" dir="rtl" required></label>
+      <label>מייל (לא חובה)<input type="email" name="email" autocomplete="email" dir="ltr" style="text-align:right"></label>
+      <label>השאלה שלך<textarea name="q" required></textarea></label>
+      <div class="cr"><button type="submit" class="hgo login"><span class="in-row"><span>שליחה</span><svg viewBox="0 0 40 16" aria-hidden="true"><path d="M39 8H3M10 1.5 3 8l7 6.5"/></svg></span></button></div>
+      <p class="cmsg" id="cmsg" role="status" aria-live="polite"></p>
+    </form>
+    <p class="cdirect">אפשר גם ישר: ברכי כהנוביץ · <a href="tel:0556722245" dir="ltr">055-672-2245</a> · <a href="mailto:b0556722245@gmail.com" dir="ltr">b0556722245@gmail.com</a></p>
+  </div>
+</div>
 <div class="sticky" id="sticky"><a class="pill" href="index.html#/lessons">כניסה</a></div>
 
 <script src="shared/doll.js"></script>
@@ -552,8 +682,8 @@ footer b { font-weight: 800; }
   function build(i) {
     E = LOOK[i]; shapes = null; auto = performance.now() + 5000;
     var fs = fitFont(E.name.length, 115, 1000, 0.42);
-    ms.innerHTML = FURN + rect('', 'rug-round.png', 65, 700, 910, 318) +
-      '<div class="paint" style="left:420px;top:80px;width:1000px;font-size:' + fs + 'px;color:#4a3b3a"><p>' + esc(E.name) + '</p></div><div id="mbox"></div><div class="doll" style="left:0;top:256px;width:1040px;height:692px"><svg role="img" aria-label="בובת פלסטלינה מדגימה את התרגיל"></svg></div>';
+    ms.innerHTML = FURN + rect('', 'rug-round.png', 250, 822, 500, 175) +
+      '<div class="paint" style="left:420px;top:80px;width:1000px;font-size:' + fs + 'px;color:#4a3b3a"><p>' + esc(E.name) + '</p></div><div id="mbox"></div><div class="doll" style="left:0;top:282px;width:1040px;height:692px"><svg role="img" aria-label="בובת פלסטלינה מדגימה את התרגיל"></svg></div>';
     fig = HTDoll.create(ms.querySelector('.doll svg'), E.scene); t0 = performance.now();
     ins = [{ t: 'עמדת פתיחה', h: E.start, rng: [0, 0, 'rest'] }].concat(E.steps.map(function (s, k) { return { t: 'שלב ' + (k + 1), h: s, rng: stepRng(s, k) }; })).concat([{ t: 'נשימה', h: E.breath }, { t: 'גרסה קלה יותר', h: E.easier }, { t: 'גרסה קשה יותר', h: E.harder }]);
     step = 0; render();
@@ -572,6 +702,151 @@ footer b { font-weight: 800; }
   }
   build(0);
   requestAnimationFrame(frame);
+})();
+</script>
+<script>
+(function () {
+  var dlg = document.getElementById('cdlg'), btn = document.getElementById('ctBtn'), form = document.getElementById('cform'), msg = document.getElementById('cmsg'), last = null;
+  function open() { last = document.activeElement; dlg.hidden = false; dlg.classList.add('on'); document.documentElement.style.overflow = 'hidden'; msg.textContent = ''; form.elements.name.focus(); }
+  function close() { dlg.classList.remove('on'); dlg.hidden = true; document.documentElement.style.overflow = ''; if (last && last.focus) last.focus(); }
+  btn.addEventListener('click', open);
+  document.getElementById('cx').addEventListener('click', close);
+  addEventListener('keydown', function (e) { if (e.key === 'Escape' && !dlg.hidden) close(); });
+  var TO = 'b0556722245@gmail.com', sending = false;
+  function draft(name, phone, email, q) {
+    var nl = String.fromCharCode(10), body = 'שם: ' + name + nl + 'טלפון: ' + phone + (email ? nl + 'מייל: ' + email : '') + nl + nl + q;
+    location.href = 'mailto:' + TO + '?subject=' + encodeURIComponent('פנייה מדף הנחיתה: ' + name) + '&body=' + encodeURIComponent(body);
+  }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (sending) return;
+    var f = form.elements, name = f.name.value.trim(), phone = f.phone.value.trim(), email = f.email.value.trim(), q = f.q.value.trim();
+    if (f._honey && f._honey.value) return;
+    if (!name || !phone || !q) { msg.textContent = 'מלאי שם, טלפון והשאלה שלך.'; return; }
+    sending = true; msg.textContent = 'שולחת...';
+    var ctl = window.AbortController ? new AbortController() : null, timer = ctl ? setTimeout(function () { ctl.abort(); }, 15000) : null;
+    fetch('https://formsubmit.co/ajax/' + TO, {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, signal: ctl ? ctl.signal : undefined,
+      body: JSON.stringify({ name: name, phone: phone, email: email || 'לא צוין', message: q, _subject: 'פנייה חדשה מדף הנחיתה: ' + name, _template: 'table', _captcha: 'false' })
+    }).then(function (r) { return r.json(); }).then(function (j) {
+      if (j && (j.success === true || j.success === 'true')) { msg.textContent = 'ההודעה נשלחה. נחזור אלייך בהקדם.'; form.reset(); }
+      else throw new Error('not sent');
+    }).catch(function () {
+      msg.textContent = 'השליחה האוטומטית לא הצליחה. נפתחת טיוטת מייל, ואפשר גם להתקשר: 055-672-2245.';
+      draft(name, phone, email, q);
+    }).then(function () { sending = false; if (timer) clearTimeout(timer); });
+  });
+})();
+</script>
+<script>
+(function () {
+  if (!window.IntersectionObserver) return;
+  var NS = "http://www.w3.org/2000/svg";
+  /* turn a plain one-line heading into an SVG with an outline layer (the stitches) and a fill layer (the thread) */
+  function embroider(h) {
+    if (h.children.length) return false;
+    var txt = h.textContent.trim(), cs = getComputedStyle(h);
+    var svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("aria-hidden", "true"); svg.setAttribute("width", "2400"); svg.setAttribute("height", "400");
+    function mk(c) { var x = document.createElementNS(NS, "text"); x.setAttribute("class", c); x.setAttribute("x", "1200"); x.setAttribute("y", "250"); x.setAttribute("text-anchor", "middle"); x.setAttribute("direction", "rtl"); x.style.fontFamily = cs.fontFamily; x.style.fontSize = cs.fontSize; x.style.fontWeight = "400"; x.textContent = txt; return x; }
+    var st = mk("st"), fl = mk("fl"); svg.appendChild(st); svg.appendChild(fl);
+    h.setAttribute("aria-label", txt); h.textContent = ""; h.appendChild(svg);
+    var bb = fl.getBBox(), pad = 6;
+    svg.setAttribute("viewBox", [bb.x - pad, bb.y - pad, bb.width + 2 * pad, bb.height + 2 * pad].join(" "));
+    svg.setAttribute("width", Math.ceil(bb.width + 2 * pad)); svg.setAttribute("height", Math.ceil(bb.height + 2 * pad));
+    h.classList.add("emb");
+    return true;
+  }
+  var ready = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  ready.then(function () {
+    var wrap = document.querySelector("#meet .rugwrap");
+    var heads = [].slice.call(document.querySelectorAll("#meet .intro h2, .wrap > h2.paint, .wrapin > h2.paint"));
+    var subs = [].slice.call(document.querySelectorAll(".wrap > .sub"));
+    var body = wrap ? [].slice.call(wrap.querySelectorAll(".intro .box, .intro p, .facts li")) : [];
+    function prep(el, delay) { if (!el.classList.contains("emb")) el.classList.add("weave"); el.classList.add("pre"); el.style.setProperty("--wd", delay + "s"); }
+    heads.forEach(function (h) { if (h.closest("#meet")) embroider(h); prep(h, 0); });   /* embroidery only on the rug; every other heading is written in on the wall */
+    subs.forEach(function (s) { prep(s, 0.9); });
+    body.forEach(function (el, i) { prep(el, 1.2 + i * 0.5); });
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        var el = e.target; el.classList.add("in");
+        if (el.classList.contains("rugwrap")) body.forEach(function (b) { b.classList.add("in"); });
+      });
+    }, { threshold: 0.3 });
+    heads.concat(subs).forEach(function (el) { io.observe(el); });
+    if (wrap) io.observe(wrap);
+  });
+})();
+</script>
+<script>
+(function () {
+  /* the floor notes are written letter by letter, at the pace of fast reading aloud */
+    var notes = [].slice.call(document.querySelectorAll(".lnote"));
+    if (!notes.length || !window.IntersectionObserver) return;
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    notes.forEach(function (note) {
+      var chars = [];
+      var walker = document.createTreeWalker(note, NodeFilter.SHOW_TEXT, null), nodes = [], n;
+      while ((n = walker.nextNode())) if (n.nodeValue.trim()) nodes.push(n);
+      nodes.forEach(function (node) {
+        var frag = document.createDocumentFragment();
+        node.nodeValue.split(/(\s+)/).forEach(function (part) {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(" ")); return; }
+          var w = document.createElement("span"); w.className = "w";
+          for (var i = 0; i < part.length; i++) { var c = document.createElement("span"); c.className = "ch"; c.textContent = part.charAt(i); w.appendChild(c); chars.push(c); }
+          frag.appendChild(w);
+        });
+        node.parentNode.replaceChild(frag, node);
+      });
+      if (reduce) { chars.forEach(function (c) { c.classList.add("on"); }); return; }
+      var MS = 38;   /* about 26 letters a second */
+      var io = new IntersectionObserver(function (es) {
+        if (!es[0].isIntersecting) return;
+        io.disconnect();
+        var t0 = performance.now(), shown = 0;
+        (function tick(now) {
+          var k = Math.max(0, Math.min(chars.length, Math.floor((now - t0) / MS)));
+          if (k !== shown) { for (var i = shown; i < k; i++) chars[i].classList.add("on"); shown = k; }
+          if (shown < chars.length) requestAnimationFrame(tick);
+        })(t0);
+      }, { threshold: 0.5 });
+      io.observe(note);
+    });
+})();
+</script>
+<script>
+(function () {
+  /* the exercises open only for those who bought the subscription: a short access code, given after payment.
+     The code is kept here only as a hash. To change it: node scripts/access-code.js NEWCODE, and paste the number below. */
+  var HASH = 1804945508076817;
+  var KEY = "ht-access", dlg = document.getElementById("adlg"), form = document.getElementById("aform"), msg = document.getElementById("amsg"), target = "index.html#/lessons", last = null;
+  function cyrb53(str, seed) {
+    var h1 = 0xdeadbeef ^ (seed || 0), h2 = 0x41c6ce57 ^ (seed || 0);
+    for (var i = 0, ch; i < str.length; i++) { ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507); h1 ^= Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507); h2 ^= Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+  }
+  function has() { try { return localStorage.getItem(KEY) === String(HASH); } catch (e) { return false; } }
+  function open() { last = document.activeElement; dlg.hidden = false; dlg.classList.add("on"); document.documentElement.style.overflow = "hidden"; msg.textContent = ""; form.elements.code.value = ""; form.elements.code.focus(); }
+  function close() { dlg.classList.remove("on"); dlg.hidden = true; document.documentElement.style.overflow = ""; if (last && last.focus) last.focus(); }
+  [].slice.call(document.querySelectorAll('a[href^="index.html"]')).forEach(function (a) {
+    a.addEventListener("click", function (e) { if (has()) return; e.preventDefault(); target = a.getAttribute("href"); open(); });
+  });
+  document.getElementById("ax").addEventListener("click", close);
+  addEventListener("keydown", function (e) { if (e.key === "Escape" && !dlg.hidden) close(); });
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var code = form.elements.code.value.trim().toUpperCase();
+    if (!code) { msg.textContent = "הקלידי את קוד הגישה."; return; }
+    if (cyrb53(code) !== HASH) { msg.textContent = "הקוד לא נכון. בדקי שהעתקת אותו במלואו."; return; }
+    try { localStorage.setItem(KEY, String(HASH)); } catch (er) {}
+    msg.textContent = "ברוכה הבאה!"; location.href = target;
+  });
+  document.getElementById("aToContact").addEventListener("click", function (e) { e.preventDefault(); close(); var b = document.getElementById("ctBtn"); if (b) b.click(); });
 })();
 </script>
 </body>

@@ -1,0 +1,15 @@
+.env*
+.vercel
+.git
+.claude
+node_modules
+תמונות
+src
+scripts
+db
+home-training
+CLAUDE.md
+README-DB.md
+תיקוני-אנימציות.md
+פונקציונאלי (1).png
+*.log
