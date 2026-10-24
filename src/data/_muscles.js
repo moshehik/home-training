@@ -172,7 +172,15 @@ const MAP = {
   'tabata-bridge': M(['glutes', 'hamstrings'], ['erectors', 'transverse', 'adductors']),
   'tabata-plank': M(['transverse', 'rectus'], ['delts_front', 'glutes', 'quads', 'obliques']),
   'tabata-squat-press': M(['quads', 'glutes', 'delts_front'], ['triceps', 'hamstrings', 'transverse', 'delts_side']),
-  'tabata-cooldown': M(['erectors', 'glutes'], ['lats', 'delts_rear'], 'stretch')
+  'tabata-cooldown': M(['erectors', 'glutes'], ['lats', 'delts_rear'], 'stretch'),
+  'zumba-warmup': M(['hipflex', 'quads'], ['calves', 'delts_front', 'transverse'], 'mobility'),
+  'zumba-merengue': M(['quads', 'obliques', 'glutemed'], ['calves', 'hipflex', 'transverse']),
+  'zumba-step-touch': M(['quads', 'adductors', 'glutemed'], ['calves', 'glutes', 'transverse']),
+  'zumba-salsa': M(['quads', 'glutes', 'hamstrings'], ['calves', 'ankle', 'obliques']),
+  'zumba-hip-sway': M(['obliques', 'glutemed'], ['ql', 'quads', 'transverse'], 'mobility'),
+  'zumba-cha-cha': M(['hipflex', 'quads', 'glutemed'], ['rectus', 'ankle', 'calves']),
+  'zumba-side-lunge': M(['quads', 'adductors', 'glutes'], ['glutemed', 'hamstrings', 'transverse']),
+  'zumba-cooldown': M(['obliques', 'ql'], ['lats', 'delts_side'], 'stretch')
 };
 // Body area that tightens and slims for each muscle (muscles screen). Stretch/mobility moves have none.
 const SLIM = {

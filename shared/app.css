@@ -36,6 +36,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 #bar button { height: 43px; padding: 0 18px; display: inline-flex; align-items: center; gap: 9px; border-radius: 34px; font-size: 24px; font-weight: 700; letter-spacing: .02em; color: #f6e8d4; text-shadow: 0 1px 1px rgba(80, 52, 42, .45); transition: color .25s, text-shadow .25s, transform .25s; }
 #bar button:hover:not(:disabled), #bar button:focus-visible:not(:disabled) { color: #fffaf0; text-shadow: 0 0 6px rgba(255, 246, 214, 1), 0 0 14px rgba(255, 232, 170, .95), 0 0 28px rgba(255, 214, 130, .8); transform: translateY(-1px); outline: none; }
 #bar button:disabled { opacity: .42; cursor: default; }
+#bar button.on { color: #fffaf0; box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 1), 0 0 7px 1px rgba(255, 255, 255, .95), 0 0 18px 3px rgba(255, 255, 255, .6), inset 0 0 10px rgba(255, 255, 255, .45); }
 #bar .pts { font-weight: 700; padding: 0 20px; height: 43px; display: flex; align-items: center; gap: 9px; border-radius: 34px; color: #f6e8d4; font-size: 24px; text-shadow: 0 1px 1px rgba(80, 52, 42, .45); transition: text-shadow .25s, color .25s; }
 #bar .pts:hover { color: #fffaf0; text-shadow: 0 0 6px rgba(255, 246, 214, 1), 0 0 14px rgba(255, 232, 170, .95), 0 0 28px rgba(255, 214, 130, .8); }
 #bar .pts .star { color: #ffe08a; text-shadow: 0 0 8px rgba(255, 224, 138, .9); }
@@ -47,8 +48,8 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .wl { display: inline-block; clip-path: inset(-25% -25% -25% 110%); animation: wr .34s cubic-bezier(.3, .6, .4, 1) forwards; animation-delay: calc(var(--i) * var(--gap, 75ms) + var(--d, 0s)); }
 .ww { display: inline-block; white-space: nowrap; }
 /* key words of a long step that passes fast: bold and underlined, the rest fades */
-.ww.dim { opacity: .5; }
-.ww.kw { text-decoration: underline; text-decoration-thickness: .06em; text-underline-offset: .14em; text-shadow: 0 0 .5px currentColor, 0 0 .5px currentColor; }
+.ww.dim { opacity: .8; }
+.ww.kw { color: #1c100d; text-decoration: underline; text-decoration-thickness: .06em; text-underline-offset: .14em; text-shadow: 0 0 .5px currentColor, 0 0 .5px currentColor; }
 .hgo.in.hid { display: none; }
 .wall.now .wl { animation: none; clip-path: none; }
 @keyframes wr { to { clip-path: inset(-25% -25% -25% -25%); } }
@@ -139,6 +140,11 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .hot:hover { transform: scale(1.05) rotate(-1deg); }
 .hot.playing { animation: thump .5s ease-in-out infinite; }
 @keyframes thump { 50% { transform: scale(1.04); } }
+/* music volume: a glass pill under the speaker, quiet icon on the left, loud on the right */
+.vol { position: absolute; box-sizing: border-box; height: 56px; padding: 0 16px; border-radius: 40px; background: var(--glass); border: 1.5px solid rgba(255, 255, 255, .85); box-shadow: 0 6px 16px rgba(130, 70, 80, .15); display: flex; align-items: center; gap: 10px; direction: ltr; z-index: 3; }
+.vol svg { width: 28px; height: 28px; flex: none; fill: var(--ink); stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.vol svg .w { fill: none; }
+.vol input { flex: 1; min-width: 0; height: 28px; margin: 0; background: transparent; cursor: pointer; accent-color: #b8466a; }
 .clock { position: absolute; left: 1470px; top: 150px; width: 435px; height: 180px; cursor: pointer; transition: transform .25s; }
 .clock:hover { transform: scale(1.04); }
 .clock .face { position: absolute; inset: 0; background: url(../assets/room/clock.png) 0 0 / 100% 100% no-repeat; }
@@ -425,3 +431,48 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 
 .hgo.prev svg { transform: scaleX(-1); }
 .hgo.prev.in:hover svg, .hgo.prev.in:focus-visible svg { transform: scaleX(-1) translateX(-6px); }
+
+/* ---------- club (חדר מתעמלות): group competitions ---------- */
+.club { position: absolute; left: 40px; top: 350px; width: 1340px; height: 665px; padding: 22px 34px 14px; display: flex; flex-direction: column; gap: 10px; background: var(--glass); border: 1.5px solid rgba(255, 255, 255, .85); border-radius: 60px 90px 50px 80px / 70px 50px 80px 60px; box-shadow: 0 12px 32px rgba(130, 70, 80, .18); backdrop-filter: blur(6px); font-size: 27px; opacity: 0; transform: translateY(16px); pointer-events: none; transition: opacity .6s, transform .6s cubic-bezier(.3, .7, .3, 1.2); }
+.club-on .club { opacity: 1; transform: none; pointer-events: auto; }
+.club input, .club textarea { width: 100%; margin-top: 4px; padding: 8px 20px; font: inherit; font-size: 26px; color: var(--ink); background: rgba(255, 255, 255, .9); border: 2px solid #fff; border-radius: 30px; box-shadow: inset 0 2px 5px rgba(130, 70, 80, .15); user-select: text; outline: none; resize: none; }
+.club input:focus, .club textarea:focus { border-color: #f1c14a; box-shadow: 0 0 0 3px rgba(247, 216, 94, .5); }
+.club textarea { border-radius: 26px; font-size: 22px; }
+.cl-cols { display: flex; gap: 26px; }
+.cl-card { flex: 1; display: flex; flex-direction: column; gap: 8px; padding: 14px 24px 18px; border-radius: 40px; background: rgba(255, 255, 255, .55); }
+.cl-card h3 { margin: 0; font-family: "OH Noa Price", "Gveret Levin", cursive; font-weight: 400; font-size: 52px; line-height: 1; color: #a3304f; }
+.cl-card p { margin: 0; font-size: 23px; line-height: 1.25; }
+.cl-card label { font-size: 22px; font-weight: 700; }
+.cl-card .pill { align-self: flex-start; margin-top: 4px; }
+.cl-how { margin: 6px 0 0; padding: 0 30px 0 0; font-size: 23px; line-height: 1.3; }
+.cl-how li { margin-bottom: 4px; }
+.cl-msg { min-height: 30px; margin: 0; font-size: 22px; font-weight: 700; color: #7a4a00; }
+.cl-msg.bad { color: #b0203f; }
+.cl-head { display: flex; justify-content: space-between; align-items: center; }
+.cl-head h2 { margin: 0; font-family: "OH Noa Price", "Gveret Levin", cursive; font-weight: 400; font-size: 62px; line-height: 1; color: #a3304f; }
+.cl-code { font-size: 22px; }
+.cl-code b { padding: 0 8px; letter-spacing: .12em; }
+.cl-tabs { display: flex; gap: 6px; padding: 4px; border-radius: 40px; background: rgba(255, 255, 255, .6); }
+.cl-tabs button { height: 44px; padding: 0 28px; border-radius: 34px; font-size: 24px; font-weight: 700; transition: background .25s, box-shadow .25s; }
+.cl-tabs button.on { background: radial-gradient(circle at 30% 20%, #fffbd6, #f7d85e 48%, #d9a21a); color: #5a3a00; box-shadow: 0 0 14px rgba(255, 205, 60, .7); }
+.cl-nav { display: flex; align-items: center; justify-content: center; gap: 26px; font-size: 26px; font-weight: 700; min-height: 40px; }
+.cl-nav button { width: 44px; height: 44px; border-radius: 50%; font-size: 34px; line-height: 1; background: rgba(255, 255, 255, .7); }
+.cl-nav button:disabled { opacity: .35; cursor: default; }
+.cl-table { flex: 1; min-height: 0; overflow-y: auto; padding: 0 6px; }
+.cl-row { display: grid; grid-template-columns: 70px 1fr 140px 140px 170px; align-items: center; min-height: 54px; padding: 0 12px; border-radius: 30px; font-size: 27px; text-align: center; }
+.cl-row .nm { text-align: right; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cl-row .nm small { font-weight: 500; font-size: 20px; opacity: .7; }
+.cl-row.cl-h { min-height: 38px; font-size: 20px; font-weight: 700; opacity: .65; position: sticky; top: 0; background: #f8e8e6; z-index: 1; }
+.cl-row.me { background: rgba(247, 216, 94, .45); box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .8); }
+.cl-row .rk { justify-self: center; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; font-weight: 800; }
+.cl-row .rk.r1 { background: radial-gradient(circle at 30% 25%, #fffbd6, #f7d85e 50%, #d09a12); }
+.cl-row .rk.r2 { background: radial-gradient(circle at 30% 25%, #ffffff, #d5d9dc 55%, #9ea6ab); }
+.cl-row .rk.r3 { background: radial-gradient(circle at 30% 25%, #ffe9d6, #dba477 55%, #a86a3c); }
+.cl-hint { margin: 0; font-size: 22px; text-align: center; }
+.cl-acts { display: flex; gap: 14px; justify-content: center; flex-wrap: nowrap; }
+.cl-acts .pill, .cl-paste .pill { position: relative; }
+.cl-acts .pill.sm { padding: 0 24px; font-size: 24px; }
+.cl-paste { display: flex; gap: 14px; align-items: flex-end; }
+.cl-foot { display: flex; justify-content: space-between; align-items: center; }
+.cl-leave { font-size: 18px; opacity: .6; text-decoration: underline dotted; }
+.cl-leave:hover { opacity: 1; }

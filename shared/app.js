@@ -25,14 +25,14 @@
   function findEx(id) { var p = id.split('-'), L = findLesson(+p[0]); return L && { L: L, E: L.exercises[+p[1] - 1] }; }
 
   /* handwriting reveal: every letter is wiped in, right to left, one after another */
-  /* key words of a step (action verbs, directions, tempo, breath, the body part to work with): shown bold while the rest fades,
-   * when a long step goes by too fast to be read whole */
-  var KW_STOP = /^(בלי|אחרי|שלי|אלי|כמו|אפילו|כאילו)$/, KW_WORD = /^(ימין|שמאל|ימינה|שמאלה|למעלה|למטה|לאט|מהר|קדימה|אחורה|הצידה|ישר|חזק|שנייה|שלוש|בספירה|בשאיפה|בנשיפה|שאיפה|נשיפה|מזרן|אגן|בטן|ברך|ברכיים|עקבים|רגל|רגליים|יד|ידיים|ראש|כתפיים|גב|מרפק|ירך|בקבוק|בקבוקים|כיסא|קיר)$/;
+  /* key words of a step: only the action itself (feminine imperative verbs: עלי, התכופפי, רדי) is shown bold while the rest fades,
+   * when a long step goes by too fast to be read whole. Directions, tempo, breath and body parts are not emphasised */
+  var KW_STOP = /^(שלי|אלי|לי|בי|די|שרירי|אגני|ידי|ה?(פנימ|חיצונ|קדמ|אחור|תחת|עליונ|רגיל|ימנ|שמאל)י)$/;
   function isKey(w) {
     var c = w.replace(/[^א-ת]/g, '');
-    if (c.length < 2 || KW_STOP.test(c)) return false;
+    if (c.length < 3 || KW_STOP.test(c)) return false;
     var b = c.replace(/^ו(?=.{3})/, '');
-    return (b.length >= 4 && /י$/.test(b)) || KW_WORD.test(b) || KW_WORD.test(b.replace(/^[הלמ](?=.{3})/, ''));
+    return /י$/.test(b) && !KW_STOP.test(b);
   }
   function write(text, gap, delay, emph) {
     var i = 0;
@@ -67,10 +67,11 @@
     lessons: ic('<path d="M6.5 6.5v11"/><path d="M17.5 6.5v11"/><path d="M3.5 9v6"/><path d="M20.5 9v6"/><path d="M6.5 12h11"/>'),
     last: ic('<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7.5V12l3 2"/>'),
     gloss: ic('<path d="M5 4.5h10a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h10"/><path d="M9.5 8.5h5"/>'),
+    club: ic('<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H4.5A3 3 0 0 0 8 10"/><path d="M16 6h3.5A3 3 0 0 1 16 10"/><path d="M12 13v4"/><path d="M8.5 20h7"/>'),
     who: ic('<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c.8-4 3.7-6 7.5-6s6.7 2 7.5 6"/>'),
     star: '<svg class="ic star" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3.2l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17.2 6.6 20.1l1-6.1L3.2 9.7l6.1-.9z"/></svg>'
   };
-  bar.innerHTML = '<button type="button" data-a="back">' + ICONS.back + 'חזרה</button><button type="button" data-a="home">' + ICONS.home + 'ראשי</button><button type="button" data-a="lessons">' + ICONS.lessons + 'תרגילים</button><button type="button" data-a="last">' + ICONS.last + 'התרגיל האחרון</button><button type="button" data-a="gloss">' + ICONS.gloss + 'מושגים</button><button type="button" data-a="who">' + ICONS.who + 'מי אני?</button><span class="sep"></span><span class="pts">' + ICONS.star + '<span><b id="ptsN">0</b> נקודות</span></span>';
+  bar.innerHTML = '<button type="button" data-a="back">' + ICONS.back + 'חזרה</button><button type="button" data-a="home">' + ICONS.home + 'ראשי</button><button type="button" data-a="lessons">' + ICONS.lessons + 'תרגילים</button><button type="button" data-a="club">' + ICONS.club + 'חדר מתעמלות</button><button type="button" data-a="last">' + ICONS.last + 'התרגיל האחרון</button><button type="button" data-a="gloss">' + ICONS.gloss + 'מושגים</button><button type="button" data-a="who">' + ICONS.who + 'מי אני?</button><span class="sep"></span><span class="pts">' + ICONS.star + '<span><b id="ptsN">0</b> נקודות</span></span>';
   stage.appendChild(bar);
   var cur = null;
   function updateBar(pop) {
@@ -79,6 +80,9 @@
     $('[data-a=last]', bar).disabled = !(l && findEx(l));
     $('[data-a=back]', bar).disabled = !cur || !cur.parent;
     $('[data-a=back]', bar).lastChild.textContent = cur && cur.backLabel ? cur.backLabel : 'חזרה';
+    /* a thin glowing frame around the toolbar button of the section she is in */
+    var seg = location.hash.replace(/^#\/?/, '').split('/')[0], here = !seg ? 'home' : /^(lessons|lesson|ex)$/.test(seg) ? 'lessons' : seg === 'club' ? 'club' : '';
+    Array.prototype.forEach.call(bar.querySelectorAll('button'), function (b) { var on = b.dataset.a === here; b.classList.toggle('on', on); if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
     if (pop) { var p = $('.pts', bar); p.classList.remove('pop'); void p.offsetWidth; p.classList.add('pop'); }
   }
   bar.addEventListener('click', function (e) {
@@ -87,8 +91,9 @@
     if (a === 'back') { if (cur.onBack && cur.onBack()) return; if (cur.parent) location.hash = cur.parent; }
     else if (a === 'home') location.hash = '#/';
     else if (a === 'lessons') location.hash = '#/lessons';
+    else if (a === 'club') location.hash = '#/club';
     else if (a === 'gloss') HTGlossary.open();
-    else if (a === 'who') location.href = 'landing.html';
+    else if (a === 'who') location.href = 'landing.html?site=1';
     else if (a === 'last') { var l = findEx(store.g('ht-last')); if (l) location.hash = '#/ex/' + l.L.n + '/' + l.E.i; }
   });
 
@@ -559,7 +564,7 @@
       '<div class="paint" id="p2" style="left:420px;top:230px;width:1000px;line-height:.9"><p class="tx" style="font-size:56px">לחצי על כל כפתור וקראי</p></div>';
     notes.forEach(function (n, i) { h += gold('data-i="' + i + '"', n.b, 1075 - i * 360, 340); });
     h += '<div id="nbox"></div>' +
-      gold('data-go="go"', 'לתרגיל', 1050, 905) + gold('data-go="muscles"', 'קבלי מוטיבציה', 690, 905);
+      gold('data-go="go"', 'לתרגיל', 690, 905) + gold('data-go="muscles"', 'קבלי מוטיבציה', 1050, 905);
     el.innerHTML = h;
     var p1 = $('#p1', el), p2 = $('#p2', el), btns = $$('.hgo', el), tween = mkTween(function () { return dead; }, function () { return skipped; });
     function finish() { done = true; roomPlayed.note = true; $$('.ln', el).forEach(function (ln) { ln.style.setProperty('--w', 112); ln.style.setProperty('--g', -40); }); el.classList.add('lamp-on'); btns.forEach(function (b) { b.classList.add('in'); }); }
@@ -688,11 +693,14 @@
     var next = L.exercises[E.i];
     /* the home page's room: lit pendant lamp, armchair + plant, the title and the instructions painted onto the wall in Noa Price */
     var dead = false, skipped = false, done = false;
+    var volStart = parseFloat(store.g('ht-vol')); if (!(volStart >= 0 && volStart <= 1)) volStart = 0.7;
+    HTMusic.volume(volStart);
     el.innerHTML = '<div class="bg" data-ext="empty-ext.png" style="background-image:url(' + A + 'empty.jpg)"></div>' + lampHtml(215, 0) + sideFurniture + PAINT_SVG + logoLink +
       rect('', 'rug-jute.png', 640, 830, 520, 110) +
       '<div class="paint" id="p1" style="left:420px;top:80px;width:1000px;font-size:115px;line-height:.9"><p class="tx">התחילי!!!</p></div>' +
       '<div class="wallbox" id="wallbox"><div class="wall paint" id="wall"></div><div class="paint breath" id="breath" data-gl="breath" title="מה זה שאיפה ונשיפה?"></div></div>' +
       '<button type="button" class="hot" id="spk" aria-label="מוזיקה" style="left:40px;top:640px;width:230px;height:258px;background:url(' + A + 'speaker.png) 0 0/100% 100% no-repeat"></button>' +
+      '<div class="vol" id="volBox" style="left:40px;top:915px;width:230px"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9z"/></svg><input type="range" id="vol" min="0" max="1" step="0.01" value="' + volStart + '" aria-label="עוצמת המוזיקה"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9z"/><path class="w" d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12"/></svg></div>' +
       '<div class="tip l" id="spkTip" style="left:280px;top:700px;width:130px">לחצי כאן להפעלת מוזיקה</div>' +
       '<div class="clock" id="clock" role="button" aria-label="טיימר"><div class="face"></div><div id="digits"></div><div class="cl" id="cl">' + E.dose + '</div></div>' +
       '<div class="tip u" id="clkTip" style="left:1490px;top:420px;width:370px">לחצי על השעון להפעלת הטיימר</div>' +
@@ -891,6 +899,7 @@
     }
     function award() {
       var first = !isDone(E.id);
+      logDone(E.id);   /* every press is logged with its time: the club's weekly competition counts repeats too */
       if (first) { store.s('ht-points', points() + D.points); store.s('ht-done-' + E.id, '1'); }
       updateBar(true);
       var t = document.createElement('div'); t.className = 'toast';
@@ -924,6 +933,7 @@
       if (HTMusic.isPlaying()) { HTMusic.stop(); musicWant = false; }
       else { musicWant = true; HTMusic.start(E.bpm, musicStyle(), beatOffset()); }
     });
+    $e('vol').addEventListener('input', function () { var v = parseFloat(this.value); HTMusic.volume(v); store.s('ht-vol', v); });
     $e('skip').addEventListener('click', function () { if (!started || run.done) return; if (run.i + 1 >= plan.length) finish(); else enter(run.i + 1); });
     $e('reset').addEventListener('click', resetRun);
     var tween = mkTween(function () { return dead; }, function () { return skipped; }), p1 = $('#p1', el);
@@ -961,6 +971,227 @@
     return s;
   }
 
+  /* ================= CLUB (חדר מתעמלות): friendly weekly competitions inside a group of women ================= */
+  /* There is no server, so results travel in the group's WhatsApp chat: "share" writes a message that ends with a short result code
+   * (HT|group|name|week|points|exercises|days|check); "paste" reads every code found in whatever she pastes and fills the table.
+   * Score = every exercise finished (the "עשיתי את זה!" button) once per day x D.points; weeks run Sunday-Saturday. Friendly-grade check only. */
+  var CLUB_KEY = 'ht-club', LOG_KEY = 'ht-log', SITE_URL = 'https://home-training-tawny.vercel.app';
+  var CODE_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  function readLog() { try { var a = JSON.parse(store.g(LOG_KEY) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; } }
+  function logDone(id) { var a = readLog(); a.push([Date.now(), id]); store.s(LOG_KEY, JSON.stringify(a.slice(-3000))); }
+  function dayKey(d) { return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate(); }
+  function weekKey(d) { return String(dayKey(new Date(d.getFullYear(), d.getMonth(), d.getDate() - d.getDay()))); }
+  function weekDate(k) { k = +k; return new Date(Math.floor(k / 10000), Math.floor(k / 100) % 100 - 1, k % 100); }
+  function weekLabel(k) {
+    var a = weekDate(k), b = new Date(a.getFullYear(), a.getMonth(), a.getDate() + 6), f = function (d) { return d.getDate() + '.' + (d.getMonth() + 1); };
+    return f(a) + ' – ' + f(b);
+  }
+  /* what she did in a week, from her own log: finished (exercise, day) pairs, so repeating one exercise the same day counts once */
+  function myWeek(k) {
+    var seen = {}, days = {}, x = 0;
+    readLog().forEach(function (r) {
+      var d = new Date(r[0]); if (weekKey(d) !== k) return;
+      var s = dayKey(d) + '|' + r[1]; if (!seen[s]) { seen[s] = 1; x++; days[dayKey(d)] = 1; }
+    });
+    return { p: x * D.points, x: x, d: Object.keys(days).length };
+  }
+  function checkSum(s) { var h = 7; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i) + 3 * (i % 7)) >>> 0; return h.toString(36); }
+  function cleanName(n) { return String(n || '').replace(/[|\r\n]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 20); }
+  function clubLoad() { try { var c = JSON.parse(store.g(CLUB_KEY) || 'null'); return c && c.code ? c : null; } catch (e) { return null; } }
+  function clubSave(c) { store.s(CLUB_KEY, c ? JSON.stringify(c) : ''); }
+  function newCode() {
+    var out = '', r = window.crypto && crypto.getRandomValues ? crypto.getRandomValues(new Uint8Array(5)) : null;
+    for (var i = 0; i < 5; i++) out += CODE_CHARS.charAt((r ? r[i] : Math.floor(Math.random() * 256)) % CODE_CHARS.length);
+    return out;
+  }
+  function resultToken(C, k, m) { var body = [C.code, C.me, k, m.p, m.x, m.d].join('|'); return 'HT|' + body + '|' + checkSum(body + '|ht-club'); }
+  /* { good: [{name, wk, p, x, d}], other: n (another group's codes), bad: n (damaged codes) } */
+  function readResults(text, code) {
+    var re = /HT\|([A-Z0-9]{5})\|([^|\r\n]{1,24})\|(\d{8})\|(\d{1,6})\|(\d{1,5})\|(\d)\|([a-z0-9]{1,8})/g, m, out = { good: [], other: 0, bad: 0 };
+    while ((m = re.exec(text))) {
+      var body = [m[1], m[2], m[3], m[4], m[5], m[6]].join('|');
+      if (checkSum(body + '|ht-club') !== m[7] || m[2] !== cleanName(m[2])) out.bad++;
+      else if (m[1] !== code) out.other++;
+      else out.good.push({ name: m[2], wk: m[3], p: +m[4], x: +m[5], d: +m[6] });
+    }
+    return out;
+  }
+  function copyText(t) {
+    if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(t).catch(function () { return legacyCopy(t); });
+    return Promise.resolve(legacyCopy(t));
+  }
+  function legacyCopy(t) { var a = document.createElement('textarea'); a.value = t; a.style.cssText = 'position:fixed;left:-999px'; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); } catch (e) {} a.remove(); }
+
+  function clubScreen() {
+    var el = scr(), dead = false, skipped = false, done = false;
+    var C = clubLoad(), tab = 'week', wk = weekKey(new Date()), msg = '', msgBad = false, paste = false, nowWk = wk;
+    el.innerHTML = '<div class="bg" data-ext="empty-ext.png" style="background-image:url(' + A + 'empty.jpg)"></div>' + lampHtml(215, 0) + sideFurniture + PAINT_SVG + logoLink +
+      '<div class="paint" id="p1" style="left:10px;top:120px;width:1900px;font-size:115px;line-height:.9"><p class="tx">חדר מתעמלות</p></div>' +
+      '<div class="paint" id="p2" style="left:10px;top:240px;width:1900px;line-height:.9"><p class="tx" style="font-size:40px">תחרויות ידידותיות בין חברות הקבוצה</p></div>' +
+      '<div class="club" id="club"></div>';
+
+    /* the table of one week (or the running total): everyone seen in the group, her own row always from her live log */
+    function weekBoard(k) {
+      var m = {}, r = C.res[k] || {};
+      Object.keys(r).forEach(function (n) { m[n] = r[n]; });
+      var mine = myWeek(k);
+      if (mine.p >= (m[C.me] ? m[C.me].p : 0) && (mine.p > 0 || k === nowWk)) m[C.me] = mine;
+      return m;
+    }
+    function allWeeks() {
+      var s = {}; s[nowWk] = 1;
+      Object.keys(C.res).forEach(function (k) { s[k] = 1; });
+      readLog().forEach(function (r) { s[weekKey(new Date(r[0]))] = 1; });
+      return Object.keys(s).sort();
+    }
+    function rows() {
+      var list;
+      if (tab === 'week') { var b = weekBoard(wk); list = Object.keys(b).map(function (n) { return { n: n, p: b[n].p, x: b[n].x, d: b[n].d }; }); }
+      else {
+        var t = {};
+        allWeeks().forEach(function (k) {
+          var b2 = weekBoard(k);
+          Object.keys(b2).forEach(function (n) { var o = t[n] || (t[n] = { n: n, p: 0, x: 0, d: 0, w: 0 }); o.p += b2[n].p; o.x += b2[n].x; o.d += b2[n].d; if (b2[n].p > 0) o.w++; });
+        });
+        list = Object.keys(t).map(function (n) { return t[n]; });
+      }
+      list.sort(function (a, b) { return b.p - a.p || b.d - a.d || b.x - a.x || (a.n < b.n ? -1 : 1); });
+      var rank = 0;
+      list.forEach(function (o, i) { if (i === 0 || o.p !== list[i - 1].p) rank = i + 1; o.r = rank; });
+      return list;
+    }
+    function inviteText() {
+      return '🏆 הצטרפי לקבוצת האימון "' + C.gname + '"!\nפתחי את האתר ' + SITE_URL + ' ← חדר מתעמלות ← "הצטרפי לקבוצה", והדביקי שם את ההודעה הזאת.\nHTG|' + C.code + '|' + C.gname;
+    }
+    function resultText() {
+      var m = myWeek(wk);
+      return '🏆 ' + C.me + ' – השבוע ' + weekLabel(wk) + ' בקבוצה "' + C.gname + '"\n' + m.p + ' נקודות · ' + m.x + ' תרגילים · ' + m.d + ' ימי אימון\n(מדביקות את ההודעה בחדר מתעמלות באתר כדי לעדכן את הטבלה)\n' + resultToken(C, wk, m);
+    }
+
+    function startView() {
+      var myName = esc(store.g('ht-club-me') || '');
+      return '<div class="cl-cols"><section class="cl-card"><h3>פתחי קבוצה</h3><p>לחברות, למשפחה או לשכנות. את מקבלת הודעת הזמנה ושולחת אותה בוואטסאפ.</p>' +
+        '<label>שם הקבוצה<input id="cgname" maxlength="26" placeholder="למשל: הנשים החזקות"></label>' +
+        '<label>השם שלך בטבלה<input id="cme1" maxlength="18" value="' + myName + '"></label>' +
+        '<button type="button" class="pill sm rel gold" data-act="create">פתחי קבוצה</button></section>' +
+        '<section class="cl-card"><h3>הצטרפי לקבוצה</h3><p>הדביקי את הודעת ההזמנה שקיבלת, או רק את קוד הקבוצה (5 תווים).</p>' +
+        '<label>הזמנה או קוד<input id="cinv" maxlength="400" dir="auto"></label>' +
+        '<label>השם שלך בטבלה<input id="cme2" maxlength="18" value="' + myName + '"></label>' +
+        '<button type="button" class="pill sm rel gold" data-act="join">הצטרפי</button></section></div>' +
+        '<ol class="cl-how"><li><b>מתאמנות כרגיל.</b> כל תרגיל שסיימת ולחצת "עשיתי את זה!" נספר, פעם אחת ביום לכל תרגיל.</li><li><b>שולחת את התוצאה.</b> בסוף השבוע (או מתי שבא לך) לחיצה אחת שולחת הודעה לקבוצה בוואטסאפ.</li><li><b>מדביקה את ההודעות של החברות</b> והטבלה מתעדכנת. השבוע נספר מיום ראשון עד שבת.</li></ol>' +
+        '<p class="cl-msg' + (msgBad ? ' bad' : '') + '">' + esc(msg) + '</p>';
+    }
+    function groupView() {
+      var list = rows(), weeks = allWeeks(), ix = weeks.indexOf(wk), isNow = wk === nowWk;
+      var h = '<div class="cl-head"><div><h2>' + esc(C.gname) + '</h2><span class="cl-code">קוד הקבוצה: <b dir="ltr">' + esc(C.code) + '</b></span></div>' +
+        '<div class="cl-tabs"><button type="button" class="' + (tab === 'week' ? 'on' : '') + '" data-act="tab-week">השבוע</button><button type="button" class="' + (tab === 'all' ? 'on' : '') + '" data-act="tab-all">מצטבר</button></div></div>';
+      if (tab === 'week') {
+        h += '<div class="cl-nav"><button type="button" data-act="prev"' + (ix <= 0 ? ' disabled' : '') + ' aria-label="שבוע קודם">›</button><span>' + (isNow ? 'השבוע · ' : 'שבוע ') + weekLabel(wk) + '</span><button type="button" data-act="next"' + (ix >= weeks.length - 1 ? ' disabled' : '') + ' aria-label="שבוע הבא">‹</button></div>';
+      } else h += '<div class="cl-nav"><span>כל השבועות ביחד · ' + weeks.length + ' שבועות</span></div>';
+      h += '<div class="cl-table"><div class="cl-row cl-h"><span></span><span>שם</span><span>נקודות</span><span>תרגילים</span><span>' + (tab === 'week' ? 'ימי אימון' : 'שבועות פעילים') + '</span></div>';
+      list.forEach(function (o) {
+        h += '<div class="cl-row' + (o.n === C.me ? ' me' : '') + '"><span class="rk' + (o.r <= 3 && o.p > 0 ? ' r' + o.r : '') + '">' + o.r + '</span><span class="nm">' + esc(o.n) + (o.n === C.me ? ' <small>(את)</small>' : '') + '</span><span>' + o.p + '</span><span>' + o.x + '</span><span>' + (tab === 'week' ? o.d : o.w) + '</span></div>';
+      });
+      h += '</div>';
+      if (list.length < 2) h += '<p class="cl-hint">בינתיים רק את בטבלה. הזמיני חברות והדביקי את התוצאות שלהן, ואז מתחילה התחרות.</p>';
+      h += '<div class="cl-acts"><button type="button" class="pill sm rel gold" data-act="wa">שלחי את התוצאה שלי</button><button type="button" class="pill sm rel" data-act="copy-res">העתיקי הודעה</button><button type="button" class="pill sm rel" data-act="paste">' + (paste ? 'סגרי' : 'הדביקי תוצאות') + '</button><button type="button" class="pill sm rel" data-act="invite">הזמיני חברות</button></div>';
+      if (paste) h += '<div class="cl-paste"><textarea id="cpaste" rows="3" placeholder="הדביקי כאן את ההודעות שחברות הקבוצה שלחו (אפשר כמה ביחד)"></textarea><button type="button" class="pill sm rel gold" data-act="import">עדכני טבלה</button></div>';
+      h += '<div class="cl-foot"><span class="cl-msg' + (msgBad ? ' bad' : '') + '">' + esc(msg) + '</span><button type="button" class="cl-leave" data-act="leave">יציאה מהקבוצה</button></div>';
+      return h;
+    }
+    function render() { $('#club', el).innerHTML = C ? groupView() : startView(); }
+    function say(t, bad) { msg = t; msgBad = !!bad; render(); }
+
+    function act(a) {
+      if (a === 'create' || a === 'join') {
+        var me = cleanName(($(a === 'create' ? '#cme1' : '#cme2', el) || {}).value);
+        if (!me) return say('כתבי את השם שלך, כך שהחברות יזהו אותך בטבלה.', true);
+        var code, gname;
+        if (a === 'create') {
+          gname = cleanName(($('#cgname', el) || {}).value);
+          if (!gname) return say('כתבי שם לקבוצה.', true);
+          code = newCode();
+        } else {
+          var t = ($('#cinv', el) || {}).value || '', g = /HTG\|([A-Z0-9]{5})\|([^|\r\n]{1,30})/.exec(t), c5 = /^\s*([A-Za-z0-9]{5})\s*$/.exec(t);
+          if (g) { code = g[1]; gname = g[2].trim(); }
+          else if (c5) { code = c5[1].toUpperCase(); gname = 'קבוצה ' + code; }
+          else return say('לא מצאתי קוד קבוצה. הדביקי את כל הודעת ההזמנה, או כתבי את הקוד בן 5 התווים.', true);
+        }
+        store.s('ht-club-me', me);
+        C = { code: code, gname: gname, me: me, res: {} }; clubSave(C); wk = nowWk; tab = 'week'; paste = false;
+        return say(a === 'create' ? 'הקבוצה נפתחה! לחצי "הזמיני חברות" ושלחי להן את ההזמנה.' : 'הצטרפת לקבוצה "' + gname + '". לחצי "שלחי את התוצאה שלי" כשיש לך מה לשתף.');
+      }
+      if (!C) return;
+      if (a === 'tab-week') { tab = 'week'; return say(''); }
+      if (a === 'tab-all') { tab = 'all'; return say(''); }
+      if (a === 'prev' || a === 'next') { var w = allWeeks(), i = w.indexOf(wk) + (a === 'prev' ? -1 : 1); if (i >= 0 && i < w.length) wk = w[i]; return say(''); }
+      if (a === 'paste') { paste = !paste; return say(''); }
+      if (a === 'wa') {
+        window.open('https://wa.me/?text=' + encodeURIComponent(resultText()), '_blank', 'noopener');
+        return say('נפתח וואטסאפ. בחרי את הקבוצה ושלחי.');
+      }
+      if (a === 'copy-res') return copyText(resultText()).then(function () { say('ההודעה הועתקה. הדביקי אותה בקבוצת הוואטסאפ.'); });
+      if (a === 'invite') {
+        copyText(inviteText());
+        window.open('https://wa.me/?text=' + encodeURIComponent(inviteText()), '_blank', 'noopener');
+        return say('ההזמנה הועתקה ונפתח וואטסאפ. בחרי למי לשלוח.');
+      }
+      if (a === 'import') {
+        var r = readResults(($('#cpaste', el) || {}).value || '', C.code), added = 0;
+        r.good.forEach(function (o) {
+          if (o.name === C.me) return;
+          var wkRes = C.res[o.wk] || (C.res[o.wk] = {}), old = wkRes[o.name];
+          if (!old || o.p > old.p) { wkRes[o.name] = { p: o.p, x: o.x, d: o.d }; added++; }
+        });
+        clubSave(C); paste = false;
+        if (added) return say('עודכנו ' + added + ' תוצאות.' + (r.other ? ' ' + r.other + ' הודעות מקבוצה אחרת דולגו.' : ''));
+        if (r.good.length) return say('התוצאות האלה כבר בטבלה (או שהן שלך).');
+        if (r.other) return say('ההודעות האלה שייכות לקבוצה אחרת, לא ל"' + C.gname + '".', true);
+        return say(r.bad ? 'קוד התוצאה נפגם בהעתקה. העתיקי את ההודעה כולה, כולל השורה האחרונה.' : 'לא מצאתי תוצאות בטקסט. הדביקי הודעה שנשלחה מ"שלחי את התוצאה שלי".', true);
+      }
+      if (a === 'leave') {
+        if (!window.confirm('לצאת מהקבוצה "' + C.gname + '"? הטבלה השמורה במכשיר הזה תימחק (הנקודות שלך באתר נשארות).')) return;
+        C = null; clubSave(null); paste = false; return say('יצאת מהקבוצה.');
+      }
+    }
+
+    var tween = mkTween(function () { return dead; }, function () { return skipped; });
+    function finish() { done = true; $$('.ln', el).forEach(function (ln) { ln.style.setProperty('--w', 112); ln.style.setProperty('--g', -40); }); el.classList.add('lamp-on', 'club-on'); }
+    el.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-act]');
+      if (b && done) { act(b.dataset.act); return; }
+      if (!done && !skipped) { skipped = true; setTimeout(finish, 80); }
+    });
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && e.target.tagName === 'INPUT' && !C) act(e.target.id === 'cinv' || e.target.id === 'cme2' ? 'join' : 'create');
+    });
+    render();
+    return {
+      el: el, parent: '#/', destroy: function () { dead = true; },
+      start: function () {
+        var p1 = $('#p1', el), p2 = $('#p2', el);
+        var fonts = document.fonts && document.fonts.load ? Promise.all([document.fonts.load('50px "OH Noa Price"', 'אבגד'), document.fonts.load('50px "OH Noa Price"', '8,.!?')]).then(function () { return document.fonts.ready; }).catch(function () {}) : Promise.resolve();
+        fonts.then(function () {
+          if (dead) return;
+          layoutLines(el);
+          p2.style.top = (p1.offsetTop + p1.offsetHeight + 34) + 'px';
+          $$('.ln', el).forEach(function (ln) { ln.style.marginInline = 'auto'; });
+          wallLum([[600, 120, 700, 200], [600, 290, 700, 80]], function (l) {
+            p1.style.setProperty('--ink', l[0] < 0.45 ? '#fff3ec' : '#4a3b3a');
+            p2.style.setProperty('--ink', l[1] < 0.45 ? '#ffe7ae' : '#a3304f');
+            if ((window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { finish(); return; }
+            tween(450, function () {})
+              .then(function () { return paintLines(p1, tween); })
+              .then(function () { return tween(350, function () {}); })
+              .then(function () { return paintLines(p2, tween); })
+              .then(function () { if (!dead && !done) { el.classList.add('lamp-on'); return tween(500, function () {}); } })
+              .then(function () { if (!dead && !done) { el.classList.add('club-on'); done = true; } });
+          }, 'empty.jpg');
+        });
+      }
+    };
+  }
+
   HTGlossary.onOpen = function () { if (cur && cur.pause) cur.pause(); };
 
   /* ================= router ================= */
@@ -969,6 +1200,7 @@
     window.scrollTo(0, 0);
     if (!p.length) return show(homeScreen());
     if (p[0] === 'lessons') return show(lessonsScreen());
+    if (p[0] === 'club') return show(clubScreen());
     if (p[0] === 'lesson' && (L = findLesson(p[1]))) return show(lessonScreen(L));
     if (p[0] === 'ex' && (L = findLesson(p[1])) && (E = L.exercises[+p[2] - 1])) {
       if (p[3] === 'note') return show(noteScreen(L, E));
@@ -980,4 +1212,5 @@
   }
   addEventListener('hashchange', route);
   route();
+  if (/[?&]gloss=1(&|$)/.test(location.search)) { history.replaceState(null, '', location.pathname + location.hash); if (window.HTGlossary) HTGlossary.open(); }
 })();

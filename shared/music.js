@@ -1,5 +1,5 @@
 /* music.js - generates workout music in the browser (Web Audio). No audio files needed.
- * Styles: 'beat' (energetic drums + bass), 'steady' (softer groove), 'calm' (pads for stretching), 'click' (metronome only).
+ * Styles: 'wild' (loudest: bouncy, stormy party groove), 'beat' (energetic drums + bass), 'steady' (softer groove), 'calm' (pads for stretching), 'click' (metronome only).
  * Everything is locked to the exercise tempo, so one repetition always lands on whole beats.
  */
 (function (root) {
@@ -26,7 +26,8 @@
     { r: [103.83, 87.31, 138.59, 155.56],  q: ['M', 'm', 'M', 'M'],     b: [0, -1, -1, -1, -1, -1, -1, -1], lead: 'sine',    sw: 0,    ex: [] },         /* 13 Ab, deep calm */
     { r: [110, 146.83, 130.81, 98],        q: ['s', 'M', 'M', 'M'],     b: [0, -1, -1, 7, -1, -1, 0, -1],  lead: 'triangle', sw: 0,    ex: [7] },        /* 14 A sus, soft and steady */
     { r: [130.81, 98, 110, 87.31],         q: ['M', 'M', 'm', 'M'],     b: [0, -1, 0, -1, 7, -1, 5, -1],    lead: 'triangle', sw: 0.1,  ex: [3, 7] },     /* 15 C major, light and flowing */
-    { r: [110, 130.81, 146.83, 98],        q: ['m', 'M', 'M', 'M'],     b: [0, 0, 12, 0, 0, 12, 7, 12],    lead: 'sawtooth', sw: 0,    ex: [3, 5, 7] }   /* 16 A minor, driving interval */
+    { r: [110, 130.81, 146.83, 98],        q: ['m', 'M', 'M', 'M'],     b: [0, 0, 12, 0, 0, 12, 7, 12],    lead: 'sawtooth', sw: 0,    ex: [3, 5, 7] },  /* 16 A minor, driving interval */
+    { r: [110, 146.83, 98, 130.81],        q: ['m', 'm', 'd7', 'M'],     b: [0, -1, -1, 7, 0, -1, 7, 12],    lead: 'triangle', sw: 0.08, ex: [2, 5, 7] }   /* 17 A minor, Latin tumbao */
   ];
   var th = THEMES[1];
   function hz(base, semis) { return base * Math.pow(2, semis / 12); }
@@ -83,6 +84,28 @@
     });
   }
 
+  /* 'wild': a bouncy, stormy party groove - four-on-the-floor kick, double claps, sixteenth hats, octave-bouncing bass,
+   * chord stabs on every off-beat, a running arpeggio and a snare-roll fill on the last bar of every four */
+  function wild(s, bar, t, root, tri, beatLen) {
+    var half = 15 / st.bpm, wave = th.lead === 'sine' ? 'square' : th.lead, saw = wave === 'sawtooth';
+    var fill = bar === 3 && s >= 4, odd = s % 2 === 1;
+    if (s === 0 && bar === 0) hiss(t, 5000, 0.4, 0.9);
+    if (!odd) kick(t, 1.1);
+    if (odd && th.ex.indexOf(s) >= 0) kick(t, 0.55);
+    if (s === 2 || s === 6) { hiss(t, 1500, 0.65, 0.17, true); hiss(t + 0.012, 2600, 0.4, 0.1, true); }
+    if (fill) { hiss(t, 1800, 0.4, 0.07, true); hiss(t + half, 1800, 0.4 + s * 0.03, 0.07, true); }
+    hiss(t, 8000, odd ? 0.2 : 0.12, 0.035);
+    hiss(t + half, 8000, 0.15, 0.03);
+    if (odd) hiss(t, 6000, 0.18, 0.15);
+    var b = th.b[s] >= 0 ? th.b[s] : 0;
+    tone('sawtooth', hz(root, odd ? b + 12 : b), t, 0.004, 0.6, beatLen * 0.32, null, 520);
+    if (!odd) tone('sawtooth', hz(root, 12), t + half, 0.004, 0.35, beatLen * 0.18, null, 520);
+    tone(wave, hz(root * 4, tri[(s + bar) % tri.length] + (s % 4 === 3 ? 12 : 0)), t, 0.004, saw ? 0.07 : 0.11, 0.13, null, 3400);
+    tone(wave, hz(root * 4, tri[(s + bar + 1) % tri.length] + 12), t + half, 0.004, saw ? 0.05 : 0.08, 0.1, null, 3400);
+    if (odd) tri.forEach(function (semi) { tone('sawtooth', hz(root * 2, semi), t, 0.003, 0.055, 0.1, null, 2400); });
+    if (s === 0) chord(bar, t, beatLen * 4, 0.035);
+  }
+
   /* one eighth-note step; 8 steps per bar, 4 bars per chord loop */
   function playStep(step, t) {
     var bar = Math.floor(step / 8) % 4, s = step % 8, root = th.r[bar], tri = Q[th.q[bar]], style = st.style;
@@ -98,6 +121,7 @@
       if (s === 0 || s === 3 || s === 5) tone('triangle', hz(root * 4, tri[(s + bar) % tri.length] + (s === 5 ? 12 : 0)), t, 0.01, 0.12, 0.7);
       return;
     }
+    if (style === 'wild') { wild(s, bar, t, root, tri, beatLen); return; }
     var hard = style === 'beat';
     if (s === 0 || s === 4) kick(t, hard ? 0.85 : 0.55);
     if (hard && th.ex.indexOf(s) >= 0) kick(t, 0.25);
