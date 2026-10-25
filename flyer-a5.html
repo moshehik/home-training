@@ -21,16 +21,17 @@ body { font-family: "Asparagos", "Segoe UI", Arial, sans-serif; color: var(--ink
 
 /* the room: floor carries the lower half */
 .shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(255, 240, 236, .35) 0, rgba(255, 240, 236, 0) 40%, rgba(120, 60, 60, .0) 60%, rgba(90, 40, 40, .28) 100%); }
-.logo { position: absolute; top: 6mm; left: 50%; width: 52mm; transform: translateX(-50%); filter: drop-shadow(0 0 6px rgba(255, 255, 255, .95)) drop-shadow(0 0 14px rgba(255, 255, 255, .8)); }
-
-.head { position: absolute; top: 37mm; left: 8mm; right: 8mm; text-align: center; }
-.head h1 { margin: 0; font-size: 13mm; line-height: .98; }
-.head h1 span { display: block; }
-.head .a { color: var(--ink); }
-.head .b { color: var(--mauve); }
-.head .c { color: var(--ink); }
-.head .d { color: var(--dusty); }
-.lead { margin: 3mm auto 0; max-width: 130mm; font-size: 5.1mm; line-height: 1.34; font-weight: 600; color: #4a2c2a; text-shadow: 0 0 6px rgba(255, 245, 240, .9); }
+.hstage { position: absolute; left: 0; top: 16mm; width: 148mm; aspect-ratio: 16 / 9; container-type: inline-size; }
+.logo { position: absolute; left: 47.8%; top: 49.8%; width: 38%; transform: translate(-50%, -50%); filter: drop-shadow(0 0 4px rgba(255, 245, 240, .8)); }
+/* the new landing-page opening, frozen: the logo in the middle, the lines written on the wall around it, a dashed arrow from the logo to each */
+.ph { position: absolute; margin: 0; transform: translate(-50%, -50%); text-align: center; white-space: nowrap; font-size: calc(var(--s) * 1cqw); line-height: 1.12; font-weight: 500; color: var(--c); text-shadow: 0 0 2mm rgba(255, 240, 236, .7); }
+.arrows { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.arrows .ln { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-dasharray: 10 7; stroke-linejoin: round; }
+.arrows .hv { stroke-width: 3.6; }
+.arrows polygon { fill: currentColor; }
+.more { position: absolute; left: 0; right: 0; top: 108mm; margin: 0; text-align: center; font-size: 4.6mm; line-height: 1.34; font-weight: 600; color: #4a2c2a; text-shadow: 0 0 3mm rgba(255, 245, 240, .9); }
+.more span { display: block; }
+.more span:last-child { color: var(--berry); font-weight: 800; }
 
 /* the furniture, as on the landing page */
 .pot { position: absolute; left: -10mm; bottom: 29mm; height: 64mm; filter: drop-shadow(1.5mm 2mm 2mm rgba(70, 35, 35, .25)); }
@@ -49,8 +50,6 @@ body { font-family: "Asparagos", "Segoe UI", Arial, sans-serif; color: var(--ink
 .onrug .tel { margin: 1.2mm 0 0; font-size: 4.2mm; font-weight: 800; }
 .onrug .qr { flex: none; width: 21mm; height: 21mm; padding: 1.2mm; background: #fff; border-radius: 3mm; box-shadow: 0 .8mm 2mm rgba(90, 30, 40, .3); }
 .onrug .qr svg { display: block; width: 100%; height: 100%; }
-.lead span { display: block; }
-.lead span:last-child { color: var(--berry); font-weight: 800; }
 /* the gold button, as the "שימי לב" button on the site; it links to the landing page */
 .go { position: relative; transform: translateX(1.2mm); display: block; width: 36mm; height: 13mm; margin: 3.5mm auto 0; color: #3b2606; font-size: 4.3mm; font-weight: 700; letter-spacing: .02em; text-decoration: none; }
 .go::before { content: ""; position: absolute; left: 8%; right: 8%; bottom: -1.2mm; height: 3mm; z-index: 0; background: radial-gradient(ellipse at center, rgba(70, 35, 35, .35), rgba(70, 35, 35, 0) 70%); filter: blur(.8mm); }
@@ -58,6 +57,8 @@ body { font-family: "Asparagos", "Segoe UI", Arial, sans-serif; color: var(--ink
 .go .in-row { position: absolute; z-index: 2; left: 1.6%; top: 6%; width: 89%; height: 66%; display: flex; align-items: center; justify-content: center; gap: 2.4mm; }
 .go svg { width: 5mm; height: 2mm; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 /* designer credit, along the left edge, no background, in the handwriting font of the site */
+.gobox { position: absolute; left: 0; right: 0; top: 147mm; z-index: 3; }
+.gobox .go { margin: 0 auto; }
 .credit { position: absolute; left: 3mm; bottom: 9mm; margin: 0; writing-mode: vertical-rl; transform: rotate(180deg); font-family: "OH Noa Price", "Segoe Script", cursive; font-size: 2.73mm; font-weight: 400; letter-spacing: .03em; color: #4a1226; white-space: nowrap; text-shadow: none; -webkit-text-stroke: .14mm #4a1226; paint-order: stroke fill; }
 .credit b { font-family: "Segoe Script", "Brush Script MT", cursive; font-weight: 700; letter-spacing: .06em; color: #a3304f; -webkit-text-stroke: .1mm #a3304f; }
 </style>
@@ -65,21 +66,32 @@ body { font-family: "Asparagos", "Segoe UI", Arial, sans-serif; color: var(--ink
 <body>
 <main class="sheet">
   <div class="shade"></div>
-  <img class="logo" src="assets/landing/logo-berry.png" alt="אימון פונקציונלי עם ברכי">
-  <section class="head">
-    <h1 class="hand" aria-label="התוצאות? סטודיו. הנוחות? בית.">
-      <span class="a">התוצאות?</span><span class="b">סטודיו.</span><span class="c">הנוחות?</span><span class="d">בית.</span>
-    </h1>
-    <p class="lead"><span>17 אימונים, 135 תרגילים</span><span>ובובה שמראה לך בדיוק איך.</span><span>מהבית שלך, בקצב שלך,</span><span>במחיר שמתאים לך.</span></p>
-    <a class="go" href="https://home-training-tawny.vercel.app/landing.html"><span class="in-row"><span>מעניין אותי</span><svg viewBox="0 0 40 16" aria-hidden="true"><path d="M39 8H3M10 1.5 3 8l7 6.5"/></svg></span></a>
-  </section>
-  <img class="plant" src="assets/room/home-plant.png" alt="">
-  <img class="chair" src="assets/room/home-chair.png" alt="">
+  <div class="hstage">
+  <svg class="arrows" viewBox="0 0 1920 1080" aria-hidden="true">
+    <g style="color:#a3304f"><path class="ln" d="M1147 382C1147 268 1195 224 1290 222L1574 222"/><polygon points="1607,222 1570,207 1570,237"/></g>
+    <g style="color:#c2557a"><path class="ln hv" d="M1308 365L1505 365L1505 775L1592 775"/><polygon points="1628,776 1590,759 1590,793"/></g>
+    <g style="color:#3f4547"><path class="ln" d="M1427 620C1430 722 1380 778 1290 778L1036 778"/><polygon points="998,778 1036,763 1036,793"/></g>
+    <g style="color:#8a2543"><path class="ln" d="M368 540C372 690 450 760 580 760C700 757 780 740 860 748C920 760 938 820 938 928"/><polygon points="938,968 922,928 954,928"/></g>
+    <g style="color:#b83d68"><path class="ln" d="M622 389L520 389C340 392 258 445 247 505"/><polygon points="245,540 231,504 261,504"/></g>
+    <g style="color:#666c6e"><path class="ln" d="M957 382L957 330C957 235 880 192 760 192L442 192"/><polygon points="405,190 442,175 442,205"/></g>
+  </svg>
+    <img class="logo" src="assets/landing/logo-berry.png" alt="אימון פונקציונלי עם ברכי">
+    <p class="ph" style="left:73.5%;top:12.5%;--s:3.2;--c:#a3304f">למי שמתביישת</p>
+    <p class="ph" style="left:79.7%;top:28.2%;--s:2.7;--c:#555a5b">לאינטלגנטית שרוצה<br>להתאמן עם ידע</p>
+    <p class="ph" style="left:85.7%;top:56.7%;--s:2.8;--c:#c2557a">למעדיפה <br>הרבה <br>סגנונות של <br>אימון</p>
+    <p class="ph" style="left:70.2%;top:80.6%;--s:2.9;--c:#3f4547">לאוהבת דיוק בהוראת התרגיל</p>
+    <p class="ph" style="left:28.5%;top:81.5%;--s:3.2;--c:#8a2543">לחוסכת את זמן <br>היציאה לחדר כושר</p>
+    <p class="ph" style="left:10.6%;top:60%;--s:2.6;--c:#434849">לתחרותית<br>שרוצה<br>קונטרה</p>
+    <p class="ph" style="left:22.4%;top:30.7%;--s:2.7;--c:#b83d68">לבוחרת באימון מוזל</p>
+    <p class="ph" style="left:29.5%;top:11.6%;--s:2.8;--c:#666c6e">למקפידה על אימון יומי</p>
+  </div>
+  <p class="more"><span>17 אימונים, 135 תרגילים</span><span>ובובה שמראה לך בדיוק איך.</span><span>מהבית שלך, בקצב שלך,</span><span>במחיר שמתאים לך.</span></p>
+  <div class="gobox"><a class="go" href="https://home-training-tawny.vercel.app/landing.html"><span class="in-row"><span>מעניין אותי</span><svg viewBox="0 0 40 16" aria-hidden="true"><path d="M39 8H3M10 1.5 3 8l7 6.5"/></svg></span></a></div>
   <div class="rugsh"></div>
   <img class="rug" src="assets/landing/rug.png" alt="">
   <section class="onrug">
     <div class="txt">
-      <p class="cta hand">לפרטים</p>
+      <p class="cta hand">לכי על זה.</p>
       <p class="tel"><b>ברכי כהנוביץ</b> · <span dir="ltr">055-672-2245</span></p>
       <p class="mail" dir="ltr">b0556722245@gmail.com</p>
     </div>
