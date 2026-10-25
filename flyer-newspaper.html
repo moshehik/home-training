@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>פרסומת לעיתון A5 - אימון פונקציונלי עם ברכי</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+@font-face { font-family: "OH Noa Price"; src: url(assets/fonts/OHNoaPrice-Regular.woff2) format("woff2"); }
+@font-face { font-family: "Asparagos"; src: local("Asparagos Regular"), url(assets/fonts/AsparagosRegular.ttf) format("truetype"); font-weight: 400 500; }
+@font-face { font-family: "Asparagos"; src: local("Asparagos Bold"), url(assets/fonts/AsparagosBold.ttf) format("truetype"); font-weight: 600 700; }
+@font-face { font-family: "Asparagos"; src: local("Asparagos Black"), url(assets/fonts/AsparagosBlack.ttf) format("truetype"); font-weight: 800 900; }
+:root { --ink: #4a3b37; --mauve: #a98e9c; --dusty: #c4877c; --berry: #a3304f; --wall: #e3b5ad; }
+@page { size: 148mm 210mm; margin: 0; }
+* { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html, body { margin: 0; background: #d9d2d0; }
+body { font-family: "Asparagos", "Segoe UI", Arial, sans-serif; color: var(--ink); }
+.sheet { position: relative; width: 148mm; height: 210mm; margin: 0 auto; overflow: hidden; background: var(--wall) url(assets/landing/room.jpg) 36% 0 / auto 100% no-repeat; isolation: isolate; }
+@media screen { .sheet { margin: 18px auto; box-shadow: 0 10px 40px rgba(60, 30, 40, .35); } }
+@media print { html, body { background: none; } .sheet { margin: 0; box-shadow: none; } }
+.hand { font-family: "OH Noa Price", "Segoe Script", cursive; font-weight: 400; }
+
+/* the room: floor carries the lower half */
+.shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(255, 240, 236, .35) 0, rgba(255, 240, 236, 0) 40%, rgba(120, 60, 60, .0) 60%, rgba(90, 40, 40, .28) 100%); }
+.hstage { position: absolute; left: 0; top: 16mm; width: 148mm; aspect-ratio: 16 / 9; container-type: inline-size; }
+.logo { position: absolute; left: 47.8%; top: 49.8%; width: 38%; transform: translate(-50%, -50%); filter: drop-shadow(0 0 4px rgba(255, 245, 240, .8)); }
+/* the new landing-page opening, frozen: the logo in the middle, the lines written on the wall around it, a dashed arrow from the logo to each */
+.ph { position: absolute; margin: 0; transform: translate(-50%, -50%); text-align: center; white-space: nowrap; font-size: calc(var(--s) * 1cqw); line-height: 1.12; font-weight: 500; color: var(--c); text-shadow: 0 0 2mm rgba(255, 240, 236, .7); }
+.arrows { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.arrows .ln { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-dasharray: 10 7; stroke-linejoin: round; }
+.arrows .hv { stroke-width: 3.6; }
+.arrows polygon { fill: currentColor; }
+.more { position: absolute; left: 0; right: 0; top: 108mm; margin: 0; text-align: center; font-size: 4.6mm; line-height: 1.34; font-weight: 600; color: #4a2c2a; text-shadow: 0 0 3mm rgba(255, 245, 240, .9); }
+.more span { display: block; }
+.more span:last-child { color: var(--berry); font-weight: 800; }
+
+/* the furniture, as on the landing page */
+.pot { position: absolute; left: -10mm; bottom: 29mm; height: 64mm; filter: drop-shadow(1.5mm 2mm 2mm rgba(70, 35, 35, .25)); }
+.potsh { position: absolute; left: 3mm; bottom: 26.5mm; width: 40mm; height: 6mm; background: radial-gradient(ellipse at 42% 50%, rgba(55, 28, 28, .5), rgba(55, 28, 28, .22) 45%, rgba(55, 28, 28, 0) 72%); filter: blur(1.2mm); z-index: -1; }
+.chair { position: absolute; right: 2.5mm; bottom: 29mm; width: 41mm; }
+.plant { position: absolute; right: 41mm; bottom: 33mm; width: 21mm; }
+/* a long pink rug in front; the invitation is written on it */
+.rug { position: absolute; left: 50%; margin-left: -72mm; width: 144mm; height: 44mm; bottom: -17mm; transform: rotate(-.8deg); filter: saturate(.85) drop-shadow(0 .8mm 1.2mm rgba(70, 35, 35, .35)); }
+.rugsh { position: absolute; left: 8mm; right: 8mm; bottom: -9mm; height: 14mm; background: radial-gradient(ellipse at center, rgba(70, 35, 35, .4), rgba(70, 35, 35, 0) 70%); filter: blur(2mm); z-index: -1; }
+.onrug { position: absolute; left: 20mm; right: 20mm; bottom: 7.5mm; height: 22mm; display: flex; align-items: center; gap: 6mm; direction: rtl; }
+.onrug .txt { flex: 1; text-align: center; color: #5a1f33; }
+.onrug .cta { margin: 0; font-size: 8.6mm; line-height: 1; color: #7a1737; text-shadow: 0 .2mm 0 rgba(255, 255, 255, .35); }
+.onrug .sub { margin: .4mm 0 0; font-size: 2.9mm; font-weight: 700; line-height: 1.3; }
+.onrug .url { margin: .3mm 0 0; direction: ltr; text-align: center; font-family: "Segoe UI", Arial, sans-serif; font-size: 3.1mm; font-weight: 800; color: #4a1226; }
+.onrug .mail { margin: .8mm 0 0; font-family: "Segoe UI", Arial, sans-serif; font-size: 4mm; font-weight: 800; color: #4a1226; }
+.onrug .tel { margin: 1.2mm 0 0; font-size: 4.2mm; font-weight: 800; }
+.onrug .qr { flex: none; width: 21mm; height: 21mm; padding: 1.2mm; background: #fff; border-radius: 3mm; box-shadow: 0 .8mm 2mm rgba(90, 30, 40, .3); }
+.onrug .qr svg { display: block; width: 100%; height: 100%; }
+/* the gold button, as the "שימי לב" button on the site; it links to the landing page */
+.go { position: relative; transform: translateX(1.2mm); display: block; width: 36mm; height: 13mm; margin: 3.5mm auto 0; color: #3b2606; font-size: 4.3mm; font-weight: 700; letter-spacing: .02em; text-decoration: none; }
+.go::before { content: ""; position: absolute; left: 8%; right: 8%; bottom: -1.2mm; height: 3mm; z-index: 0; background: radial-gradient(ellipse at center, rgba(70, 35, 35, .35), rgba(70, 35, 35, 0) 70%); filter: blur(.8mm); }
+.go::after { content: ""; position: absolute; inset: 0; z-index: 1; background: url(assets/room/button-gold.png) center / 100% 100% no-repeat; }
+.go .in-row { position: absolute; z-index: 2; left: 1.6%; top: 6%; width: 89%; height: 66%; display: flex; align-items: center; justify-content: center; gap: 2.4mm; }
+.go svg { width: 5mm; height: 2mm; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+/* designer credit, along the left edge, no background, in the handwriting font of the site */
+.credit { position: absolute; left: 3mm; bottom: 9mm; margin: 0; writing-mode: vertical-rl; transform: rotate(180deg); font-family: "OH Noa Price", "Segoe Script", cursive; font-size: 2.73mm; font-weight: 400; letter-spacing: .03em; color: #4a1226; white-space: nowrap; text-shadow: none; -webkit-text-stroke: .14mm #4a1226; paint-order: stroke fill; }
+.credit b { font-family: "Segoe Script", "Brush Script MT", cursive; font-weight: 700; letter-spacing: .06em; color: #a3304f; -webkit-text-stroke: .1mm #a3304f; }
+</style>
+</head>
+<body>
+<main class="sheet">
+  <div class="shade"></div>
+  <div class="hstage">
+  <svg class="arrows" viewBox="0 0 1920 1080" aria-hidden="true">
+    <g style="color:#a3304f"><path class="ln" d="M1147 382C1147 268 1195 224 1290 222L1574 222"/><polygon points="1607,222 1570,207 1570,237"/></g>
+    <g style="color:#c2557a"><path class="ln hv" d="M1308 365L1505 365L1505 775L1592 775"/><polygon points="1628,776 1590,759 1590,793"/></g>
+    <g style="color:#3f4547"><path class="ln" d="M1427 620C1430 722 1380 778 1290 778L1036 778"/><polygon points="998,778 1036,763 1036,793"/></g>
+    <g style="color:#8a2543"><path class="ln" d="M368 540C372 690 450 760 580 760C700 757 780 740 860 748C920 760 938 820 938 928"/><polygon points="938,968 922,928 954,928"/></g>
+    <g style="color:#b83d68"><path class="ln" d="M622 389L520 389C340 392 258 445 247 505"/><polygon points="245,540 231,504 261,504"/></g>
+    <g style="color:#666c6e"><path class="ln" d="M957 382L957 330C957 235 880 192 760 192L442 192"/><polygon points="405,190 442,175 442,205"/></g>
+  </svg>
+    <img class="logo" src="assets/landing/logo-berry.png" alt="אימון פונקציונלי עם ברכי">
+    <p class="ph" style="left:73.5%;top:12.5%;--s:3.2;--c:#a3304f">למי שמתביישת</p>
+    <p class="ph" style="left:79.7%;top:28.2%;--s:2.7;--c:#555a5b">לאינטלגנטית שרוצה<br>להתאמן עם ידע</p>
+    <p class="ph" style="left:85.7%;top:56.7%;--s:2.8;--c:#c2557a">למעדיפה <br>הרבה <br>סגנונות של <br>אימון</p>
+    <p class="ph" style="left:70.2%;top:80.6%;--s:2.9;--c:#3f4547">לאוהבת דיוק בהוראת התרגיל</p>
+    <p class="ph" style="left:28.5%;top:81.5%;--s:3.2;--c:#8a2543">לחוסכת את זמן <br>היציאה לחדר כושר</p>
+    <p class="ph" style="left:10.6%;top:60%;--s:2.6;--c:#434849">לתחרותית<br>שרוצה<br>קונטרה</p>
+    <p class="ph" style="left:22.4%;top:30.7%;--s:2.7;--c:#b83d68">לבוחרת באימון מוזל</p>
+    <p class="ph" style="left:29.5%;top:11.6%;--s:2.8;--c:#666c6e">למקפידה על אימון יומי</p>
+  </div>
+  <p class="more"><span>17 אימונים, 135 תרגילים</span><span>ובובה שמראה לך בדיוק איך.</span><span>מהבית שלך, בקצב שלך,</span><span>במחיר שמתאים לך.</span></p>
+  <div class="rugsh"></div>
+  <img class="rug" src="assets/landing/rug.png" alt="">
+  <section class="onrug">
+    <div class="txt">
+      <p class="cta hand">לכי על זה.</p>
+      <p class="tel"><b>ברכי כהנוביץ</b> · <span dir="ltr">055-672-2245</span></p>
+      <p class="mail" dir="ltr">b0556722245@gmail.com</p>
+    </div>
+  </section>
+  <p class="credit"><b dir="ltr">wither</b> · מצב רוח לעסק</p>
+</main>
+</body>
+</html>

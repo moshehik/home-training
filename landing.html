@@ -39,7 +39,7 @@ h1, h2, h3, p { margin: 0; }
 
 /* ---------- opening (like the site's home): the logo is written in the middle of the empty room, then moves to the corner and the room fills in ---------- */
 .ilogo { position: fixed; z-index: 60; left: 0; top: 0; transform-origin: 0 0; pointer-events: none; --p: -14; --s: -40; -webkit-mask-image: linear-gradient(250deg, #000 calc(var(--p) * 1%), transparent calc(var(--p) * 1% + 12%)); mask-image: linear-gradient(250deg, #000 calc(var(--p) * 1%), transparent calc(var(--p) * 1% + 12%)); }
-.ilogo i { position: absolute; inset: 0; background: url(assets/room/logo.png) center / 100% 100% no-repeat; }
+.ilogo i { position: absolute; inset: 0; background: url(assets/landing/logo-berry.png) center / 100% 100% no-repeat; }
 .ilogo i + i { filter: brightness(2.6) saturate(.5); -webkit-mask-image: linear-gradient(250deg, transparent calc(var(--s) * 1% - 9%), #000 calc(var(--s) * 1%), transparent calc(var(--s) * 1% + 9%)); mask-image: linear-gradient(250deg, transparent calc(var(--s) * 1% - 9%), #000 calc(var(--s) * 1%), transparent calc(var(--s) * 1% + 9%)); }
 .palm, .rug, .furn { transition: opacity 1.1s ease; }
 .pre #sbar { opacity: 0; }
@@ -80,43 +80,52 @@ h1, h2, h3, p { margin: 0; }
 /* the logo stays in the middle of the room; the lines are written on the wall around it, each one followed by a dashed arrow that is drawn from the logo to it; then everything vanishes, the logo grows a little, lightning crosses it, and the last lines are written with a period at the end.
    The stage keeps the 16:9 composition of the sketch (all positions are percentages of it, sizes are cqw), centred in the room. */
 .hstage { position: absolute; z-index: 3; left: 50%; top: 50%; width: min(100vw, calc(100svh * 16 / 9)); aspect-ratio: 16 / 9; transform: translate(-50%, -50%); container-type: inline-size; }
-.hlogo { position: absolute; z-index: 3; left: 47.8%; top: 48.1%; width: 44.5%; aspect-ratio: 1603 / 648; transform: translate(-50%, -50%); animation: grow .8s ease 7.7s both; }
-.hlogo img { display: block; width: 100%; height: 100%; animation: flash 1.3s ease-in-out 8.5s both; }
+.hlogo { position: absolute; z-index: 3; left: 47.8%; top: 48.1%; width: 44.5%; aspect-ratio: 1603 / 648; transform: translate(-50%, -50%) scale(.88); animation: pop 1s ease .2s both, grow .8s ease 8.9s forwards; }
+.hlogo img { display: block; width: 100%; height: 100%; animation: flash 1.3s ease-in-out 9.7s both; }
 /* the lightning: a bright band that sweeps across the letters (the band is cut to the shape of the logo), plus a burst of light behind it */
-.hlogo::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; background: linear-gradient(105deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, .95) 44%, #fff 50%, rgba(255, 255, 255, .95) 56%, rgba(255, 255, 255, 0) 70%) 100% 0 / 300% 100% no-repeat; -webkit-mask: url(assets/room/logo.png) center / 100% 100% no-repeat; mask: url(assets/room/logo.png) center / 100% 100% no-repeat; animation: zap 1.3s ease-in-out 8.5s both; }
-.hlogo::before { content: ""; position: absolute; z-index: -1; inset: -30% -12%; pointer-events: none; opacity: 0; background: radial-gradient(ellipse at center, rgba(255, 255, 255, .95) 0, rgba(255, 240, 200, .6) 30%, rgba(255, 240, 200, 0) 68%); animation: burst 1.3s ease-in-out 8.5s both; }
+.hlogo::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; background: linear-gradient(105deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, .95) 44%, #fff 50%, rgba(255, 255, 255, .95) 56%, rgba(255, 255, 255, 0) 70%) 100% 0 / 300% 100% no-repeat; -webkit-mask: url(assets/room/logo.png) center / 100% 100% no-repeat; mask: url(assets/room/logo.png) center / 100% 100% no-repeat; animation: zap 1.3s ease-in-out 9.7s both; }
+.hlogo::before { content: ""; position: absolute; z-index: -1; inset: -30% -12%; pointer-events: none; opacity: 0; background: radial-gradient(ellipse at center, rgba(255, 255, 255, .95) 0, rgba(255, 240, 200, .6) 30%, rgba(255, 240, 200, 0) 68%); animation: burst 1.3s ease-in-out 9.7s both; }
+@keyframes pop { from { transform: translate(-50%, -50%) scale(.88); } to { transform: translate(-50%, -50%) scale(1); } }
 @keyframes grow { from { transform: translate(-50%, -50%) scale(1); } to { transform: translate(-50%, -74%) scale(1.1); } }
 @keyframes zap { 0% { opacity: 1; background-position: 100% 0; } 100% { opacity: 1; background-position: 0 0; } }
 @keyframes burst { 0%, 100% { opacity: 0; transform: scale(.7); } 45% { opacity: 1; transform: scale(1.05); } }
 @keyframes flash { 0%, 100% { filter: none; } 45% { filter: drop-shadow(0 0 14px #fff) drop-shadow(0 0 34px rgba(255, 235, 170, .95)) brightness(1.35); } }
 /* while the sketch is on the wall the palm and the armchair step back (nearly transparent) so the lines read clean over the room */
-.furn { animation: step-back 8s ease both; }
+.furn { animation: step-back 9.2s ease both; }
 @keyframes step-back { 0% { opacity: 0; } 8% { opacity: .1; } 90% { opacity: .1; } 100% { opacity: 1; } }
 .phs { margin: 0; padding: 0; list-style: none; }
-.ph { position: absolute; z-index: 3; left: var(--x); top: var(--y); margin: 0; text-align: center; white-space: nowrap; font-size: calc(var(--s) * 1cqw); line-height: 1.12; font-family: "Asparagos", "Segoe UI", Arial, sans-serif; font-weight: 600; color: var(--c); transform: translate(-50%, -50%); animation: wipe .45s linear calc(0.3s + var(--i) * 0.75s) both, vanish .6s ease 7.2s forwards; text-shadow: 0 0 10px rgba(255, 238, 235, .75), 0 0 22px rgba(255, 238, 235, .5); filter: url(#paint); }
+.ph { position: absolute; z-index: 3; left: var(--x); top: var(--y); margin: 0; text-align: center; white-space: nowrap; font-size: calc(var(--s) * 1cqw); line-height: 1.12; font-family: "Asparagos", "Segoe UI", Arial, sans-serif; font-weight: 600; color: var(--c); transform: translate(-50%, -50%); animation: wipe .45s linear calc(1.5s + var(--i) * 0.75s) both, vanish .6s ease 8.4s forwards; text-shadow: 0 0 10px rgba(255, 238, 235, .75), 0 0 22px rgba(255, 238, 235, .5); filter: url(#paint); }
 @keyframes vanish { from { opacity: 1; } to { opacity: 0; } }
 /* dashed arrows from the logo to the lines (drawn through a mask that is revealed along the path) */
 .arrows { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; overflow: visible; }
-.ar { color: var(--c); animation: vanish .6s ease 7.2s forwards; }
+.ar { color: var(--c); animation: vanish .6s ease 8.4s forwards; }
 .ar .ln { fill: none; stroke: currentColor; stroke-width: 3.4; stroke-dasharray: 13 9; stroke-linecap: butt; stroke-linejoin: round; }
 .ar.hv .ln { stroke-width: 5; }
-.ar .hd { fill: currentColor; opacity: 0; animation: hdin .12s linear calc(0.3s + var(--i) * 0.75s + .88s) forwards; }
-.rv { fill: none; stroke: #fff; stroke-width: 24; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw .45s ease-out calc(0.3s + var(--i) * 0.75s + .42s) forwards; }
+.ar .hd { fill: currentColor; opacity: 0; animation: hdin .12s linear calc(1.5s + var(--i) * 0.75s + .88s) forwards; }
+.rv { fill: none; stroke: #fff; stroke-width: 24; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw .45s ease-out calc(1.5s + var(--i) * 0.75s + .42s) forwards; }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes hdin { to { opacity: 1; } }
 .fin { position: absolute; z-index: 3; left: 47.8%; top: 62%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: .04em; }
 .more, .golet { margin: 0; text-align: center; white-space: nowrap; line-height: 1.05; font-family: "Asparagos", "Segoe UI", Arial, sans-serif; filter: url(#paint); }
 .more { font-size: 2.9cqw; font-weight: 700; color: #555a5b; }
 /* "למי שרוצה יותר-" is written letter by letter at the pace of speech (about ten letters a second) */
-.lt span { display: inline-block; white-space: pre; animation: letter .16s ease-out calc(9.8s + var(--k) * 0.1s) both; }
+.lt span { display: inline-block; white-space: pre; animation: letter .16s ease-out calc(9.7s + var(--k) * 0.1s) both; }
 @keyframes letter { from { opacity: 0; transform: translateY(.35em) scale(.7); } to { opacity: 1; transform: none; } }
-.golet { font-size: 6.4cqw; font-weight: 800; color: var(--berry); text-decoration: none; display: block; animation: bob 4.6s ease-in-out 14.6s infinite; }
+.golet { font-size: 6.4cqw; font-weight: 800; color: var(--berry); text-decoration: none; display: block; animation: bob 4.6s ease-in-out 14.5s infinite; }
 /* "לכי על זה" floats in from below and settles; the period arrives on its own, afterwards, and lands */
-.golet .gw { display: inline-block; animation: floatin 1.5s cubic-bezier(.2, .7, .2, 1) 11.6s both; }
+.golet .gw { display: inline-block; animation: floatin 1.5s cubic-bezier(.2, .7, .2, 1) 11.5s both; }
 @keyframes floatin { 0% { opacity: 0; transform: translateY(1.1em) scale(.94); } 55% { opacity: 1; } 78% { transform: translateY(-.12em) scale(1.01); } 100% { opacity: 1; transform: none; } }
 @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-.1em); } }
-.golet .dot { display: inline-block; animation: dotland .6s cubic-bezier(.3, 1.4, .5, 1) 13.4s both; }
+.golet .dot { display: inline-block; animation: dotland .6s cubic-bezier(.3, 1.4, .5, 1) 13.3s both; }
 @keyframes dotland { 0% { opacity: 0; transform: translateY(-1.4em) scale(.5); } 60% { opacity: 1; transform: translateY(.1em) scale(1.15); } 100% { opacity: 1; transform: none; } }
+/* after "לכי על זה." an arrow with "גללי וגלי עוד" shows up and keeps nudging downwards */
+.golet .cue { display: flex; flex-direction: column; align-items: center; gap: .1em; margin-top: .25em; font-size: 2.5cqw; font-weight: 700; color: #6b4f55; line-height: 1; animation: cueIn .8s ease-out 15s both; }
+.golet .cue svg { width: 1.1em; height: 1.9em; overflow: visible; animation: cueNudge 1.6s ease-in-out 15.9s infinite; }
+.golet .cue path { fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+.golet .cue .cw { font-family: "OH Noa Price", "Gveret Levin", "Segoe Script", cursive; font-weight: 400; font-size: 1.6em; line-height: .9; }
+.golet .cue .cl { stroke-dasharray: 5 6; }
+@keyframes cueIn { from { opacity: 0; transform: translateY(-.5em); } to { opacity: 1; transform: none; } }
+@keyframes cueNudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(.45em); } }
 .golet:hover, .golet:focus-visible { outline: none; text-shadow: 0 0 16px rgba(255, 255, 255, .95), 0 0 36px rgba(255, 240, 200, .8); }
 .golet.gone { opacity: 0; pointer-events: none; transition: opacity .4s ease; }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
@@ -133,7 +142,7 @@ h1, h2, h3, p { margin: 0; }
 .potshadow { position: absolute; z-index: 0; left: 58%; bottom: 0; width: 95%; height: 10%; transform: translate(-50%, 48%); background: radial-gradient(ellipse at 42% 50%, rgba(55, 28, 28, .55) 0, rgba(55, 28, 28, .28) 42%, rgba(55, 28, 28, 0) 72%); filter: blur(7px); }
 @media (max-width: 900px) { .palmwrap { left: -8%; } }
 .rugshadow { position: absolute; z-index: 0; left: 47%; bottom: calc(-13% - 60px - 18px); width: min(70vw, 1330px); height: clamp(40px, 6vw, 90px); transform: translateX(-50%); pointer-events: none; background: radial-gradient(ellipse at center, rgba(70, 35, 35, .38) 0, rgba(70, 35, 35, .18) 45%, rgba(70, 35, 35, 0) 72%); filter: blur(10px); }
-.palm { position: absolute; z-index: 2; left: -2%; bottom: -3%; height: 62%; max-height: 760px; width: auto; pointer-events: none; transform-origin: 50% 100%; animation: breeze 6.5s ease-in-out infinite, step-back 8s ease both; will-change: transform; }
+.palm { position: absolute; z-index: 2; left: -2%; bottom: -3%; height: 62%; max-height: 760px; width: auto; pointer-events: none; transform-origin: 50% 100%; animation: breeze 6.5s ease-in-out infinite, step-back 9.2s ease both; will-change: transform; }
 @keyframes breeze { 0%, 100% { transform: rotate(-.5deg) skewX(1.6deg); } 22% { transform: rotate(.3deg) skewX(-.8deg); } 50% { transform: rotate(.9deg) skewX(-2.4deg); } 78% { transform: rotate(-.2deg) skewX(.6deg); } }
 .furn { position: absolute; z-index: 1; bottom: 3%; pointer-events: none; filter: drop-shadow(9px 12px 9px rgba(120, 60, 70, .2)); }
 .furn.chair { right: 1.5%; width: clamp(120px, 15vw, 290px); }
@@ -269,8 +278,20 @@ h1, h2, h3, p { margin: 0; }
 .cards { margin: 48px auto 0; width: 80%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }   /* "למה דווקא בבית?": the answer boxes and their writing at 80% */
 .card { padding: 24px 21px 22px; border-radius: 60px 90px 50px 80px / 70px 50px 80px 60px; }
 .card:nth-child(even) { border-radius: 90px 50px 80px 60px / 50px 80px 60px 70px; }
-.card .q { font-family: "OH Noa Price", "Gveret Levin", cursive; font-size: 32px; line-height: 1; color: var(--berry); margin-bottom: 8px; }
+.card .q { font-family: "OH Noa Price", "Gveret Levin", cursive; font-size: 32px; line-height: 1; color: var(--berry); margin-bottom: 10px; }
 .card p { font-size: 14.4px; font-weight: 500; }
+/* the four boxes open one after another (--cd = each box's start); then its title is emphasised: a brush-stroke sweep, a firmer colour, a small pop; then the text is written in */
+.card .q span { padding: 0 4px 5px; margin: 0 -4px; background: url(assets/landing/underline.png) no-repeat 100% 100% / 100% auto; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+@media (prefers-reduced-motion: no-preference) {
+  .cards.pre .card { opacity: 0; }
+  .cards.go .card { animation: cardOpen .9s cubic-bezier(.2, .8, .25, 1.15) backwards; animation-delay: var(--cd, 0s); }
+  .cards.go .card .q { animation: qPop .7s cubic-bezier(.3, .7, .3, 1.5) backwards; animation-delay: calc(var(--cd, 0s) + .55s); transform-origin: 100% 50%; }
+  .cards.go .card .q span { animation: qMark .7s ease-out backwards; animation-delay: calc(var(--cd, 0s) + .75s); }
+  .cards.go .card p { animation: weave 1s cubic-bezier(.4, .1, .4, 1) backwards; animation-delay: calc(var(--cd, 0s) + 1.2s); }
+}
+@keyframes cardOpen { from { opacity: 0; transform: translateY(26px) scale(.5) rotate(-5deg); } 60% { opacity: 1; } to { opacity: 1; transform: none; } }
+@keyframes qPop { from { opacity: 0; transform: scale(.7); color: var(--mauve); } 55% { transform: scale(1.14); } to { opacity: 1; transform: none; } }
+@keyframes qMark { from { background-size: 0% auto; } to { background-size: 100% auto; } }
 
 /* steps */
 .steps { margin-top: 56px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
@@ -281,6 +302,16 @@ h1, h2, h3, p { margin: 0; }
 .step:nth-child(4) .n { animation-delay: -3.5s; }
 @keyframes lamp { 50% { box-shadow: inset 0 -3px 8px rgba(255, 214, 120, .55), inset 0 2px 4px rgba(255, 255, 255, .9), 0 0 18px 4px rgba(255, 246, 204, .95), 0 0 42px 14px rgba(255, 228, 150, .62), 0 0 78px 28px rgba(255, 220, 140, .32); } }
 @media (prefers-reduced-motion: reduce) { .step .n { animation: none; } }
+/* the four lamps light one after another (--sd = each step's start), and under each lamp its title and text appear */
+@media (prefers-reduced-motion: no-preference) {
+  .steps.pre .step .n { animation: none; background: radial-gradient(circle at 50% 42%, #f6ebe6 0, #ecd9d2 60%, #e2c8c0 100%); box-shadow: inset 0 -3px 8px rgba(150, 100, 100, .18), inset 0 2px 4px rgba(255, 255, 255, .5); }
+  .steps.pre .step h3, .steps.pre .step p { opacity: 0; }
+  .steps.go .step .n { animation: lampOn 1.1s ease-out backwards, lamp 4.6s ease-in-out infinite; animation-delay: var(--sd, 0s), var(--ld, 0s); }
+  .steps.go .step h3 { animation: weave .8s cubic-bezier(.4, .1, .4, 1) backwards; animation-delay: calc(var(--sd, 0s) + .7s); }
+  .steps.go .step p { animation: weave 1s cubic-bezier(.4, .1, .4, 1) backwards; animation-delay: calc(var(--sd, 0s) + 1.1s); }
+}
+.step:nth-child(2) { --ld: -1.2s; } .step:nth-child(3) { --ld: -2.4s; } .step:nth-child(4) { --ld: -3.5s; }
+@keyframes lampOn { from { background: radial-gradient(circle at 50% 42%, #f6ebe6 0, #ecd9d2 60%, #e2c8c0 100%); box-shadow: inset 0 -3px 8px rgba(150, 100, 100, .18), inset 0 2px 4px rgba(255, 255, 255, .5); } 35% { background: radial-gradient(circle at 50% 42%, #fffef6 0, #fff9dc 48%, #ffeeb4 100%); box-shadow: inset 0 -3px 8px rgba(255, 214, 120, .55), inset 0 2px 4px rgba(255, 255, 255, .9), 0 0 30px 12px rgba(255, 244, 196, 1), 0 0 70px 28px rgba(255, 228, 150, .7), 0 0 110px 40px rgba(255, 220, 140, .4); } }
 .step h3 { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
 .step p { font-size: 18px; color: var(--ink); font-weight: 500; }
 
@@ -335,6 +366,12 @@ button.hgo { border: 0; background: none; padding: 0; font-family: inherit; curs
 .cdlg.on { display: grid; place-items: center; animation: cfade .35s ease both; }
 @keyframes cfade { from { opacity: 0; } to { opacity: 1; } }
 .cdecor { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+/* the hero's "step back" fade (nearly transparent for 7s) must not hide the leaves in the dialogs: keep only the sway */
+.cdecor .furn { animation: none; }
+.cdecor .palm { animation: breeze 6.5s ease-in-out infinite; }
+/* ...and neither must the hero's opening state (html.pre, first seconds after load) */
+.pre .cdecor .palm, .pre .cdecor .palmwrap, .pre .cdecor .furn { opacity: 1; }
+.pre .cdecor .palm:not(.base) { animation: breeze 6.5s ease-in-out infinite; }
 @media (max-width: 760px) { .cdecor .furn { display: none; } .cdecor .palmwrap { height: 34%; left: -14%; } }
 .cbox { position: relative; z-index: 1; width: min(100%, 640px); margin: auto; padding: 30px 34px 28px; background: rgba(255, 255, 255, .66); border: 1.5px solid rgba(255, 255, 255, .9); border-radius: 30px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: 0 18px 46px rgba(130, 70, 80, .24); color: #3f2c29; text-align: right; }
 .cbox h2 { font-size: clamp(48px, 7vw, 66px); text-align: center; margin: 0 0 4px; }
@@ -405,11 +442,12 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
   .fin { left: 50%; top: 44%; }
   .more { font-size: clamp(24px, 4.4vw, 34px); }
   .golet { font-size: clamp(48px, 9vw, 70px); }
+  .golet .cue { font-size: clamp(16px, 3.4vw, 22px); }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .palm, .furn { animation: none; }
-  .hlogo, .hlogo img, .hlogo::after, .ph, .lt span, .golet, .golet .gw, .golet .dot { animation: none; }
+  .hlogo, .hlogo img, .hlogo::after, .ph, .lt span, .golet, .golet .gw, .golet .dot, .golet .cue, .golet .cue svg { animation: none; }
   .arrows { display: none; }
   .hlogo::after { opacity: 0; }
   .ph { display: none; }
@@ -460,20 +498,20 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
     <g class="ar" style="--i:6;--c:#b83d68"><path class="ln" d="M622 389L520 389C340 392 258 445 247 505" mask="url(#am4)"/><polygon class="hd" points="245,540 231,504 261,504"/></g>
     <g class="ar" style="--i:7;--c:#666c6e"><path class="ln" d="M957 382L957 330C957 235 880 192 760 192L442 192" mask="url(#am5)"/><polygon class="hd" points="405,190 442,175 442,205"/></g>
   </svg>
-    <div class="hlogo" id="hlogo"><img src="assets/room/logo.png" alt="פונקציונלי עם ברכי" width="1603" height="648"></div>
+    <div class="hlogo" id="hlogo"><img src="assets/landing/logo-berry.png" alt="פונקציונלי עם ברכי" width="1603" height="648"></div>
     <ul class="phs">
     <li class="ph" style="--i:0;--x:73.5%;--y:12.5%;--s:2.3;--c:#a3304f">למי שמתביישת</li>
     <li class="ph" style="--i:1;--x:79.7%;--y:28.2%;--s:2.1;--c:#555a5b">לאינטלגנטית שרוצה להתאמן עם ידע</li>
     <li class="ph" style="--i:2;--x:85.7%;--y:56.7%;--s:2.4;--c:#c2557a">למעדיפה <br>הרבה <br>סגנונות של <br>אימון</li>
     <li class="ph" style="--i:3;--x:70.2%;--y:80.6%;--s:2.8;--c:#3f4547">לאוהבת דיוק בהוראת התרגיל</li>
     <li class="ph" style="--i:4;--x:28.5%;--y:81.5%;--s:3.2;--c:#8a2543">לחוסכת את זמן <br>היציאה לחדר כושר</li>
-    <li class="ph" style="--i:5;--x:9.9%;--y:57.1%;--s:1.9;--c:#7a8083">לתחרותית שרוצה <br>קונטרה</li>
+    <li class="ph" style="--i:5;--x:9.9%;--y:57.1%;--s:1.9;--c:#434849">לתחרותית שרוצה <br>קונטרה</li>
     <li class="ph" style="--i:6;--x:22.4%;--y:30.7%;--s:2.3;--c:#b83d68">לבוחרת באימון מוזל</li>
     <li class="ph" style="--i:7;--x:29.5%;--y:11.6%;--s:2.5;--c:#666c6e">למקפידה על אימון יומי</li>
     </ul>
     <div class="fin">
       <p class="more" aria-label="למי שרוצה יותר-"><span class="lt" aria-hidden="true"><span style="--k:0">ל</span><span style="--k:1">מ</span><span style="--k:2">י</span><span style="--k:3"> </span><span style="--k:4">ש</span><span style="--k:5">ר</span><span style="--k:6">ו</span><span style="--k:7">צ</span><span style="--k:8">ה</span><span style="--k:9"> </span><span style="--k:10">י</span><span style="--k:11">ו</span><span style="--k:12">ת</span><span style="--k:13">ר</span><span style="--k:14">-</span></span></p>
-      <a class="golet" id="down" href="#meet"><span class="gw">לכי על זה</span><span class="dot">.</span></a>
+      <a class="golet" id="down" href="#meet"><span class="gw">לכי על זה</span><span class="dot">.</span><span class="cue"><span class="cw">גללי וגלי עוד</span><svg viewBox="0 0 40 70" aria-hidden="true"><path class="cl" d="M20 3 C16 18 24 30 20 52"/><path class="ch" d="M7 40 L20 56 L33 40"/></svg></span></a>
     </div>
   </div>
 
@@ -529,10 +567,10 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
     <h2 class="paint">למה דווקא בבית?</h2>
     <p class="sub">כי כל מה שעוצר אותנו מלהתחיל קיבל תשובה.</p>
     <div class="cards">
-      <article class="card glass"><div class="q">אין לי ציוד</div><p>מיטה, כיסא, מקל מטאטא, בקבוקי מים, כיור ומדרגות. בכל אימון משתמשים בדבר אחר מהבית.</p></article>
-      <article class="card glass"><div class="q">אני לא יודעת איך</div><p>הבובה מראה כל תנוחה מהצד או מלפנים, והוראות קצרות בשלבים מסבירות איפה הגב, האגן והברכיים.</p></article>
-      <article class="card glass"><div class="q">אני מתביישת</div><p>מתאמנים בבית, בלי מצלמה ובלי אף אחד שמסתכל. רק את, הקיר הוורוד והמוזיקה.</p></article>
-      <article class="card glass"><div class="q">אין לי זמן</div><p>אימון נמשך בערך 16 עד 48 דקות, בסטים קצרים עם מנוחות. אפשר גם תרגיל אחד ולסמן "עשיתי את זה".</p></article>
+      <article class="card glass"><div class="q"><span>אין לי ציוד</span></div><p>מיטה, כיסא, מקל מטאטא, בקבוקי מים, כיור ומדרגות. בכל אימון משתמשים בדבר אחר מהבית.</p></article>
+      <article class="card glass"><div class="q"><span>אני לא יודעת איך</span></div><p>הבובה מראה כל תנוחה מהצד או מלפנים, והוראות קצרות בשלבים מסבירות איפה הגב, האגן והברכיים.</p></article>
+      <article class="card glass"><div class="q"><span>אני מתביישת</span></div><p>מתאמנים בבית, בלי מצלמה ובלי אף אחד שמסתכל. רק את, הקיר הוורוד והמוזיקה.</p></article>
+      <article class="card glass"><div class="q"><span>אין לי זמן</span></div><p>אימון נמשך בערך 16 עד 48 דקות, בסטים קצרים עם מנוחות. אפשר גם תרגיל אחד ולסמן "עשיתי את זה".</p></article>
     </div>
     <div class="steps">
       <div class="step"><div class="n">1</div><h3>בוחרת אימון</h3><p>מדליקה אחד מ-17 מתגי הקיר, לפי הציוד שיש לך ולפי הכוח שיש לך היום.</p></div>
@@ -978,6 +1016,26 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
     }, { threshold: 0.3 });
     heads.concat(subs).forEach(function (el) { io.observe(el); });
     if (wrap) io.observe(wrap);
+  });
+})();
+</script>
+<script>
+(function () {
+  /* "למה דווקא בבית?": the four boxes open one after another when the row scrolls into view */
+  var row = document.querySelector("#why .cards");
+  var steps = document.querySelector("#why .steps");
+  if (!row || !steps) return;
+  [].slice.call(row.children).forEach(function (c, i) { c.style.setProperty("--cd", (i * 1.9) + "s"); });
+  [].slice.call(steps.children).forEach(function (c, i) { c.style.setProperty("--sd", (i * 2.1) + "s"); });
+  if (!window.IntersectionObserver || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+  [row, steps].forEach(function (el) {
+    el.classList.add("pre");
+    var io = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return;
+      io.disconnect();
+      el.classList.add("go"); el.classList.remove("pre");
+    }, { threshold: 0, rootMargin: "0px 0px -22% 0px" });   /* fires once the top of the row is well inside the window (a ratio would never be reached on a narrow screen, where the row is taller than the window) */
+    io.observe(el);
   });
 })();
 </script>
