@@ -44,7 +44,7 @@ h1, h2, h3, p { margin: 0; }
 .palm, .rug, .furn { transition: opacity 1.1s ease; }
 .pre #sbar { opacity: 0; }
 .pre .palm, .pre .palmwrap, .pre .rug, .pre .rugshadow, .pre .furn { opacity: 0; animation: none; }
-.pre .hero .hlogo, .pre .hero .ph, .pre .hero .ar, .pre .hero .ar *, .pre .rv, .pre .hero .more, .pre .hero .lt span, .pre .hero .golet, .pre .hero .gw, .pre .hero .dot { animation: none; opacity: 0; }
+.pre .hero .hlogo, .pre .hero .ph, .pre .hero .ar, .pre .hero .ar *, .pre .rv, .pre .hero .more, .pre .hero .lt span, .pre .hero .golet, .pre .hero .gw, .pre .hero .dot, .pre .hero .cue, .pre .hero .cue svg { animation: none; opacity: 0; }
 
 /* ---------- top bar ---------- */
 .pill { display: inline-flex; align-items: center; gap: 8px; padding: 9px 22px; border-radius: 999px; font-weight: 700; font-size: 18px; text-decoration: none; color: var(--ink); background: linear-gradient(180deg, #fff, #f4dce2); border: 1.5px solid rgba(255, 255, 255, .8); box-shadow: 0 6px 16px rgba(130, 70, 80, .18); transition: transform .3s cubic-bezier(.3, .7, .3, 1.3), box-shadow .3s, background .3s; }
@@ -177,7 +177,7 @@ h1, h2, h3, p { margin: 0; }
 /* a pleasant little reaction when the pointer rests on a sentence, a button or a square (the rugs and what is written on them stay still) */
 @media (prefers-reduced-motion: no-preference) and (hover: hover) {
   .card, .step, .faq details, .close .box, .sec .sub, .hero .lead, .lnote p, .cl, .tab { transition: transform .35s cubic-bezier(.3, .7, .3, 1.25), box-shadow .35s ease, text-shadow .35s ease, color .3s ease, background .3s ease; }
-  .card:hover { transform: translateY(-7px) scale(1.025); box-shadow: 0 20px 44px rgba(130, 70, 80, .3), 0 0 0 1.5px rgba(255, 255, 255, .9); }
+  .card:hover { transform: translateY(-7px) scale(1.025); box-shadow: 0 20px 44px rgba(130, 70, 80, .3), 0 0 0 1.5px rgba(255, 255, 255, .95), 0 0 14px 3px rgba(255, 246, 214, .95), inset 0 0 8px rgba(255, 255, 255, .8); }
   .step:hover { transform: translateY(-6px); }
   .step:hover .n { box-shadow: inset 0 -3px 8px rgba(255, 214, 120, .55), inset 0 2px 4px rgba(255, 255, 255, .9), 0 0 22px 6px rgba(255, 246, 204, .95), 0 0 52px 18px rgba(255, 228, 150, .6), 0 0 90px 34px rgba(255, 220, 140, .32); }
   .faq details:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(130, 70, 80, .22); }
@@ -276,7 +276,7 @@ h1, h2, h3, p { margin: 0; }
 
 /* objection cards */
 .cards { margin: 48px auto 0; width: 80%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }   /* "למה דווקא בבית?": the answer boxes and their writing at 80% */
-.card { padding: 24px 21px 22px; border-radius: 60px 90px 50px 80px / 70px 50px 80px 60px; }
+.card { padding: 24px 21px 22px; border-radius: 60px 90px 50px 80px / 70px 50px 80px 60px; box-shadow: 0 12px 32px rgba(130, 70, 80, .18), 0 0 0 1px rgba(255, 255, 255, .95), 0 0 9px 2px rgba(255, 246, 214, .85), inset 0 0 7px rgba(255, 255, 255, .7); }
 .card:nth-child(even) { border-radius: 90px 50px 80px 60px / 50px 80px 60px 70px; }
 .card .q { font-family: "OH Noa Price", "Gveret Levin", cursive; font-size: 32px; line-height: 1; color: var(--berry); margin-bottom: 10px; }
 .card p { font-size: 14.4px; font-weight: 500; }
