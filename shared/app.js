@@ -234,12 +234,12 @@
   function homeScreen() {
     var el = scr(), dead = false, skipped = false, done = false;
     var LW = 920, LH = 372, LX = 500, LY = 150, SC = 0.45, FY = 30, FX = 1920 - 8 - LW * SC;   /* logo: intro box -> final top-right box */
-    var B1 = [350, 212, 1250, 190], B2 = [350, 452, 1250, 135];                                       /* where the two texts are painted */
+    var B1 = [350, 212, 1250, 190], B2 = [350, 366, 1250, 135];                                       /* where the two texts are painted */
     el.innerHTML = '<div class="bg" data-ext="../landing/room.jpg" style="background-image:url(' + A + '../landing/room.jpg)"></div>' + rect('soft', 'home-lamp.png', 190, 0, 184, 180) + '<div class="fshadow" style="left:1372px;top:988px;width:190px;height:26px"></div><div class="fshadow" style="left:1618px;top:1022px;width:300px;height:36px"></div>' + rect('soft', 'home-plant.png', 1355, 681, 215, 324) + rect('soft', 'home-chair.png', 1608, 648, 305, 395) + '<div class="lampglow" style="left:23px"></div>' + athletesHtml() +
       PAINT_SVG +
       '<div class="hlogo" id="hlogo"><div class="hl-ink"></div><div class="hl-glint"></div></div>' +
       '<div class="paint" id="p1" style="left:' + B1[0] + 'px;top:' + B1[1] + 'px;width:' + B1[2] + 'px;font-size:60px;line-height:.9"><p class="tx">' + esc(D.home.lead) + '</p></div>' +
-      '<div class="paint" id="p2" style="left:' + B2[0] + 'px;top:' + B2[1] + 'px;width:' + B2[2] + 'px;line-height:.9"><p class="tx" style="font-size:72px">מי אני?</p><p class="tx" style="font-size:42px;line-height:.95;margin-top:26px">' + esc(D.home.bio) + '</p></div>' +
+      '<div class="paint" id="p2" style="left:' + B2[0] + 'px;top:' + B2[1] + 'px;width:' + B2[2] + 'px;line-height:.9"><p class="tx" style="font-size:72px">מי אני?</p><p class="tx" style="font-size:56px;line-height:.95;margin-top:26px">' + esc(D.home.bio) + '</p></div>' +
       '<button type="button" class="hgo" id="start" style="left:975px;top:850px"><span class="in-row"><span>בואי נתחיל</span><svg viewBox="0 0 40 16" aria-hidden="true"><path d="M39 8H3M10 1.5 3 8l7 6.5"/></svg></span></button>';
     var logo = $('#hlogo', el), p1 = $('#p1', el), p2 = $('#p2', el), btn = $('#start', el);
     logo.style.cssText = 'left:' + LX + 'px;top:' + LY + 'px;width:' + LW + 'px;height:' + LH + 'px';
