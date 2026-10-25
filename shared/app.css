@@ -15,7 +15,8 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 #extw::after { content: ""; position: absolute; inset: -1400px; background: rgba(255, 244, 242, .38); opacity: 0; transition: opacity .25s; }
 #viewport.gl-open #extw { filter: blur(5px); }
 #viewport.gl-open #extw::after { opacity: 1; }
-#stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; overflow: hidden; direction: rtl; }
+.mshift { left: calc(1567px + var(--ox, 0px)) !important; }
+#stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; overflow: visible; clip-path: inset(0 -3000px 0 0); direction: rtl; }
 @font-face { font-family: "Gveret Levin"; font-style: normal; font-weight: 400; font-display: swap; src: url(../assets/fonts/gveret-levin-400-hebrew.woff2) format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
 @font-face { font-family: "Gveret Levin"; font-style: normal; font-weight: 400; font-display: swap; src: url(../assets/fonts/gveret-levin-400-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
@@ -27,7 +28,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .bg, .abs { position: absolute; }
 .bg { inset: 0; background-size: 100% 100%; background-repeat: no-repeat; }
 .img { position: absolute; background-size: 100% 100%; background-repeat: no-repeat; pointer-events: none; }
-.logo-link { position: absolute; right: 70px; top: 36px; width: 262px; height: 106px; background: url(../assets/room/logo.png) center/contain no-repeat; cursor: pointer; transition: transform .3s; }
+.logo-link { position: absolute; left: min(calc(1849px + var(--ox, 0px) / 2 - 131px), calc(1650px + var(--ox, 0px))); top: 36px; width: 262px; height: 106px; background: url(../assets/landing/logo-berry.png) center/contain no-repeat; cursor: pointer; transition: transform .3s; }
 .logo-link:hover { transform: scale(1.06) rotate(-1.5deg); }
 
 /* ---------- toolbar ---------- */
@@ -132,6 +133,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .tip { position: absolute; padding: 8px 20px 10px; border-radius: 24px; font-size: 31px; line-height: 1.05; animation: tipbob 2.8s ease-in-out infinite; z-index: 5; pointer-events: none; text-align: center; }
 .tip::after { content: ""; position: absolute; width: 22px; height: 22px; background: #2b3544; border: 3px solid #d6aa4f; border-width: 0 0 3px 3px; transform: rotate(45deg); }
 .tip.l::after { left: -14px; top: 50%; margin-top: -11px; } /* tail points left (speaker) */
+.tip.nw::after { top: -14px; left: 12px; transform: rotate(135deg); } /* tail points up-left (the clock's power button) */
 .tip.u::after { top: -14px; left: 50%; margin-left: -11px; transform: rotate(135deg); } /* tail points up (clock) */
 .sw-tip { position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translate(calc(-50% + var(--sx, 0px)), 6px); width: max-content; max-width: 460px; box-sizing: border-box; padding: 6px 22px 8px; border-radius: 22px; font-size: 32px; line-height: 1.1; text-align: center; text-wrap: balance; white-space: normal; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 6; }
 .sw:hover .sw-tip, .sw:focus-visible .sw-tip { opacity: 1; transform: translate(calc(-50% + var(--sx, 0px)), 0); }
@@ -145,14 +147,31 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .vol svg { width: 28px; height: 28px; flex: none; fill: var(--ink); stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .vol svg .w { fill: none; }
 .vol input { flex: 1; min-width: 0; height: 28px; margin: 0; background: transparent; cursor: pointer; accent-color: #b8466a; }
-.clock { position: absolute; left: 1470px; top: 150px; width: 435px; height: 180px; cursor: pointer; transition: transform .25s; }
+.clock { position: absolute; left: 1290px; top: 90px; width: 300px; height: 162px; cursor: pointer; transition: transform .25s; }
 .clock:hover { transform: scale(1.04); }
-.clock .face { position: absolute; inset: 0; background: url(../assets/room/clock.png) 0 0 / 100% 100% no-repeat; }
-.clock svg { position: absolute; left: 105px; top: 28px; width: 235px; height: 112px; overflow: visible; }
-.clock .cl { position: absolute; left: 0; right: 0; bottom: 20px; text-align: center; font-size: 15px; font-weight: 700; letter-spacing: .5px; color: #555; }
-.clock.run .face { filter: drop-shadow(0 0 12px rgba(255, 245, 190, .9)); }
-.status { position: absolute; left: 1480px; top: 480px; width: 390px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.wall { left: 420px; top: 215px; width: 1000px; text-align: center; font-size: 66px; line-height: 1.1; z-index: 1; }
+.clock .face { position: absolute; inset: 0; background: url(../assets/room/clock-plate.png) 0 0 / 100% 100% no-repeat; filter: drop-shadow(0 8px 14px rgba(70, 40, 30, .28)); }
+.clock #digits svg { position: absolute; left: 40px; top: 33px; width: 221px; height: 79px; overflow: visible; filter: drop-shadow(0 0 4px rgba(255, 220, 120, .75)) drop-shadow(0 0 12px rgba(255, 205, 100, .4)); }
+.clock .cl { position: absolute; left: 0; right: 0; bottom: 9px; text-align: center; font-family: "OH Noa Price", "Gveret Levin", cursive; font-size: 25px; line-height: 1; font-weight: 400; letter-spacing: 0; white-space: nowrap; color: #fbe3a0; text-shadow: 0 0 5px rgba(255, 215, 120, .5); }
+/* power light: red = off, green = the timer is running; a hair-thin ring */
+.pwr { position: absolute; width: 28px; height: 28px; padding: 0; border-radius: 50%; border: 1px solid rgba(255, 120, 120, .85); background: rgba(255, 70, 70, .14); cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 9px rgba(255, 70, 70, .7); transition: border-color .25s, background .25s, box-shadow .25s; }
+.pwr svg { width: 16px; height: 16px; fill: none; stroke: #ff5252; stroke-width: 2.4; stroke-linecap: round; filter: drop-shadow(0 0 3px rgba(255, 70, 70, .95)); transition: stroke .25s, filter .25s; }
+.clock .pwr { right: 15px; top: 11px; width: 28px; height: 28px; border: 0; background: none; box-shadow: none; }
+.clock .pwr svg { width: 24px; height: 24px; stroke-width: 2.8; filter: drop-shadow(0 0 3px rgba(255, 60, 60, 1)) drop-shadow(0 0 9px rgba(255, 60, 60, .8)); }
+.clock .pwr.on { background: none; box-shadow: none; }
+.clock .pwr.on svg { filter: drop-shadow(0 0 3px rgba(60, 240, 130, 1)) drop-shadow(0 0 9px rgba(60, 240, 130, .8)); }
+.hot .pwr { left: 32px; top: 114px; width: 28px; height: 28px; background: #2a1c1f; border-color: #ff6a6a; box-shadow: 0 0 12px rgba(255, 60, 60, .95), 0 2px 5px rgba(60, 20, 20, .45); pointer-events: none; }
+.hot .pwr svg { width: 17px; height: 17px; stroke-width: 3; }
+.hot .pwr.on { background: #15271d; border-color: #5dff9d; box-shadow: 0 0 12px rgba(50, 240, 130, .95), 0 2px 5px rgba(20, 60, 30, .45); }
+.pwr.on { border-color: rgba(120, 255, 170, .85); background: rgba(60, 230, 130, .14); box-shadow: 0 0 9px rgba(60, 230, 130, .75); }
+.pwr.on svg { stroke: #46ee8c; filter: drop-shadow(0 0 3px rgba(60, 235, 130, .95)); }
+#clkTip { transition: opacity .6s; }
+#clkTip.gone { opacity: 0; }
+/* once the timer runs the title stays but shrinks and moves up, and the instruction is written right under it */
+.go-run #p1 { top: 90px !important; font-size: 66px !important; }
+.go-run #wallbox { top: 150px; }
+.clock.run .face { filter: drop-shadow(0 0 12px rgba(255, 222, 130, .75)); }
+.status { position: absolute; left: 1245px; top: 480px; width: 390px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.wall { left: 420px; top: 215px; width: 1000px; text-align: center; font-size: 80px; line-height: 1.05; z-index: 1; }
 .wall.big { font-size: 90px; line-height: .95; }
 .go-acts { position: absolute; display: flex; gap: 18px; z-index: 6; }
 .go-acts .hgo { position: relative; flex: none; }
@@ -162,30 +181,34 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 
 /* ---------- muscles screen ---------- */
 .mbtn { position: absolute; width: 228px; min-height: 98px; padding: 8px 14px; border-radius: 42px 60px 38px 56px / 50px 38px 56px 40px; font-family: "OH Noa Price", "Gveret Levin", cursive; font-size: 40px; font-weight: 400; line-height: 1; -webkit-text-stroke: .8px currentColor; color: var(--ink); background: #f2dcd9; box-shadow: 0 6px 16px rgba(150, 90, 90, .16); display: grid; place-items: center; text-align: center; transition: transform .25s cubic-bezier(.3, .7, .3, 1.3), background .25s, box-shadow .25s; }
-.hgo.mb { width: 346px; height: 125px; font-size: 32px; }
-.hgo.mb .in-row { left: 5px; top: 8px; width: 309px; height: 83px; padding: 0 12px; box-sizing: border-box; text-align: center; line-height: 1.05; }
+.hgo.mb { width: 270px; height: 97px; font-size: 25px; }
+.hgo.mb .in-row { left: 4px; top: 6px; width: 241px; height: 65px; padding: 0 9px; box-sizing: border-box; text-align: center; line-height: 1.05; }
 .mbtn:hover { transform: translateY(-4px); background: #f7e6e3; }
 .mbtn.on { background: radial-gradient(circle at 30% 20%, #fffbd6, #f7d85e 50%, #d6a01a); color: #563700; box-shadow: 0 0 26px rgba(255, 205, 60, .85); transform: translateY(-4px) scale(1.04); }
-.mirror-big { position: absolute; left: 1475px; top: -34px; width: 445px; height: 1150px; background: url(../assets/room/mirror.png) 0 0 / 100% 100% no-repeat; filter: drop-shadow(0 0 16px rgba(255, 255, 255, .8)); }
+/* the wall mirror group: full size, a small margin from the right edge (anchored to the window edge via --ox) */
+.mgrp { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: calc(1914px + var(--ox, 0px)) -34px; transform: translateX(-4px); pointer-events: none; }
+.mgrp > * { pointer-events: auto; }
+.mirror-big { overflow: hidden; border-radius: 26px; position: absolute; left: calc(1469px + var(--ox, 0px)); top: -34px; width: 445px; height: 1150px; background: url(../assets/room/mirror.png) 0 0 / 100% 100% no-repeat; filter: drop-shadow(0 0 16px rgba(255, 255, 255, .8)); }
 .later { opacity: 0; transition: opacity .9s ease; }
 .shown .later { opacity: 1; }
-.mtext { position: absolute; left: 1475px; top: 78px; width: 445px; height: 450px; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; text-align: center; z-index: 2; }
+.mtext { position: absolute; left: calc(1469px + var(--ox, 0px)); top: 78px; width: 445px; height: 450px; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; text-align: center; z-index: 2; }
 .mtext .paint { position: static; }
 .kcal-note { font-family: "Segoe UI", sans-serif; font-size: 20px; color: #4a4038; }
 .scr .detail h3 { font-family: "OH Noa Price", "Gveret Levin", cursive; font-weight: 400; font-size: 58px; line-height: 1.05; color: #a3304f; }
-.mirror-big::after { content: ""; position: absolute; inset: 0; background: linear-gradient(112deg, transparent 38%, rgba(255, 255, 255, .6) 50%, transparent 62%); transform: translateX(-130%); animation: glint 7s ease-in-out infinite; }
+.mirror-big::after { content: ""; position: absolute; inset: 0; background: linear-gradient(112deg, transparent 28%, rgba(255, 255, 255, .22) 40%, rgba(255, 255, 255, .95) 49%, rgba(255, 255, 255, .22) 58%, transparent 70%); transform: translateX(-130%); animation: mglint 4.6s ease-in-out infinite; pointer-events: none; }
+@keyframes mglint { 0% { transform: translateX(-130%); } 32%, 100% { transform: translateX(130%); } }
 .kcal { position: absolute; left: 1485px; width: 425px; top: 330px; text-align: center; color: #4a4038; line-height: 1.15; z-index: 2; }
 .kcal .a { font-size: 72px; } .kcal .b { font-size: 74px; white-space: nowrap; }
 .kcal .n { font-family: "Asparagos", "Segoe UI", Arial, sans-serif; font-weight: 800; font-size: 70px; direction: ltr; display: inline-block; letter-spacing: -1px; }
 .kcal .note { font-family: "Segoe UI", sans-serif; font-size: 20px; margin-top: 12px; opacity: .65; }
-.muscle { position: absolute; left: 1538px; top: 548px; width: 338px; z-index: 2; transform-origin: 50% 90%; animation: lift 2.4s ease-in-out infinite; }
+.muscle { position: absolute; left: calc(1532px + var(--ox, 0px)); top: 548px; width: 338px; z-index: 2; transform-origin: 50% 90%; animation: lift 2.4s ease-in-out infinite; }
 .muscle.pump { animation: pump .9s ease-in-out 2, lift 2.4s ease-in-out 1.8s infinite; }
 .muscle img { width: 100%; display: block; }
 .muscle .sweat { position: absolute; left: 62%; top: 20%; width: 14px; height: 22px; border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%; background: #8fd0ee; opacity: 0; animation: sweat 2.4s ease-in infinite; }
 @keyframes lift { 0%, 100% { transform: translateY(14px) scale(1.0, .96); } 50% { transform: translateY(-26px) scale(1, 1.03); } }
 @keyframes pump { 0%, 100% { transform: translateY(0) scale(1); filter: none; } 50% { transform: translateY(-38px) scale(1.1); filter: drop-shadow(0 0 22px rgba(255, 90, 70, .75)); } }
 @keyframes sweat { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: .9; } 100% { opacity: 0; transform: translateY(70px); } }
-.mglow { position: absolute; left: 1560px; top: 570px; width: 300px; height: 230px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 120, 100, .55), transparent 70%); opacity: 0; transition: opacity .4s; z-index: 1; }
+.mglow { position: absolute; left: calc(1554px + var(--ox, 0px)); top: 570px; width: 300px; height: 230px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 120, 100, .55), transparent 70%); opacity: 0; transition: opacity .4s; z-index: 1; }
 .mglow.on { opacity: 1; animation: glowp2 1.2s ease-in-out infinite; }
 @keyframes glowp2 { 50% { opacity: .45; transform: scale(1.12); } }
 .detail { position: absolute; padding: 26px 56px 30px; background: #f4dfdc; border-radius: 70px 120px 60px 110px / 90px 60px 100px 70px; box-shadow: 0 10px 28px rgba(150, 90, 90, .14); animation: blobin .45s ease both; }
@@ -202,16 +225,20 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 /* ---------- small additions ---------- */
 .pill.rel { position: relative; }
 .status .link, .status .chip { position: static; }
+.status .chip.stat { order: 2; }   /* the buttons sit right under the clock, the set / repetition text is written beneath them */
 /* small gold buttons under the clock (skip / restart / pause) */
+.hgo.tohow-s { width: 220px; height: 79px; font-size: 21px; }
+.hgo.tohow-s .in-row { left: 3px; top: 5px; width: 196px; height: 53px; gap: 10px; }
+.hgo.tohow-s svg { width: 24px; height: 10px; }
 .hgo.sm { position: relative; flex: none; width: 128px; height: 46px; font-size: 18px; letter-spacing: 0; }
 .hgo.sm .in-row { left: 2px; top: 3px; width: 114px; height: 31px; gap: 0; }
 .hgo.sm[style*="display:none"], .hgo.sm[style*="display: none"] { display: none; }
 /* sets/reps line under the clock: no plaque, small thin Noa Price handwriting */
-.status .chip.stat { background: none; border: 0; box-shadow: none; padding: 0; min-height: 0; justify-content: center; text-align: center; font-family: "OH Noa Price", "Gveret Levin", cursive; font-weight: 400; font-size: 24px; line-height: 1.1; color: var(--ink, #4a3b3a); }
+.status .chip.stat { background: none; border: 0; box-shadow: none; padding: 0; min-height: 0; justify-content: center; text-align: center; font-family: "OH Noa Price", "Gveret Levin", cursive; font-weight: 400; font-size: 36px; line-height: 1.05; color: var(--ink, #4a3b3a); }
 
 /* ---------- home intro: logo written in with a glint, then text painted onto the wall ---------- */
 .hlogo { position: absolute; transform-origin: 0 0; --p: -14; --s: -40; -webkit-mask-image: linear-gradient(250deg, #000 calc(var(--p) * 1%), transparent calc(var(--p) * 1% + 12%)); mask-image: linear-gradient(250deg, #000 calc(var(--p) * 1%), transparent calc(var(--p) * 1% + 12%)); pointer-events: none; }
-.hl-ink, .hl-glint { position: absolute; inset: 0; background: url(../assets/room/logo.png) center / 100% 100% no-repeat; }
+.hl-ink, .hl-glint { position: absolute; inset: 0; background: url(../assets/landing/logo-berry.png) center / 100% 100% no-repeat; }
 .hl-glint { filter: brightness(2.6) saturate(.5); -webkit-mask-image: linear-gradient(250deg, transparent calc(var(--s) * 1% - 9%), #000 calc(var(--s) * 1%), transparent calc(var(--s) * 1% + 9%)); mask-image: linear-gradient(250deg, transparent calc(var(--s) * 1% - 9%), #000 calc(var(--s) * 1%), transparent calc(var(--s) * 1% + 9%)); }
 .paint { position: absolute; color: var(--ink, #4a3b3a); font-family: "OH Noa Price", "Gveret Levin", "Segoe Script", cursive; font-weight: 400; -webkit-text-stroke: 1.8px currentColor; paint-order: stroke fill; filter: url(#paint); pointer-events: none; }
 .paint .tx { margin: 0; }
@@ -415,6 +442,12 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 /* a concept inside an instruction: tap it to read about it */
 .gl-t { border-bottom: 3px dotted currentColor; cursor: help; transition: background .2s; border-radius: 4px; }
 .gl-t:hover, .gl-t:focus-visible { background: rgba(247, 216, 94, .6); outline: none; }
+/* tooltip: a line under a word means it can be tapped for an explanation */
+.gl-t { position: relative; }
+.gl-t::after { content: "לחצי על המילה וקבלי את המושג"; position: absolute; z-index: 20; bottom: calc(100% + 14px); right: 50%; transform: translate(50%, 6px); width: max-content; max-width: 420px; box-sizing: border-box; padding: 6px 22px 8px; border-radius: 22px; background: #2b3544; border: 3px solid #d6aa4f; font-family: "OH Noa Price", "Gveret Levin", cursive; font-weight: 400; font-size: 30px; line-height: 1.1; letter-spacing: .01em; text-align: center; text-wrap: balance; white-space: normal; color: #fff3d2; text-shadow: 0 1px 2px rgba(0, 0, 0, .55); box-shadow: inset 0 0 0 2px #2b3544, inset 0 0 0 3px rgba(214, 170, 79, .75), 0 8px 18px rgba(40, 20, 10, .35); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
+.gl-t::before { content: ""; position: absolute; z-index: 21; bottom: calc(100% + 3px); right: 50%; margin-right: -11px; width: 22px; height: 22px; background: #2b3544; border: 3px solid #d6aa4f; border-width: 0 3px 3px 0; transform: translateY(6px) rotate(45deg); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
+.gl-t:hover::after, .gl-t:focus-visible::after, .gl-t.hint::after { opacity: 1; transform: translate(50%, 0); }
+.gl-t:hover::before, .gl-t:focus-visible::before, .gl-t.hint::before { opacity: 1; transform: translateY(0) rotate(45deg); }
 .chip .br { cursor: help; }
 
 /* "a second before we start": selected note button stays lit */
@@ -422,7 +455,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .hgo.in.on .in-row { color: #fff; text-shadow: 0 0 10px rgba(255, 255, 255, .95), 0 0 24px rgba(255, 245, 210, .9), 0 0 42px rgba(255, 235, 180, .7); }
 
 /* run screen: the instruction and, under it, the breath (in / out) written on the wall */
-.wallbox { position: absolute; left: 420px; top: 215px; width: 1000px; z-index: 1; text-align: center; }
+.wallbox { position: absolute; left: 420px; top: 215px; width: 840px; z-index: 1; text-align: center; }
 .wallbox .wall, .wallbox .paint.breath { position: static; width: auto; left: auto; top: auto; }
 .wallbox .paint.breath { display: none; font-size: 54px; line-height: 1.1; height: 60px; margin-top: 8px; cursor: help; pointer-events: auto; }
 .wallbox.hasbr .paint.breath { display: block; }

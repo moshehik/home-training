@@ -1126,12 +1126,12 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
   var canBack = !!(history.length > 1 && document.referrer);
   var bar = document.createElement("nav"); bar.id = "sbar"; bar.setAttribute("aria-label", "סרגל האתר");
   bar.innerHTML = '<a href="index.html#/" data-back="1"' + (canBack ? '' : ' class="dis" aria-disabled="true" tabindex="-1"') + '>' + ic('<path d="M4 12h16"/><path d="M14 6l6 6-6 6"/>') + 'חזרה</a>' +
+    '<a class="on" href="#" aria-current="page" data-here="1">' + ic('<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c.8-4 3.7-6 7.5-6s6.7 2 7.5 6"/>') + 'מי אני?</a>' +
     '<a href="index.html#/">' + ic('<path d="M3 11.5L12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>') + 'ראשי</a>' +
     '<a href="index.html#/lessons">' + ic('<path d="M6.5 6.5v11"/><path d="M17.5 6.5v11"/><path d="M3.5 9v6"/><path d="M20.5 9v6"/><path d="M6.5 12h11"/>') + 'תרגילים</a>' +
     '<a href="index.html#/club">' + ic('<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H4.5A3 3 0 0 0 8 10"/><path d="M16 6h3.5A3 3 0 0 1 16 10"/><path d="M12 13v4"/><path d="M8.5 20h7"/>') + 'חדר מתעמלות</a>' +
     '<a href="' + (lp ? 'index.html#/ex/' + lp[0] + '/' + lp[1] : '#') + '"' + (lp ? '' : ' class="dis" aria-disabled="true" tabindex="-1"') + '>' + ic('<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7.5V12l3 2"/>') + 'התרגיל האחרון</a>' +
     '<a href="index.html?gloss=1#/">' + ic('<path d="M5 4.5h10a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h10"/><path d="M9.5 8.5h5"/>') + 'מושגים</a>' +
-    '<a class="on" href="#" aria-current="page" data-here="1">' + ic('<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c.8-4 3.7-6 7.5-6s6.7 2 7.5 6"/>') + 'מי אני?</a>' +
     '<span class="sep"></span><span class="pts"><svg class="ic star" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3.2l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17.2 6.6 20.1l1-6.1L3.2 9.7l6.1-.9z"/></svg><span><b>' + pts + '</b> נקודות</span></span>';
   document.body.appendChild(bar);
   function fitBar() { var k = Math.min(innerWidth / 1920, innerHeight / 1080), kk = Math.max(k, .3); bar.style.top = 8 * kk + "px"; bar.style.transform = "translateX(-50%) scale(" + kk + ")"; }

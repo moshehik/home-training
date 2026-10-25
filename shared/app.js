@@ -50,6 +50,7 @@
   extW.id = 'extw'; ext.id = 'ext'; extW.appendChild(ext); stage.parentNode.insertBefore(extW, stage);
   function fit() {
     var s = Math.min(innerWidth / 1920, innerHeight / 1080);
+    stage.style.setProperty('--ox', Math.max(0, (innerWidth / s - 1920) / 2) + 'px');
     stage.style.transform = extW.style.transform = 'translate(' + (innerWidth - 1920 * s) / 2 + 'px,' + (innerHeight - 1080 * s) / 2 + 'px) scale(' + s + ')';
     var r = $('#rotate');
     if (r) r.hidden = !(innerHeight > innerWidth * 1.1 && !store.g('ht-rot'));
@@ -71,7 +72,7 @@
     who: ic('<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c.8-4 3.7-6 7.5-6s6.7 2 7.5 6"/>'),
     star: '<svg class="ic star" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3.2l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17.2 6.6 20.1l1-6.1L3.2 9.7l6.1-.9z"/></svg>'
   };
-  bar.innerHTML = '<button type="button" data-a="back">' + ICONS.back + 'חזרה</button><button type="button" data-a="home">' + ICONS.home + 'ראשי</button><button type="button" data-a="lessons">' + ICONS.lessons + 'תרגילים</button><button type="button" data-a="club">' + ICONS.club + 'חדר מתעמלות</button><button type="button" data-a="last">' + ICONS.last + 'התרגיל האחרון</button><button type="button" data-a="gloss">' + ICONS.gloss + 'מושגים</button><button type="button" data-a="who">' + ICONS.who + 'מי אני?</button><span class="sep"></span><span class="pts">' + ICONS.star + '<span><b id="ptsN">0</b> נקודות</span></span>';
+  bar.innerHTML = '<button type="button" data-a="back">' + ICONS.back + 'חזרה</button><button type="button" data-a="who">' + ICONS.who + 'מי אני?</button><button type="button" data-a="home">' + ICONS.home + 'ראשי</button><button type="button" data-a="lessons">' + ICONS.lessons + 'תרגילים</button><button type="button" data-a="club">' + ICONS.club + 'חדר מתעמלות</button><button type="button" data-a="last">' + ICONS.last + 'התרגיל האחרון</button><button type="button" data-a="gloss">' + ICONS.gloss + 'מושגים</button><span class="sep"></span><span class="pts">' + ICONS.star + '<span><b id="ptsN">0</b> נקודות</span></span>';
   stage.appendChild(bar);
   var cur = null;
   function updateBar(pop) {
@@ -153,7 +154,7 @@
       } catch (e) { fallback(); }
     };
     im.onerror = fallback;
-    im.src = A + (img || 'home.jpg');
+    im.src = A + (img || '../landing/room.jpg');
   }
   /* split every .tx into one .ln per rendered line, so each line can be painted from right to left */
   function layoutLines(box) {
@@ -195,6 +196,14 @@
     });
     return chain;
   }
+  /* the first underlined concept that opens on screen shows its tooltip by itself for a few seconds (once per visit) */
+  var glHinted = false;
+  function glossHint(root) {
+    var t = !glHinted && $('.gl-t', root);
+    if (!t) return;
+    glHinted = true;
+    setTimeout(function () { t.classList.add('hint'); setTimeout(function () { t.classList.remove('hint'); }, 4200); }, 500);
+  }
   /* the pendant lamp (lit by adding .lamp-on to the screen) */
   function lampHtml(x, y) { return '<div class="lampglow" style="left:' + (x - 167) + 'px;top:' + (y - 104) + 'px"></div>' + rect('soft', 'home-lamp.png', x, y, 184, 180); }
   /* armchair + plant at the right side (the armchair nudged 18px further right than on the home page) */
@@ -224,9 +233,9 @@
 
   function homeScreen() {
     var el = scr(), dead = false, skipped = false, done = false;
-    var LW = 920, LH = 372, LX = 500, LY = 150, SC = 0.45, FX = 1920 - 60 - LW * SC, FY = 28;   /* logo: intro box -> final top-right box */
-    var B1 = [200, 245, 1520, 190], B2 = [300, 465, 1280, 135], GAP = 85;                                       /* where the two texts are painted */
-    el.innerHTML = '<div class="bg" data-ext="home-ext.png" style="background-image:url(' + A + 'home.jpg)"></div>' + rect('', 'home-patch.png', 872, 118, 919, 403) + rect('', 'home-lamp-patch.png', 380, 0, 311, 296) + rect('', 'home-furn-patch.png', 1215, 560, 631, 491) + rect('soft', 'home-lamp.png', 190, 0, 184, 180) + '<div class="fshadow" style="left:1372px;top:988px;width:190px;height:26px"></div><div class="fshadow" style="left:1618px;top:1022px;width:300px;height:36px"></div>' + rect('soft', 'home-plant.png', 1355, 681, 215, 324) + rect('soft', 'home-chair.png', 1608, 648, 305, 395) + rect('', 'ath-patch.png', 25, 529, 968, 529) + '<div class="lampglow" style="left:23px"></div>' + athletesHtml() +
+    var LW = 920, LH = 372, LX = 500, LY = 150, SC = 0.45, FY = 30, FX = 1920 - 8 - LW * SC;   /* logo: intro box -> final top-right box */
+    var B1 = [350, 212, 1250, 190], B2 = [350, 452, 1250, 135];                                       /* where the two texts are painted */
+    el.innerHTML = '<div class="bg" data-ext="../landing/room.jpg" style="background-image:url(' + A + '../landing/room.jpg)"></div>' + rect('soft', 'home-lamp.png', 190, 0, 184, 180) + '<div class="fshadow" style="left:1372px;top:988px;width:190px;height:26px"></div><div class="fshadow" style="left:1618px;top:1022px;width:300px;height:36px"></div>' + rect('soft', 'home-plant.png', 1355, 681, 215, 324) + rect('soft', 'home-chair.png', 1608, 648, 305, 395) + '<div class="lampglow" style="left:23px"></div>' + athletesHtml() +
       PAINT_SVG +
       '<div class="hlogo" id="hlogo"><div class="hl-ink"></div><div class="hl-glint"></div></div>' +
       '<div class="paint" id="p1" style="left:' + B1[0] + 'px;top:' + B1[1] + 'px;width:' + B1[2] + 'px;font-size:60px;line-height:.9"><p class="tx">' + esc(D.home.lead) + '</p></div>' +
@@ -234,7 +243,7 @@
       '<button type="button" class="hgo" id="start" style="left:975px;top:850px"><span class="in-row"><span>בואי נתחיל</span><svg viewBox="0 0 40 16" aria-hidden="true"><path d="M39 8H3M10 1.5 3 8l7 6.5"/></svg></span></button>';
     var logo = $('#hlogo', el), p1 = $('#p1', el), p2 = $('#p2', el), btn = $('#start', el);
     logo.style.cssText = 'left:' + LX + 'px;top:' + LY + 'px;width:' + LW + 'px;height:' + LH + 'px';
-    function place(k) { logo.style.transform = 'translate(' + (FX - LX) * k + 'px,' + (FY - LY) * k + 'px) scale(' + (1 - (1 - SC) * k) + ')'; }
+    function place(k) { var ox = parseFloat(stage.style.getPropertyValue('--ox')) || 0, fx = Math.min(1849 + ox / 2 - LW * SC / 2, 1912 + ox - LW * SC);   /* centred on the right-hand wall (x 1778 to the window edge) */ logo.style.transform = 'translate(' + (fx - LX) * k + 'px,' + (FY - LY) * k + 'px) scale(' + (1 - (1 - SC) * k) + ')'; }
 
     var tween = mkTween(function () { return dead; }, function () { return skipped; });
     /* once the writing is on the wall, every letter reacts when the pointer passes over it */
@@ -311,8 +320,6 @@
         fonts.then(function () {
           if (dead) return;
           layoutLines(el);
-          var y2 = p1.offsetTop + p1.offsetHeight + GAP;
-          p2.style.top = y2 + 'px';
           wallLum([B1, B2], function (l) {
             p1.style.setProperty('--ink', l[0] < 0.45 ? '#fff3ec' : '#4a3b3a');
             p2.style.setProperty('--ink', l[1] < 0.45 ? '#ffe7ae' : '#a3304f');
@@ -330,7 +337,7 @@
   var roomPlayed = {};
   function switchRoom(cfg) {
     var el = scr(), dead = false, skipped = false, done = false, g = cfg.g, items = cfg.items, P = cfg.p3;
-    var h = '<div class="bg" data-ext="empty-ext.png" style="background-image:url(' + A + 'empty.jpg)"></div>' + lampHtml(215, 0) + (cfg.low ? sideFurnitureLow : sideFurniture) + PAINT_SVG + logoLink +
+    var h = '<div class="bg" data-ext="../landing/room.jpg" style="background-image:url(' + A + '../landing/room.jpg)"></div>' + lampHtml(215, 0) + (cfg.low ? sideFurnitureLow : sideFurniture) + PAINT_SVG + logoLink +
       '<div class="paint" id="p1" style="left:' + g.X0 + 'px;top:120px;width:' + g.CW + 'px;font-size:' + cfg.p1.size + 'px;line-height:.9"><p class="tx">' + esc(cfg.p1.text) + '</p></div>' +
       '<div class="paint" id="p2" style="left:' + g.X0 + 'px;top:240px;width:' + g.CW + 'px;line-height:.9"><p class="tx" style="font-size:40px">' + esc(cfg.p2) + '</p></div>';
     var rows = Math.ceil(items.length / g.COLS);
@@ -382,7 +389,7 @@
               .then(function () { if (!dead && !done) { el.classList.add('lamp-on'); return tween(1500, function (k) { $$('.ln', p1).forEach(function (ln) { ln.style.setProperty('--g', -9 + k * 121); }); }, ease.io); } })
               .then(function () { $$('.ln', p1).forEach(function (ln) { ln.style.setProperty('--g', -40); }); return tween(250, function () {}); })
               .then(function () { if (!dead && !done) { el.classList.add('sw-on'); done = true; } });
-          }, 'empty.jpg');
+          }, '../landing/room.jpg');
         });
       }
     };
@@ -395,7 +402,7 @@
       key: 'lessons', parent: '#/',
       p1: { text: 'בחרי אימון', size: 115 },
       p2: LESSONS.length + ' אימונים · ' + total + ' תרגילים · לכל אימון ציוד אחר מהבית',
-      p3: { head: 'לפני שאת מתחילה:', body: D.home.safety, size: 38, top: LESSONS.length > 15 ? 905 : 790 },   /* a 4th row of switches (16+ workouts) pushes the safety note lower */
+      p3: { head: 'לפני שאת מתחילה:', body: D.home.safety, size: 38, top: LESSONS.length > 15 ? 870 : 790 },   /* a 4th row of switches (16+ workouts) pushes the safety note lower */
       g: LESSONS.length > 12 ? { BW: 372, BH: 133, GX: 376, GY: 137, COLS: 5, X0: 10, Y0: 340, CW: 1900, BX0: 20, BCW: 1872, LCW: 1680 }   /* 13+ switches: 5 per row across the room; the two full rows end above the armchair (y<629), the short last row is centred in LCW so it stays left of the plant */
         : { BW: 388, BH: 139, GX: 392, GY: 142, COLS: 4, X0: 10, Y0: 340, CW: 1900, BX0: 20, BCW: 1544 },   /* 12 switches as 4+4+4, kept left of the plant and armchair */
       items: LESSONS.map(function (L) {
@@ -419,7 +426,7 @@
       key: 'lesson', parent: '#/lessons',
       p1: { text: L.title, size: fitFont(L.title.length, 115, 1500, 0.42) },
       p2: L.eqName + ' · רמה: ' + L.level + ' · ' + mins(L.sec) + (L.tag ? ' · ' + L.tag : ''),
-      p3: { head: 'מה להכין:', headSize: 68, body: L.prep, size: prepSize(pl, 1340, 250), width: 1340 },
+      p3: { head: 'מה להכין:', headSize: 68, body: L.prep, size: prepSize(pl, 1340, 205), width: 1340, top: 762 },
       g: { BW: bw, BH: bh, GX: gx, GY: gy, COLS: cols, X0: 10, Y0: 375, CW: 1900 }, low: true,
       items: L.exercises.map(function (E) {
         return { href: '#/ex/' + L.n + '/' + E.i, title: E.name, sub: E.dose + ' · ' + mmss(E.sec), num: E.i, led: isDone(E.id) ? 'full' : '',
@@ -457,8 +464,8 @@
     /* the home page's room: lit pendant lamp, armchair + plant, the title painted onto the wall, the gold home-page button */
     var fs = fitFont(E.name.length, 115, 1000, 0.42), dead = false, skipped = false, done = false;
     var arrow = '<svg viewBox="0 0 40 16" aria-hidden="true"><path d="M39 8H3M10 1.5 3 8l7 6.5"/></svg>';
-    el.innerHTML = '<div class="bg" data-ext="empty-ext.png" style="background-image:url(' + A + 'empty.jpg)"></div>' + lampHtml(215, 0) + sideFurniture + PAINT_SVG + logoLink +
-      rect('', 'rug-round.png', 65, 700, 910, 318) +
+    el.innerHTML = '<div class="bg" data-ext="../landing/room.jpg" style="background-image:url(' + A + '../landing/room.jpg)"></div>' + lampHtml(215, 0) + sideFurniture + PAINT_SVG + logoLink +
+      rect('', 'rug-round.png', 213, 846, 615, 215) +
       '<div class="paint" id="p1" style="left:420px;top:80px;width:1000px;font-size:' + fs + 'px;line-height:.9"><p class="tx">' + esc(E.name) + '</p></div>' +
       '<div class="paint" id="p2" style="left:420px;top:230px;width:1000px;line-height:.9;transition:opacity .4s"><p class="tx" style="font-size:72px">איך לעשות את זה?</p></div>' +
       '<button type="button" class="hbig" id="instrBtn" style="left:820px;top:560px;width:760px"><span class="tx">הוראות</span>' + arrow + '</button>' +
@@ -468,7 +475,7 @@
     var s = { el: el, parent: '#/lesson/' + L.n, destroy: function () { dead = true; } };
     function finish() { done = true; roomPlayed.how = true; $$('.ln', el).forEach(function (ln) { ln.style.setProperty('--w', 112); ln.style.setProperty('--g', -40); }); el.classList.add('lamp-on'); btn.classList.add('in'); }
     s.start = function () {
-      fig = mountDoll(el, E.scene, 520 - 200 * 2.6, 857 - 231 * 2.6, 2.6);
+      fig = mountDoll(el, E.scene, 520 - 200 * 2.6, 953 - 231 * 2.6, 2.6);
       $('.doll', el).style.zIndex = 2;
       loop(function (now) { var r = stepDemo(now); fig.draw(r.pose); });
       var fonts = document.fonts && document.fonts.load ? Promise.all([document.fonts.load('50px "OH Noa Price"', 'אבגד'), document.fonts.load('50px "OH Noa Price"', '8,.!?')]).then(function () { return document.fonts.ready; }).catch(function () {}) : Promise.resolve();
@@ -487,7 +494,7 @@
             .then(function () { return tween(450, function () {}); })
             .then(function () { return paintLines(p2, tween); })
             .then(function () { if (!dead && !done) { $$('.ln', btn).forEach(function (ln) { ln.style.setProperty('--w', 112); ln.style.setProperty('--g', -40); }); el.classList.add('lamp-on'); btn.classList.add('in'); done = true; } });
-        }, 'empty.jpg');
+        }, '../landing/room.jpg');
       });
     };
     /* the doll for the box that is up: the opening pose as a still, a step = its share of the cycle played back and forth with a rest at each end */
@@ -528,6 +535,7 @@
         go('prev', 'לשלב הקודם', step > 0 ? '' : 'visibility:hidden', 'prev', true) +
         (last ? go('note', 'שניה לפני שאת מתחילה', 'font-size:25px') : go('next', 'המשיכי')) +
         '</div></div>';
+      glossHint(box);
       /* narrow the box from the left wherever the scene reaches into it (the box grows taller when narrower, so measure twice) */
       var bl = $('.how-blob', box);
       for (var pass = 0; pass < 2; pass++) {
@@ -558,8 +566,8 @@
     var arrow = '<svg viewBox="0 0 40 16" aria-hidden="true"><path d="M39 8H3M10 1.5 3 8l7 6.5"/></svg>';
     var gold = function (attr, label, left, top, st) { return '<button type="button" class="hgo" ' + attr + ' style="left:' + left + 'px;top:' + top + 'px;' + (st || '') + '"><span class="in-row"><span>' + label + '</span>' + (attr.indexOf('data-i') < 0 ? arrow : '') + '</span></button>'; };
     /* the home page's room, with the cream shaggy rug on the floor */
-    var h = '<div class="bg" data-ext="empty-ext.png" style="background-image:url(' + A + 'empty.jpg)"></div>' + lampHtml(215, 0) + sideFurniture + PAINT_SVG + logoLink +
-      rect('', 'rug-cream.png', 40, 740, 1300, 335) +
+    var h = '<div class="bg" data-ext="../landing/room.jpg" style="background-image:url(' + A + '../landing/room.jpg)"></div>' + lampHtml(215, 0) + sideFurniture + PAINT_SVG + logoLink +
+      rect('', 'rug-rose.png', 520, 850, 880, 227) +
       '<div class="paint" id="p1" style="left:420px;top:80px;width:1000px;font-size:115px;line-height:.9"><p class="tx">שניה לפני שאת מתחילה</p></div>' +
       '<div class="paint" id="p2" style="left:420px;top:230px;width:1000px;line-height:.9"><p class="tx" style="font-size:56px">לחצי על כל כפתור וקראי</p></div>';
     notes.forEach(function (n, i) { h += gold('data-i="' + i + '"', n.b, 1075 - i * 360, 340); });
@@ -575,7 +583,7 @@
         sel = +b.dataset.i; read[sel] = true;
         btns.forEach(function (x) { if (x.dataset.i == null) return; var i = +x.dataset.i; x.classList.toggle('on', i === sel); $('span', x).textContent = notes[i].b + (read[i] ? ' ✓' : ''); });
         var n = notes[sel];
-        $('#nbox', el).innerHTML = '<div class="blob how-blob ' + n.cls + '" style="left:330px;top:490px;width:1100px"><h3>' + n.t + '</h3>' + HTGlossary.mark(n.h) + '</div>';
+        $('#nbox', el).innerHTML = '<div class="blob how-blob ' + n.cls + '" style="left:330px;top:490px;width:1100px"><h3>' + n.t + '</h3>' + HTGlossary.mark(n.h) + '</div>'; glossHint($('#nbox', el));
       } else if (g) location.hash = '#/ex/' + L.n + '/' + E.i + '/' + g.dataset.go;
     });
     return {
@@ -597,7 +605,7 @@
               .then(function () { return tween(450, function () {}); })
               .then(function () { return paintLines(p2, tween); })
               .then(function () { if (!dead && !done) { el.classList.add('lamp-on'); btns.forEach(function (b) { b.classList.add('in'); }); done = true; } });
-          }, 'empty.jpg');
+          }, '../landing/room.jpg');
         });
       }
     };
@@ -609,16 +617,16 @@
     var perMin = Math.round(E.kcal * 600 / E.sec) / 10;
     var slimMirror = E.slim && E.slim.length ? E.slim.slice(0, 2).join(' · ') : 'אין הרזיה: גמישות ושחרור';
     /* the room's wall and lamp, the big wall mirror flush against the right edge, texts painted in Noa Price */
-    var h = '<div class="bg" data-ext="empty-ext.png" style="background-image:url(' + A + 'empty.jpg)"></div>' + lampHtml(215, 0) + PAINT_SVG +
+    var h = '<div class="bg" data-ext="../landing/room.jpg" style="background-image:url(' + A + '../landing/room.jpg)"></div>' + lampHtml(215, 0) + PAINT_SVG +
       rect('', 'vase.png', 28, 478, 252, 450) +
-      rect('', 'rug-cream.png', 60, 962, 1400, 360) + '<div class="mirror-big"></div>' +
+      rect('', 'rug-rose.png', 60, 962, 1400, 360) +
       '<div class="paint" id="p1" style="left:376px;top:130px;width:954px;font-size:96px;line-height:.9"><p class="tx">השרירים שאת מפעילה:</p></div>';
     E.mus.forEach(function (m, i) {
-      h += '<button type="button" class="hgo mb" data-i="' + i + '" style="left:' + px(1440 - 346 - i * 358) + ';top:250px"><span class="in-row"><span>' + esc(m.name) + '</span></span></button>';
+      h += '<button type="button" class="hgo mb" data-i="' + i + '" style="left:' + px(1450 - 270 - i * 280) + ';top:250px"><span class="in-row"><span>' + esc(m.name) + '</span></span></button>';
     });
     h += '<div id="dbox"></div>' +
       /* the mirror's texts: one column, spread evenly from the top of the mirror down to the brain, centred */
-      '<div class="mtext">' +
+      '<div class="mgrp"><div class="mirror-big"></div><div class="mtext">' +
       '<div class="paint" id="p2" style="font-size:62px;line-height:.9"><p class="tx">את שורפת כאן</p></div>' +
       '<div class="paint later" style="font-size:60px;line-height:1;white-space:nowrap">כ-<span id="kc">0</span> קלוריות!</div>' +
       '<div class="paint later" style="font-size:38px;line-height:1.05;white-space:nowrap">בערך ' + perMin + ' קלוריות<br>בכל דקת תרגול</div>' +
@@ -626,8 +634,8 @@
       '<div class="paint later" style="font-size:38px;line-height:1.05;width:330px">' + esc(slimMirror) + '</div>' +
       '<div class="kcal-note later">הערכה לאישה במשקל ממוצע</div>' +
       '</div>' +
-      '<div class="mglow" id="mglow"></div>' + rect('', 'brain-chair.png', 1573, 789, 281, 291, 'z-index:1') +
-      '<div class="muscle" id="muscle"><img src="' + A + 'brain.png" alt=""><span class="sweat"></span></div>' +
+      '<div class="mglow" id="mglow"></div>' + rect('mshift', 'brain-chair.png', 1573, 789, 281, 291, 'z-index:1') +
+      '<div class="muscle" id="muscle"><img src="' + A + 'brain.png" alt=""><span class="sweat"></span></div></div>' +
       '<button type="button" class="pill gold" id="go" style="left:' + px(1330 - 320) + ';top:856px;width:320px">לתרגיל ←</button>';
     el.innerHTML = h;
     function pick(i) {
@@ -666,7 +674,7 @@
             .then(function () { return paintLines(p1, tween); })
             .then(function () { return paintLines($('#p2', el), tween); })
             .then(function () { if (!dead) finish(); });
-        }, 'empty.jpg');
+        }, '../landing/room.jpg');
       });
     };
     return s;
@@ -678,9 +686,9 @@
   function sevenSeg(str) {
     var x = 0, out = '';
     Array.from(str).forEach(function (ch) {
-      if (ch === ':') { out += '<circle cx="' + (x + 8) + '" cy="32" r="4.5" fill="#2a2a2a"/><circle cx="' + (x + 8) + '" cy="68" r="4.5" fill="#2a2a2a"/>'; x += 22; return; }
+      if (ch === ':') { out += '<circle cx="' + (x + 8) + '" cy="32" r="4.5" fill="#fddf8e"/><circle cx="' + (x + 8) + '" cy="68" r="4.5" fill="#fddf8e"/>'; x += 22; return; }
       var on = SEG[ch];
-      'abcdefg'.split('').forEach(function (k) { var l = SEGL[k]; out += '<line x1="' + (x + l[0]) + '" y1="' + l[1] + '" x2="' + (x + l[2]) + '" y2="' + l[3] + '" stroke="#2a2a2a" stroke-width="6" stroke-linecap="round" opacity="' + (on.indexOf(k) >= 0 ? 1 : 0.07) + '"/>'; });
+      'abcdefg'.split('').forEach(function (k) { var l = SEGL[k]; out += '<line x1="' + (x + l[0]) + '" y1="' + l[1] + '" x2="' + (x + l[2]) + '" y2="' + l[3] + '" stroke="#fddf8e" stroke-width="6" stroke-linecap="round" opacity="' + (on.indexOf(k) >= 0 ? 1 : 0.07) + '"/>'; });
       x += 54;
     });
     var w = x - 10; return '<svg viewBox="0 0 ' + w + ' 100" preserveAspectRatio="xMidYMid meet" style="direction:ltr">' + out + '</svg>';
@@ -695,17 +703,17 @@
     var dead = false, skipped = false, done = false;
     var volStart = parseFloat(store.g('ht-vol')); if (!(volStart >= 0 && volStart <= 1)) volStart = 0.7;
     HTMusic.volume(volStart);
-    el.innerHTML = '<div class="bg" data-ext="empty-ext.png" style="background-image:url(' + A + 'empty.jpg)"></div>' + lampHtml(215, 0) + sideFurniture + PAINT_SVG + logoLink +
+    el.innerHTML = '<div class="bg" data-ext="../landing/room.jpg" style="background-image:url(' + A + '../landing/room.jpg)"></div>' + lampHtml(215, 0) + sideFurniture + PAINT_SVG + logoLink +
       rect('', 'rug-jute.png', 640, 830, 520, 110) +
-      '<div class="paint" id="p1" style="left:420px;top:80px;width:1000px;font-size:115px;line-height:.9"><p class="tx">התחילי!!!</p></div>' +
+      '<div class="paint" id="p1" style="left:420px;top:80px;width:840px;font-size:115px;line-height:.9"><p class="tx">התחילי!!!</p></div>' +
       '<div class="wallbox" id="wallbox"><div class="wall paint" id="wall"></div><div class="paint breath" id="breath" data-gl="breath" title="מה זה שאיפה ונשיפה?"></div></div>' +
-      '<button type="button" class="hot" id="spk" aria-label="מוזיקה" style="left:40px;top:640px;width:230px;height:258px;background:url(' + A + 'speaker.png) 0 0/100% 100% no-repeat"></button>' +
+      '<button type="button" class="hot" id="spk" aria-label="מוזיקה" style="left:40px;top:640px;width:230px;height:258px;background:url(' + A + 'speaker.png) 0 0/100% 100% no-repeat"><span class="pwr" id="spkPwr"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v8.5"/><path d="M7 6.6a7.6 7.6 0 1 0 10 0"/></svg></span></button>' +
       '<div class="vol" id="volBox" style="left:40px;top:915px;width:230px"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9z"/></svg><input type="range" id="vol" min="0" max="1" step="0.01" value="' + volStart + '" aria-label="עוצמת המוזיקה"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9z"/><path class="w" d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12"/></svg></div>' +
       '<div class="tip l" id="spkTip" style="left:280px;top:700px;width:130px">לחצי כאן להפעלת מוזיקה</div>' +
-      '<div class="clock" id="clock" role="button" aria-label="טיימר"><div class="face"></div><div id="digits"></div><div class="cl" id="cl">' + E.dose + '</div></div>' +
-      '<div class="tip u" id="clkTip" style="left:1490px;top:420px;width:370px">לחצי על השעון להפעלת הטיימר</div>' +
-      '<div class="status" style="top:335px"><div class="chip stat" id="stat"></div><div style="display:flex;gap:8px"><button type="button" class="hgo in sm" id="pz" style="display:none"><span class="in-row"><span>עצרי</span></span></button><button type="button" class="hgo in sm" id="skip"><span class="in-row"><span>דלגי</span></span></button><button type="button" class="hgo in sm" id="reset"><span class="in-row"><span>מההתחלה</span></span></button></div></div>' +
-      '<button type="button" class="hgo in" id="tohow" data-nav="#/ex/' + L.n + '/' + E.i + '" style="left:795px;top:955px;width:330px"><span class="in-row"><span>להוראות</span><svg viewBox="0 0 40 16" aria-hidden="true"><path d="M39 8H3M10 1.5 3 8l7 6.5"/></svg></span></button>' +
+      '<div class="clock" id="clock" role="button" aria-label="טיימר"><div class="face"></div><div id="digits"></div><div class="cl" id="cl">' + E.dose + '</div><button type="button" class="pwr" id="pwr" aria-label="הפעלת הטיימר"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v8.5"/><path d="M7 6.6a7.6 7.6 0 1 0 10 0"/></svg></button></div>' +
+      '<div class="tip l" id="clkTip" style="left:1604px;top:60px;width:290px">אדום: כבוי · ירוק: פועל. לחצי להפעלה</div>' +
+      '<div class="status" style="top:262px"><div class="chip stat" id="stat"></div><div style="display:flex;gap:8px"><button type="button" class="hgo in sm" id="pz" style="display:none"><span class="in-row"><span>עצרי</span></span></button><button type="button" class="hgo in sm" id="skip"><span class="in-row"><span>דלגי</span></span></button><button type="button" class="hgo in sm" id="reset"><span class="in-row"><span>מההתחלה</span></span></button></div></div>' +
+      '<button type="button" class="hgo in tohow-s" id="tohow" data-nav="#/ex/' + L.n + '/' + E.i + '" style="left:850px;top:978px"><span class="in-row"><span>להוראות</span><svg viewBox="0 0 40 16" aria-hidden="true"><path d="M39 8H3M10 1.5 3 8l7 6.5"/></svg></span></button>' +
       '<div class="go-acts" id="acts" style="left:420px;top:915px;width:1000px;justify-content:center"></div>';
     var $e = function (id) { return el.querySelector('#' + id); };
     var fig, wall = $e('wall'), wallbox = $e('wallbox'), breath = $e('breath'), stat = $e('stat'), digits = $e('digits'), clock = $e('clock');
@@ -722,7 +730,7 @@
       if (st < E.sets) plan.push({ type: 'rest', set: st, dur: E.rest });
     }
     var total = plan.reduce(function (a, p) { return a + p.dur; }, 0);
-    var run = { i: -1, t: 0, running: false, last: 0, done: false }, started = false, musicWant = false, lastBeep = -1, idleT0 = performance.now(), timer = null;
+    var run = { i: -1, t: 0, running: false, last: 0, done: false }, started = false, tipT0 = performance.now(), musicWant = false, lastBeep = -1, idleT0 = performance.now(), timer = null;
     var wallKey = '', lastDigits = '', brKey = '', rafAt = 0, fbTimer = null;
 
     /* The instruction on the wall keeps the exercise's own rhythm: in a repetition exercise the steps are spread over the
@@ -819,8 +827,10 @@
       var sp = HTMusic.isPlaying(), ck = started && !run.done;
       $e('spkTip').textContent = sp ? 'מוזיקה פועלת · לחצי לעצירה' : 'לחצי כאן להפעלת מוזיקה';
       $e('spk').classList.toggle('playing', sp);
-      $e('clkTip').textContent = !started ? 'לחצי על השעון להפעלת הטיימר' : run.done ? 'סיימת! לחצי לתחילה מחדש' : run.running ? 'הטיימר רץ · לחצי להשהיה' : 'בהשהיה · לחצי להמשך';
+      $e('spkPwr').classList.toggle('on', sp);
+      $e('clkTip').classList.toggle('gone', started || performance.now() - tipT0 > 9000);   /* the clock's tooltip explains the power button only at the start */
       clock.classList.toggle('run', ck && run.running);
+      $e('pwr').classList.toggle('on', ck && run.running);
       var pz = $e('pz'); pz.style.display = ck ? '' : 'none'; pz.querySelector('span span').textContent = run.running ? 'עצרי' : 'המשיכי';
     }
     function statusText() {
@@ -910,12 +920,12 @@
         '<button type="button" class="hgo in" data-nav="#/lesson/' + L.n + '"><span class="in-row"><span>חזרה לאימון</span></span></button>';
     }
     function startRun() {
-      started = true; run.done = false; run.running = true; run.last = performance.now(); $e('acts').innerHTML = ''; $e('tohow').classList.remove('hid');
+      started = true; el.classList.add('go-run'); run.done = false; run.running = true; run.last = performance.now(); $e('acts').innerHTML = ''; $e('tohow').classList.remove('hid');
       if (musicWant) { HTMusic.stop(); HTMusic.start(E.bpm, musicStyle()); }
       enter(0);
     }
     function resetRun() {
-      started = false; run.running = false; run.done = false; run.i = -1; run.t = 0; HTMusic.resume(); HTMusic.stop(); musicWant = false;
+      started = false; el.classList.remove('go-run'); run.done = false; run.running = false; run.i = -1; run.t = 0; HTMusic.resume(); HTMusic.stop(); musicWant = false;
       $e('acts').innerHTML = ''; $e('tohow').classList.remove('hid'); idleT0 = performance.now(); wallKey = '';
     }
     function togglePause() {
@@ -963,7 +973,7 @@
           tween(350, function () {})
             .then(function () { return paintLines(p1, tween); })
             .then(function () { if (!dead && !done) { el.classList.add('lamp-on'); done = true; } });
-        }, 'empty.jpg');
+        }, '../landing/room.jpg');
       });
     };
     s.destroy = function () { dead = true; clearInterval(timer); clearInterval(fbTimer); HTMusic.resume(); HTMusic.stop(); };
@@ -1025,7 +1035,7 @@
   function clubScreen() {
     var el = scr(), dead = false, skipped = false, done = false;
     var C = clubLoad(), tab = 'week', wk = weekKey(new Date()), msg = '', msgBad = false, paste = false, nowWk = wk;
-    el.innerHTML = '<div class="bg" data-ext="empty-ext.png" style="background-image:url(' + A + 'empty.jpg)"></div>' + lampHtml(215, 0) + sideFurniture + PAINT_SVG + logoLink +
+    el.innerHTML = '<div class="bg" data-ext="../landing/room.jpg" style="background-image:url(' + A + '../landing/room.jpg)"></div>' + lampHtml(215, 0) + sideFurniture + PAINT_SVG + logoLink +
       '<div class="paint" id="p1" style="left:10px;top:120px;width:1900px;font-size:115px;line-height:.9"><p class="tx">חדר מתעמלות</p></div>' +
       '<div class="paint" id="p2" style="left:10px;top:240px;width:1900px;line-height:.9"><p class="tx" style="font-size:40px">תחרויות ידידותיות בין חברות הקבוצה</p></div>' +
       '<div class="club" id="club"></div>';
@@ -1186,7 +1196,7 @@
               .then(function () { return paintLines(p2, tween); })
               .then(function () { if (!dead && !done) { el.classList.add('lamp-on'); return tween(500, function () {}); } })
               .then(function () { if (!dead && !done) { el.classList.add('club-on'); done = true; } });
-          }, 'empty.jpg');
+          }, '../landing/room.jpg');
         });
       }
     };
