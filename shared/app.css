@@ -164,8 +164,8 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .hot .pwr.on { background: #15271d; border-color: #5dff9d; box-shadow: 0 0 12px rgba(50, 240, 130, .95), 0 2px 5px rgba(20, 60, 30, .45); }
 .pwr.on { border-color: rgba(120, 255, 170, .85); background: rgba(60, 230, 130, .14); box-shadow: 0 0 9px rgba(60, 230, 130, .75); }
 .pwr.on svg { stroke: #46ee8c; filter: drop-shadow(0 0 3px rgba(60, 235, 130, .95)); }
-#clkTip { transition: opacity .6s; }
-#clkTip.gone { opacity: 0; }
+#clkTip, #spkTip { transition: opacity .6s; }
+#clkTip.gone, #spkTip.gone { opacity: 0; }
 /* once the timer runs the title stays but shrinks and moves up, and the instruction is written right under it */
 .go-run #p1 { top: 90px !important; font-size: 66px !important; }
 .go-run #wallbox { top: 150px; }

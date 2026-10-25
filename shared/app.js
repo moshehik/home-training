@@ -825,7 +825,7 @@
     function remaining() { if (!started) return total; if (run.done) return 0; var r = 0; for (var j = run.i + 1; j < plan.length; j++) r += plan[j].dur; return r + Math.max(plan[run.i].dur - run.t, 0); }
     function tips() {
       var sp = HTMusic.isPlaying(), ck = started && !run.done;
-      $e('spkTip').textContent = sp ? 'מוזיקה פועלת · לחצי לעצירה' : 'לחצי כאן להפעלת מוזיקה';
+      $e('spkTip').classList.toggle('gone', sp || performance.now() - tipT0 > 9000);   /* like the clock's tooltip: explains at the start, then closes */
       $e('spk').classList.toggle('playing', sp);
       $e('spkPwr').classList.toggle('on', sp);
       $e('clkTip').classList.toggle('gone', started || performance.now() - tipT0 > 9000);   /* the clock's tooltip explains the power button only at the start */
