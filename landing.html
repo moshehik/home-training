@@ -45,6 +45,7 @@ h1, h2, h3, p { margin: 0; }
 .pre #sbar { opacity: 0; }
 .pre .palm, .pre .palmwrap, .pre .rug, .pre .rugshadow, .pre .furn { opacity: 0; animation: none; }
 .pre .hero .hlogo, .pre .hero .ph, .pre .hero .ar, .pre .hero .ar *, .pre .rv, .pre .hero .more, .pre .hero .lt span, .pre .hero .golet, .pre .hero .gw, .pre .hero .dot, .pre .hero .cue, .pre .hero .cue svg { animation: none; opacity: 0; }
+.pre .hero .hlogo img, .pre .hero .hlogo::after, .pre .hero .hlogo::before { animation: none; }
 
 /* ---------- top bar ---------- */
 .pill { display: inline-flex; align-items: center; gap: 8px; padding: 9px 22px; border-radius: 999px; font-weight: 700; font-size: 18px; text-decoration: none; color: var(--ink); background: linear-gradient(180deg, #fff, #f4dce2); border: 1.5px solid rgba(255, 255, 255, .8); box-shadow: 0 6px 16px rgba(130, 70, 80, .18); transition: transform .3s cubic-bezier(.3, .7, .3, 1.3), box-shadow .3s, background .3s; }
@@ -77,14 +78,14 @@ h1, h2, h3, p { margin: 0; }
 .hero { min-height: 100svh; padding: 78px 20px clamp(120px, 24vh, 260px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
 .sronly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 @keyframes wipe { from { clip-path: inset(-10% 0 -10% 100%); } to { clip-path: inset(-10% 0 -10% -5%); } }
-/* the logo stays in the middle of the room; the lines are written on the wall around it, each one followed by a dashed arrow that is drawn from the logo to it; then everything vanishes, the logo grows a little, lightning crosses it, and the last lines are written with a period at the end.
+/* the logo stays in the middle of the room; the lines are written on the wall around it, each one followed by a dashed arrow that is drawn from the logo to it; the moment the last arrow has opened (7.8s) lightning crosses the logo, then everything vanishes, the logo grows a little, and the last lines are written with a period at the end.
    The stage keeps the 16:9 composition of the sketch (all positions are percentages of it, sizes are cqw), centred in the room. */
 .hstage { position: absolute; z-index: 3; left: 50%; top: 50%; width: min(100vw, calc(100svh * 16 / 9)); aspect-ratio: 16 / 9; transform: translate(-50%, -50%); container-type: inline-size; }
 .hlogo { position: absolute; z-index: 3; left: 47.8%; top: 48.1%; width: 44.5%; aspect-ratio: 1603 / 648; transform: translate(-50%, -50%) scale(.88); animation: pop 1s ease .2s both, grow .8s ease 8.9s forwards; }
-.hlogo img { display: block; width: 100%; height: 100%; animation: flash 1.3s ease-in-out 9.7s both; }
+.hlogo img { display: block; width: 100%; height: 100%; animation: flash 1.3s ease-in-out 7.8s both; }
 /* the lightning: a bright band that sweeps across the letters (the band is cut to the shape of the logo), plus a burst of light behind it */
-.hlogo::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; background: linear-gradient(105deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, .95) 44%, #fff 50%, rgba(255, 255, 255, .95) 56%, rgba(255, 255, 255, 0) 70%) 100% 0 / 300% 100% no-repeat; -webkit-mask: url(assets/room/logo.png) center / 100% 100% no-repeat; mask: url(assets/room/logo.png) center / 100% 100% no-repeat; animation: zap 1.3s ease-in-out 9.7s both; }
-.hlogo::before { content: ""; position: absolute; z-index: -1; inset: -30% -12%; pointer-events: none; opacity: 0; background: radial-gradient(ellipse at center, rgba(255, 255, 255, .95) 0, rgba(255, 240, 200, .6) 30%, rgba(255, 240, 200, 0) 68%); animation: burst 1.3s ease-in-out 9.7s both; }
+.hlogo::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; background: linear-gradient(105deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, .95) 44%, #fff 50%, rgba(255, 255, 255, .95) 56%, rgba(255, 255, 255, 0) 70%) 100% 0 / 300% 100% no-repeat; -webkit-mask: url(assets/room/logo.png) center / 100% 100% no-repeat; mask: url(assets/room/logo.png) center / 100% 100% no-repeat; animation: zap 1.3s ease-in-out 7.8s both; }
+.hlogo::before { content: ""; position: absolute; z-index: -1; inset: -30% -12%; pointer-events: none; opacity: 0; background: radial-gradient(ellipse at center, rgba(255, 255, 255, .95) 0, rgba(255, 240, 200, .6) 30%, rgba(255, 240, 200, 0) 68%); animation: burst 1.3s ease-in-out 7.8s both; }
 @keyframes pop { from { transform: translate(-50%, -50%) scale(.88); } to { transform: translate(-50%, -50%) scale(1); } }
 @keyframes grow { from { transform: translate(-50%, -50%) scale(1); } to { transform: translate(-50%, -74%) scale(1.1); } }
 @keyframes zap { 0% { opacity: 1; background-position: 100% 0; } 100% { opacity: 1; background-position: 0 0; } }
@@ -574,7 +575,7 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
     </div>
     <div class="steps">
       <div class="step"><div class="n">1</div><h3>בוחרת אימון</h3><p>מדליקה אחד מ-17 מתגי הקיר, לפי הציוד שיש לך ולפי הכוח שיש לך היום.</p></div>
-      <div class="step"><div class="n">2</div><h3>רואה איך</h3><p>הבובה מדגימה את התרגיל לאט, עם הוראות, גרסה קלה, גרסה קשה ומה להיזהר.</p></div>
+      <div class="step"><div class="n">2</div><h3>רואה איך</h3><p>הבובה מדגימה את התרגיל לאט, עם הוראות, גרסה קלה, גרסה קשה, וממה להיזהר.</p></div>
       <div class="step"><div class="n">3</div><h3>מתאמנת</h3><p>טיימר, מוזיקה והבובה שמראה מתי לשאוף ומתי לנשוף. את עושה, היא סופרת.</p></div>
       <div class="step"><div class="n">4</div><h3>מסמנת "עשיתי!"</h3><p>10 נקודות על כל תרגיל שסיימת, ואפשר לחזור בדיוק למקום שעצרת בו.</p></div>
     </div>
@@ -603,7 +604,7 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
     <h2 class="paint">שאלות שכולן שואלות</h2>
     <div class="faq">
       <details><summary>מה זה אימון פונקציונלי?</summary><p>אימון פונקציונלי מתרגל את התנועות שאת עושה כל יום: לקום מכיסא, להתכופף, לסחוב, לעלות מדרגות ולשמור על יציבות ושיווי משקל. במקום מכונות משתמשים במשקל הגוף ובחפצים מהבית, ומחזקים כמה שרירים יחד, כדי שהגוף יעבוד טוב יותר גם מחוץ לאימון.</p></details>
-      <details><summary>האם זה בטיחותי?</summary><p>האימונים בנויים בזהירות: כל תרגיל מגיע עם הוראות בשלבים, גרסה קלה, ודגש על נשימה, יציבות ומה להיזהר ממנו, ואפשר לעצור בכל רגע ולעבור לגרסה הקלה. עם זאת, זה מידע כללי ולא תחליף לייעוץ רפואי. אם יש לך בעיה רפואית, כאב, פציעה, או שאת בהריון או אחרי לידה, התייעצי עם רופא לפני שמתחילה, ועצרי מיד אם מופיע כאב חד, סחרחורת או קוצר נשימה.</p></details>
+      <details><summary>האם זה בטיחותי?</summary><p>האימונים בנויים בזהירות: כל תרגיל מגיע עם הוראות בשלבים, גרסה קלה, ודגש על נשימה, יציבות וממה להיזהר, ואפשר לעצור בכל רגע ולעבור לגרסה הקלה. עם זאת, זה מידע כללי ולא תחליף לייעוץ רפואי. אם יש לך בעיה רפואית, כאב, פציעה, או שאת בהריון או אחרי לידה, התייעצי עם רופא לפני שמתחילה, ועצרי מיד אם מופיע כאב חד, סחרחורת או קוצר נשימה.</p></details>
       <details><summary>באיזו רמה האימונים?</summary><p>רוב האימונים בנויים לקל עד בינוני, ויש כמה מתקדמים יותר. כל תרגיל מגיע עם גרסה קלה וגרסה קשה, ואת בוחרת לפי איך שאת מרגישה היום.</p></details>
       <details><summary>איזה ציוד צריך?</summary><p>מיטה, כיסא יציב, מקל מטאטא, שני בקבוקי מים, כיור, מדרגות, וכמה אימונים עם מחצלת וכרית. אימון 1 דורש רק מיטה.</p></details>
       <details><summary>אפשר בהריון או אחרי לידה?</summary><p>התייעצי עם רופא או רופאה לפני שמתחילה. תרגילי בטן, היפופרסיב ואימון הטבטה העצים רגישים במיוחד, ולכן בהריון ובתקופה שאחרי לידה חשוב לקבל אישור לפני שמתחילות.</p></details>
