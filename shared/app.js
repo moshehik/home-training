@@ -696,7 +696,7 @@
 
   function goScreen(L, E) {
     var el = scr(), scene = E.scene;
-    HTMusic.theme(L.n);   /* each lesson has its own music */
+    HTMusic.theme(L.n, L.exercises.indexOf(E));   /* every exercise has its own tune */
     store.s('ht-last', E.id); updateBar();
     var next = L.exercises[E.i];
     /* the home page's room: lit pendant lamp, armchair + plant, the title and the instructions painted onto the wall in Noa Price */

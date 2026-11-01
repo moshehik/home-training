@@ -390,7 +390,7 @@ button.hgo { border: 0; background: none; padding: 0; font-family: inherit; curs
 .cbox .cdirect a { color: #3f2c29; font-weight: 800; text-decoration: underline dotted; text-underline-offset: 3px; unicode-bidi: isolate; }
 /* the very end of the page: the floor of the closing room carries on, and the notes are written on it by hand (same look as the lessons note) */
 footer.fine { position: relative; isolation: isolate; overflow: hidden; padding: clamp(120px, 17vw, 210px) 16px 70px; font-family: inherit; color: #4a2230; background: #b3877c; }
-footer.fine::before { content: ""; position: absolute; inset: -30px; filter: blur(18px); z-index: -1; background: url(assets/landing/room.jpg) center bottom / max(100vw, 177.78svh) 30000% no-repeat; }
+footer.fine::before { content: ""; position: absolute; inset: -30px; filter: blur(18px); z-index: -1; background: linear-gradient(90deg, rgb(218, 197, 196) 0%, rgb(165, 131, 121) 20%, rgb(180, 143, 132) 40%, rgb(188, 146, 133) 50%, rgb(194, 146, 132) 60%, rgb(196, 144, 131) 80%, rgb(178, 134, 123) 100%); }   /* the room's bottom row stretched; was the photo at 30000% height (a ~260,000px layer that blanks the page on weaker GPUs) */
 footer.fine .lnote { margin: 0 auto; }
 /* the credit line at the very bottom */
 .credit { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 4px 12px; width: fit-content; max-width: 100%; margin: clamp(46px, 7vw, 80px) auto 0; padding: 10px 26px; border-radius: 999px; background: rgba(255, 255, 255, .5); border: 1.5px solid rgba(255, 255, 255, .8); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); box-shadow: 0 8px 22px rgba(90, 40, 50, .16); font-size: 15px; font-weight: 600; color: #4a2230; text-align: center; }
@@ -604,7 +604,7 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
     <h2 class="paint">שאלות שכולן שואלות</h2>
     <div class="faq">
       <details><summary>מה זה אימון פונקציונלי?</summary><p>אימון פונקציונלי מתרגל את התנועות שאת עושה כל יום: לקום מכיסא, להתכופף, לסחוב, לעלות מדרגות ולשמור על יציבות ושיווי משקל. במקום מכונות משתמשים במשקל הגוף ובחפצים מהבית, ומחזקים כמה שרירים יחד, כדי שהגוף יעבוד טוב יותר גם מחוץ לאימון.</p></details>
-      <details><summary>האם זה בטיחותי?</summary><p>האימונים בנויים בזהירות: כל תרגיל מגיע עם הוראות בשלבים, גרסה קלה, ודגש על נשימה, יציבות וממה להיזהר, ואפשר לעצור בכל רגע ולעבור לגרסה הקלה. עם זאת, זה מידע כללי ולא תחליף לייעוץ רפואי. אם יש לך בעיה רפואית, כאב, פציעה, או שאת בהריון או אחרי לידה, התייעצי עם רופא לפני שמתחילה, ועצרי מיד אם מופיע כאב חד, סחרחורת או קוצר נשימה.</p></details>
+      <details><summary>האם זה בטיחותי?</summary><p>האימונים בנויים בזהירות: כל תרגיל מגיע עם הוראות בשלבים, גרסה קלה, ודגש על נשימה, יציבות וממה להיזהר, ואפשר לעצור בכל רגע ולעבור לגרסה הקלה. עם זאת, זה מידע כללי ולא תחליף לייעוץ רפואי. אם יש לך בעיה רפואית, כאב, פציעה, או שאת בהריון או אחרי לידה, התייעצי עם רופא לפני שמתחילה, ועצרי מיד אם מופיע כאב חד, סחרחורת או קוצר נשימה. האחריות על ההתאמנות היא של המתאמנת.</p></details>
       <details><summary>באיזו רמה האימונים?</summary><p>רוב האימונים בנויים לקל עד בינוני, ויש כמה מתקדמים יותר. כל תרגיל מגיע עם גרסה קלה וגרסה קשה, ואת בוחרת לפי איך שאת מרגישה היום.</p></details>
       <details><summary>איזה ציוד צריך?</summary><p>מיטה, כיסא יציב, מקל מטאטא, שני בקבוקי מים, כיור, מדרגות, וכמה אימונים עם מחצלת וכרית. אימון 1 דורש רק מיטה.</p></details>
       <details><summary>אפשר בהריון או אחרי לידה?</summary><p>התייעצי עם רופא או רופאה לפני שמתחילה. תרגילי בטן, היפופרסיב ואימון הטבטה העצים רגישים במיוחד, ולכן בהריון ובתקופה שאחרי לידה חשוב לקבל אישור לפני שמתחילות.</p></details>
@@ -637,6 +637,7 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
   <div class="lnote paint">
     <p class="lh">לתשומת לבך</p>
     <p>האימונים נועדו למידע כללי ואינם תחליף לייעוץ רפואי. אם יש לך בעיה רפואית, כאב, פציעה, או שאת בהריון או אחרי לידה, התייעצי עם רופא לפני שמתחילה. עצרי בכאב חד, בסחרחורת או בקוצר נשימה. הכיסא חייב להיות יציב וצמוד לקיר, ואת מתאמנת באחריותך.</p>
+    <p>האחריות על ההתאמנות, על התאמת התרגילים למצבך ועל ביצועם נכונה היא של המתאמנת בלבד. בעלת האתר אינה אחראית לכל פציעה, נזק או הפסד שייגרמו כתוצאה מהשימוש באתר ובאימונים.</p>
     <p>האתר אינו מבטיח הרזיה, הורדה נקודתית או תוצאה גופנית מסוימת. מספרי הקלוריות הם הערכה כללית.</p>
     <p>נקודות והתקדמות נשמרות בדפדפן שלך. · גופן הכתב: "נועה פרייס" מאת אות.חיים.</p>
   </div>
