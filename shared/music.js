@@ -283,6 +283,8 @@
     pause: function () { if (ctx && ctx.state === 'running') ctx.suspend(); },
     resume: function () { if (ctx && ctx.state === 'suspended') ctx.resume(); },
     volume: function (v) { st.vol = v; if (master) master.gain.value = v; },
+    /* turn the music down while the voice speaks (on) and back up afterwards (off) */
+    duck: function (on) { if (master && ctx) master.gain.setTargetAtTime(on ? st.vol * 0.3 : st.vol, ctx.currentTime, 0.12); },
     isPlaying: function () { return st.playing; },
     /* short cue sounds for the timer */
     tick: function (high) { if (!init()) return; if (ctx.state === 'suspended') ctx.resume(); tone('sine', high ? 1320 : 880, ctx.currentTime, 0.002, 0.35, high ? 0.45 : 0.12); },

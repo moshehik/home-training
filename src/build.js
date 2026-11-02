@@ -91,8 +91,10 @@ fs.writeFileSync(path.join(root, 'index.html'), `<!doctype html>
 <script src="shared/data.js"></script>
 <script src="shared/doll.js"></script>
 <script src="shared/music.js"></script>
+<script src="shared/voice.js"></script>
 <script src="shared/glossary-anim.js"></script>
 <script src="shared/glossary.js"></script>
+<script src="shared/coach.js"></script>
 <script src="shared/app.js"></script>
 </body></html>
 `);

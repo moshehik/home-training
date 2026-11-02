@@ -249,9 +249,100 @@ h1, h2, h3, p { margin: 0; }
 .mstage .step-in { animation: stepin .45s cubic-bezier(.3, .7, .3, 1.1) both; }
 @keyframes stepin { from { opacity: 0; transform: translateY(12px) scale(.97); } to { opacity: 1; transform: none; } }
 /* the second screen of an exercise ("מתאמנים"): timer clock, the instruction painted on the wall, the doll at full size */
+/* the third screen ("ברכי תדריכי"): the coach panel, copied from shared/app.css and scoped to the replica */
+.mstage .coach { position: absolute; left: 1010px; top: 215px; width: 880px; height: 815px; z-index: 3; padding: 18px 30px 14px; display: flex; flex-direction: column; gap: 10px; background: linear-gradient(180deg, rgba(255, 250, 247, .86), rgba(251, 236, 236, .8)); border: 2px solid rgba(255, 255, 255, .95); border-radius: 56px 80px 48px 72px / 64px 48px 70px 56px; box-shadow: 0 16px 38px rgba(130, 70, 80, .22), inset 0 0 0 1px rgba(232, 185, 196, .45), inset 0 2px 0 rgba(255, 255, 255, .9); backdrop-filter: blur(8px); font-size: 27px; opacity: 1; }
+.mstage .co-head { flex: none; display: flex; align-items: center; justify-content: space-between; padding: 0 8px 8px; border-bottom: 2px dashed rgba(163, 48, 79, .22); }
+.mstage .co-title { font-family: "OH Noa Price", "Gveret Levin", cursive; font-size: 54px; line-height: 1; color: #a3304f; }
+.mstage .co-on { display: inline-flex; align-items: center; gap: 9px; padding: 5px 16px; border-radius: 22px; font-size: 20px; font-weight: 700; color: #4f7a52; background: rgba(226, 244, 224, .8); border: 1.5px solid rgba(120, 175, 120, .45); }
+.mstage .co-on i { width: 11px; height: 11px; border-radius: 50%; background: #4fbf68; box-shadow: 0 0 8px 2px rgba(79, 191, 104, .6); animation: copulse 2.2s ease-in-out infinite; }
+@keyframes copulse { 50% { opacity: .45; } }
+.mstage .co-log { flex: 1; min-height: 0; overflow-y: auto; direction: ltr; display: flex; flex-direction: column; gap: 18px; padding: 22px 14px 22px 6px; user-select: text; scrollbar-width: thin; scrollbar-color: rgba(163, 48, 79, .3) transparent; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 20px, #000 calc(100% - 20px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 20px, #000 calc(100% - 20px), transparent 100%); }
+.mstage .co-m { display: flex; direction: rtl; align-items: flex-end; gap: 12px; max-width: 93%; }
+.mstage .co-m.me { align-self: flex-end; max-width: 80%; }
+.mstage .co-m.bot { align-self: flex-start; }
+.mstage .co-col { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.mstage .co-av { flex: none; width: 58px; height: 58px; border-radius: 50%; background: radial-gradient(circle at 35% 28%, #fff6f0, #f3c9d2 70%); border: 3px solid #fff; box-shadow: 0 4px 10px rgba(130, 70, 80, .25); display: grid; place-items: center; overflow: hidden; }
+.mstage .co-av svg { width: 44px; height: 44px; }
+.mstage .co-b { padding: 14px 26px 16px; font-size: 26px; line-height: 1.4; border-radius: 22px; }
+.mstage .co-b { font-family: "OH Noa Price", "Gveret Levin", cursive; font-size: 34px; line-height: 1.12; }
+.mstage .co-m.bot .co-b { color: #43332f; background: linear-gradient(180deg, #fffefd, #fcefe9); border: 1.5px solid rgba(255, 255, 255, .95); border-bottom-left-radius: 4px; box-shadow: 0 7px 16px rgba(130, 70, 80, .15), inset 0 -4px 8px rgba(214, 150, 165, .14); }
+.mstage .co-m.me .co-b { color: #fff3cf; background: linear-gradient(180deg, #24407a, #162a55); border: 3px solid #e8b83a; border-bottom-right-radius: 4px; box-shadow: 0 7px 16px rgba(22, 42, 85, .35), inset 0 0 0 1.5px rgba(255, 226, 140, .55), inset 0 -4px 8px rgba(0, 0, 20, .3); text-shadow: 0 1px 2px rgba(0, 0, 30, .5); }
+.mstage .co-b .pp + .pp { margin-top: 12px; }
+.mstage .co-b b { color: #a3304f; font-weight: 400; -webkit-text-stroke: .8px currentColor; }
+.mstage .co-b ul { margin: 6px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.mstage .co-b li { position: relative; padding-inline-start: 26px; }
+.mstage .co-b li::before { content: ""; position: absolute; inset-inline-start: 4px; top: .6em; width: 9px; height: 9px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff1b0, #e8b52e); box-shadow: 0 1px 2px rgba(120, 80, 0, .35); }
+.mstage .co-b li.n::before { content: attr(data-n); inset-inline-start: 0; top: .1em; width: 24px; height: 24px; display: grid; place-items: center; font-size: 16px; font-weight: 800; color: #fff; background: #c98a9c; box-shadow: none; line-height: 1; }
+.mstage .cw { animation: cwin .4s ease both; }
+@keyframes cwin { from { opacity: 0; } to { opacity: 1; } }
+.mstage .co-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.mstage .co-links.late { animation: cwin .5s ease both; }
+.mstage .co-lk { padding: 7px 20px; border-radius: 26px; font-size: 21px; font-weight: 700; color: #7a2742; text-decoration: none; background: linear-gradient(180deg, #fff, #f8e2e7); border: 1.5px solid #e8b9c4; box-shadow: 0 3px 8px rgba(130, 70, 80, .15); transition: transform .2s, box-shadow .25s, background .25s, color .25s; }
+.mstage .co-lk::after { content: " ‹"; opacity: .6; }
+.mstage .co-lk:hover, .co-lk:focus-visible { outline: none; transform: translateY(-2px); background: radial-gradient(circle at 30% 20%, #fffbd6, #f7d85e 55%, #e0ac22); color: #5a3a00; box-shadow: 0 0 20px rgba(255, 205, 60, .8); }
+.mstage .co-dots { display: flex; gap: 8px; padding: 22px 28px !important; }
+.mstage .co-dots i { width: 12px; height: 12px; border-radius: 50%; background: #c98a9c; animation: codot 1s ease-in-out infinite; }
+.mstage .co-dots i:nth-child(2) { animation-delay: .15s; }
+.mstage .co-dots i:nth-child(3) { animation-delay: .3s; }
+@keyframes codot { 0%, 70%, 100% { transform: none; opacity: .5; } 35% { transform: translateY(-8px); opacity: 1; } }
+.mstage .co-chips { flex: none; display: flex; flex-wrap: wrap; gap: 9px; padding: 0 4px; }
+.mstage .co-chips.compact { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.mstage .co-chips.compact::-webkit-scrollbar { display: none; }
+.mstage .co-chip { flex: none; padding: 7px 20px; border-radius: 26px; font-size: 21px; font-weight: 700; color: #8a4560; background: linear-gradient(180deg, #fff, #f6e3e7); border: 1.5px solid #e8c3cc; box-shadow: 0 3px 7px rgba(130, 70, 80, .13); transition: transform .2s, box-shadow .25s, background .25s; }
+.mstage .co-chip:hover, .co-chip:focus-visible { outline: none; transform: translateY(-2px); background: #fff; box-shadow: 0 6px 14px rgba(130, 70, 80, .22); }
+.mstage .co-form { flex: none; }
+.mstage .co-field { display: flex; align-items: center; gap: 10px; padding: 7px 24px 7px 8px; border-radius: 42px; background: rgba(255, 255, 255, .96); border: 2px solid #fff; box-shadow: 0 4px 12px rgba(130, 70, 80, .16), inset 0 2px 5px rgba(130, 70, 80, .1); transition: box-shadow .25s, border-color .25s; }
+.mstage .co-field:focus-within { border-color: #f1c14a; box-shadow: 0 0 0 4px rgba(247, 216, 94, .45), 0 4px 12px rgba(130, 70, 80, .16); }
+.mstage .co-field textarea { direction: rtl; text-align: right; flex: 1; min-width: 0; height: 50px; max-height: 120px; padding: 11px 0; font: inherit; font-size: 25px; line-height: 1.3; color: var(--ink); background: none; border: 0; user-select: text; outline: none; resize: none; overflow-y: hidden; }
+.mstage .co-field textarea::placeholder { color: #a8939a; }
+.mstage .co-del { flex: none; width: 44px; height: 44px; border-radius: 50%; display: none; place-items: center; color: #a3304f; background: rgba(163, 48, 79, .08); transition: background .2s, transform .2s; }
+.mstage .co-field.has .co-del { display: grid; }
+.mstage .co-del svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.mstage .co-del:hover, .co-del:focus-visible { outline: none; background: rgba(163, 48, 79, .2); transform: scale(1.08); }
+.mstage .co-send { flex: none; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; color: #5a3a00; background: radial-gradient(circle at 30% 20%, #fffbd6, #f7d85e 52%, #d6a21a); box-shadow: 0 3px 9px rgba(150, 100, 0, .35), inset 0 0 0 2px rgba(255, 255, 255, .8); transition: transform .2s, box-shadow .25s; }
+.mstage .co-send svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.mstage .co-send:hover, .co-send:focus-visible { outline: none; transform: scale(1.08); box-shadow: 0 0 22px rgba(255, 205, 60, .9), inset 0 0 0 2px rgba(255, 255, 255, .85); }
+.mstage .co-foot { flex: none; display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 24px; padding: 0 6px 4px; }
+.mstage .co-note { margin: 0; font-size: 19px; color: #7a6168; text-align: center; order: 2; }
+.mstage .co-btns { width: 100%; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.mstage .co-btns > button { width: 100%; height: 58px; padding: 0 12px; display: flex; align-items: center; justify-content: center; gap: 10px; line-height: 1; white-space: nowrap; border: 2px solid transparent; }
+.mstage .co-faqbtn { flex: none; display: inline-flex; align-items: center; gap: 10px; height: 56px; padding: 0 28px; border-radius: 30px; font-size: 25px; font-weight: 800; color: #7a2742; background: linear-gradient(180deg, #fff, #f8e2e7); border: 2px solid #e8b9c4; box-shadow: 0 3px 9px rgba(130, 70, 80, .18); transition: transform .2s, box-shadow .25s; }
+.mstage .co-faqbtn svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.mstage .co-faqbtn:hover, .co-faqbtn:focus-visible { outline: none; transform: translateY(-2px); box-shadow: 0 6px 14px rgba(130, 70, 80, .28); }
+.mstage .co-faq { position: absolute; inset: 0; z-index: 6; padding: 24px 30px 20px; display: flex; flex-direction: column; gap: 10px; border-radius: inherit; background: linear-gradient(180deg, rgba(255, 250, 247, .98), rgba(251, 236, 236, .97)); }
+.mstage .co-faq[hidden] { display: none; }
+.mstage .co-faq-head { flex: none; display: flex; align-items: center; justify-content: space-between; padding: 0 8px 8px; border-bottom: 2px dashed rgba(163, 48, 79, .22); }
+.mstage .co-faq-x { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; color: #a3304f; background: rgba(163, 48, 79, .1); transition: background .2s, transform .2s; }
+.mstage .co-faq-x svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
+.mstage .co-faq-x:hover, .co-faq-x:focus-visible { outline: none; background: rgba(163, 48, 79, .22); transform: scale(1.08); }
+.mstage .co-faq-list { flex: 1; min-height: 0; overflow-y: auto; direction: ltr; display: flex; flex-direction: column; gap: 8px; padding: 6px 14px 10px 6px; scrollbar-width: thin; scrollbar-color: rgba(163, 48, 79, .3) transparent; }
+.mstage .co-faq-list > * { direction: rtl; }
+.mstage .co-faq-list h4 { margin: 12px 4px 0; font-family: "OH Noa Price", "Gveret Levin", cursive; font-weight: 400; font-size: 40px; line-height: 1; color: #a3304f; }
+.mstage .co-q { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 24px; border-radius: 20px; text-align: right; font-family: "OH Noa Price", "Gveret Levin", cursive; font-size: 33px; line-height: 1.1; color: #43332f; background: linear-gradient(180deg, #fffefd, #fcefe9); border: 1.5px solid rgba(232, 185, 196, .7); box-shadow: 0 3px 8px rgba(130, 70, 80, .12); transition: transform .2s, box-shadow .25s, background .25s; }
+.mstage .co-q small { display: block; margin-top: 2px; font-family: "Asparagos", "Segoe UI", Arial, sans-serif; font-size: 17px; font-weight: 600; color: #8a6b73; }
+.mstage .co-empty { margin: 14px 6px; font-family: "OH Noa Price", "Gveret Levin", cursive; font-size: 33px; line-height: 1.15; color: #43332f; }
+.mstage .co-q svg { flex: none; width: 22px; height: 22px; fill: none; stroke: #c98a9c; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.mstage .co-q:hover, .co-q:focus-visible { outline: none; transform: translateX(-4px); background: linear-gradient(180deg, #fffbe3, #fbe9a8); box-shadow: 0 6px 14px rgba(160, 110, 0, .22); }
+.mstage .co-new { flex: none; display: inline-flex; align-items: center; gap: 10px; height: 56px; padding: 0 30px; border-radius: 30px; font-size: 25px; font-weight: 800; color: #5a3a00; background: radial-gradient(circle at 30% 20%, #fffbd6, #f7d85e 52%, #d6a21a); border-color: #fff; box-shadow: 0 3px 9px rgba(150, 100, 0, .3); transition: transform .2s, box-shadow .25s; }
+.mstage .co-new svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; }
+.mstage .co-new:hover, .co-new:focus-visible { outline: none; transform: translateY(-2px); box-shadow: 0 0 20px rgba(255, 205, 60, .85), inset 0 0 0 2px rgba(255, 255, 255, .85); }
+.mstage .co-btns > .co-faqbtn { border-color: #e8b9c4; }
+.mstage .co-btns > .co-faqbtn:hover, .co-btns > .co-faqbtn:focus-visible { border-color: #7b1e3a; box-shadow: 0 6px 14px rgba(123, 30, 58, .28); }
+:where(.mstage .coach button) { font: inherit; border: 0; background: none; padding: 0; color: inherit; cursor: default; }
+.mstage .coach textarea { pointer-events: none; }
+.mstage .co-log { overflow: hidden; }
+.mstage .co-field .co-ph { flex: 1; min-width: 0; padding: 11px 0; font-size: 25px; line-height: 1.3; color: #a8939a; text-align: right; }
+.mstage .co-field .co-ph.typed { color: var(--ink); }
+.mstage .co-field .co-ph.typed::after { content: "|"; opacity: .5; }
+@media (prefers-reduced-motion: reduce) { .mstage .cw, .mstage .co-links.late, .mstage .co-on i, .mstage .co-dots i { animation: none; } }
 .mtabs { display: flex; justify-content: center; gap: 12px; margin: 22px auto 0; position: relative; z-index: 2; }
 .mtabs button { font: inherit; font-size: 18px; font-weight: 700; padding: 9px 28px; border-radius: 30px; border: 1.5px solid rgba(255, 255, 255, .85); background: rgba(255, 255, 255, .5); color: #5a3a40; cursor: pointer; transition: background .2s, transform .2s; }
 .mtabs button:hover { transform: translateY(-2px); }
+.mtabs .mvoice { display: inline-flex; align-items: center; gap: 8px; margin-inline-start: 14px; }
+.mtabs .mvoice svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.mtabs .mvoice:not([aria-pressed="true"]) .w { display: none; }
+.mtabs .mvoice[aria-pressed="true"] { background: #4f7a52; border-color: #fff; color: #fff; }
+.mtabs .mvoice[hidden] { display: none; }
 .mtabs button[aria-selected="true"] { background: #d6a01a; color: #3b2606; }
 .mstage .mclock { position: absolute; z-index: 3; left: 1470px; top: 150px; width: 435px; height: 180px; }
 .mstage .mclock .face { position: absolute; inset: 0; background: url(assets/room/clock.png) 0 0 / 100% 100% no-repeat; filter: drop-shadow(0 0 12px rgba(255, 245, 190, .9)); }
@@ -540,9 +631,9 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
 <section class="sec room" id="look">
   <div class="wrap">
     <h2 class="paint">איך זה נראה?</h2>
-    <p class="sub">כך נראה כל תרגיל באתר, בשני מסכים: קודם "איך עושים" עם הבובה והוראות שלב אחרי שלב, ואז "מתאמנים" עם טיימר, מוזיקה והבובה שזזה בקצב. זה תרגיל אמיתי מאימון הטבטה, והוא זז.</p>
+    <p class="sub">כך נראה כל תרגיל באתר, בשני מסכים: קודם "איך עושים" עם הבובה והוראות שלב אחרי שלב, ואז "מתאמנים" עם טיימר, מוזיקה והבובה שזזה בקצב. זה תרגיל אמיתי מאימון הטבטה, והוא זז. לחצי על "הקראה" כדי לשמוע את ההוראות בקול, כמו שהן נשמעות באימון, ובמסך השלישי אפשר להכיר את ברכי, המדריכה.</p>
   </div>
-  <div class="mtabs" id="mtabs" role="tablist" aria-label="שני מסכי התרגיל"><button type="button" role="tab" data-mode="how" aria-selected="true">1 · איך עושים</button><button type="button" role="tab" data-mode="go" aria-selected="false">2 · מתאמנים</button></div>
+  <div class="mtabs" id="mtabs" role="tablist" aria-label="מסכי ההדגמה"><button type="button" role="tab" data-mode="how" aria-selected="true">1 · איך עושים</button><button type="button" role="tab" data-mode="go" aria-selected="false">2 · מתאמנים</button><button type="button" role="tab" data-mode="coach" aria-selected="false">3 · ברכי תדריכי</button><button type="button" class="mvoice" id="mvoice" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="w" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg><span>הקראה: כבויה</span></button></div>
   <div class="mock" id="mock" aria-label="הדגמה של מסך תרגיל באתר"><div class="mstage" id="mstage"></div></div>
 </section>
 <div class="rugsep flip" aria-hidden="true"><img src="assets/landing/rug-edge.png" alt="" width="1400" height="605" loading="lazy"></div>
@@ -689,6 +780,7 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
 <div class="sticky" id="sticky"><a class="pill" href="index.html#/lessons">כניסה</a></div>
 
 <script src="shared/doll.js"></script>
+<script src="shared/voice.js"></script>
 <script src="assets/landing/look-data.js"></script>
 <script>
 (function () {
@@ -764,7 +856,8 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
   var FURN = '<div class="fshadow" style="left:1420px;top:989px;width:175px;height:26px"></div><div class="fshadow" style="left:1608px;top:1020px;width:330px;height:36px"></div>' + rect('soft', 'home-plant.png', 1404, 693, 207, 312) + rect('soft', 'home-chair.png', 1594, 629, 319, 414);
   function fit() { ms.style.transform = 'scale(' + (mock.clientWidth / 1920) + ')'; }
   fit(); addEventListener('resize', fit); if (window.ResizeObserver) new ResizeObserver(fit).observe(mock);
-  new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(mock);
+  new IntersectionObserver(function (e) { visible = e[0].isIntersecting; if (!visible) HTVoice.stop(); else if (vOn) renarrate(); }).observe(mock);
+  document.addEventListener('visibilitychange', function () { if (document.hidden) HTVoice.stop(); else if (vOn && visible) renarrate(); });
 
   var E, fig, ins, step, tStep, t0, shapes, auto = 0;
   /* what the doll does for a step: rest (opening pose) / go (to the effort pose) / top (stay there) / back (return), read from how the sentence starts */
@@ -816,10 +909,17 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
     var bl = box.querySelector('.mblob');
     for (var pass = 0; pass < 2; pass++) { var bx = Math.max(820, Math.min(Math.ceil(reach(232 + bl.offsetHeight) + 30), 980)); bl.style.left = bx + 'px'; bl.style.width = (1580 - bx) + 'px'; }
     if (reduce) fig.draw(fig.atIdx(it.rng ? it.rng[1] || 1 : 1).pose);
+    var cl = stepClip(step); HTVoice.stop();
+    if (vOn && cl) { HTVoice.say(cl); auto = Math.max(auto, performance.now() + HTVoice.length(cl, it.h) * 1000 + 1800); }
   }
+  /* spoken instructions: the clips of assets/voice (made by scripts/make-voice.js); the starting position and each numbered step are read, as on the exercise screen */
+  var vOn = false, vBtn = document.getElementById('mvoice');
+  function stepClip(i) { var c = i === 0 ? E.id + '-p' : i <= E.steps.length ? E.id + '-s' + (i - 1) : ''; return c && HTVoice.has(c) ? c : ''; }
+  function renarrate() { if (mode === 'how' && ins) render(); else if (mode === 'go' && G) G.key = ''; }
   function build(i) {
     E = LOOK[i]; shapes = null; auto = performance.now() + 5000;
     if (mode === 'go') return buildGo();
+    if (mode === 'coach') return buildCoach();
     var fs = fitFont(E.name.length, 115, 1000, 0.42);
     ms.innerHTML = FURN + rect('', 'rug-round.png', 250, 822, 500, 175) +
       '<div class="paint" style="left:420px;top:80px;width:1000px;font-size:' + fs + 'px;color:#4a3b3a"><p>' + esc(E.name) + '</p></div><div id="mbox"></div><div class="doll" style="left:0;top:282px;width:1040px;height:692px"><svg role="img" aria-label="בובת פלסטלינה מדגימה את התרגיל"></svg></div>';
@@ -844,7 +944,13 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
   var G, gEls, gTop;
   function buildGo() {
     var cycle = E.beats * 60 / E.bpm, isHold = E.hold > 0, work = isHold ? E.hold : E.reps * cycle, PREP = 5, REST = 6;
-    G = { cycle: cycle, hold: isHold, work: work, prep: PREP, rest: REST, per: PREP + work + REST, total: PREP + E.sets * work + (E.sets - 1) * E.rest, key: '', digits: '', stat: '', cl: '', br: '#' };
+    var sl = null, sum = 0;
+    if (vOn) {
+      var pc = E.id + '-p'; if (HTVoice.has(pc)) PREP = Math.max(PREP, Math.ceil(HTVoice.length(pc, E.start) + 1.2));
+      sl = E.steps.map(function (s, k) { var c = E.id + '-s' + k; return HTVoice.has(c) ? Math.max(3, HTVoice.length(c, s) + 0.6) : 3; });
+      sum = sl.reduce(function (a, b) { return a + b; }, 0);
+    }
+    G = { sl: sl, sum: sum, cycle: cycle, hold: isHold, work: work, prep: PREP, rest: REST, per: PREP + work + REST, total: PREP + E.sets * work + (E.sets - 1) * E.rest, key: '', digits: '', stat: '', cl: '', br: '#' };
     ms.innerHTML = FURN + rect('', 'rug-jute.png', 640, 830, 520, 110) + rect('', 'speaker.png', 40, 640, 230, 258) +
       '<div class="paint" style="left:420px;top:80px;width:1000px;font-size:115px;color:#4a3b3a"><p>התחילי!!!</p></div>' +
       '<div class="mwallbox" id="mwb"><div class="paint" id="mwall" style="font-size:66px;line-height:1.1;color:#a3304f"><p></p></div><div class="paint mbr" id="mbr"></div></div>' +
@@ -870,8 +976,9 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
     }
     return gTop;
   }
-  function setGoWall(key, text, size, breath) {
+  function setGoWall(key, text, size, breath, clip) {
     if (key === G.key) return; G.key = key;
+    if (vOn) { HTVoice.stop(); if (clip) HTVoice.say(clip); }
     var w = gEls.wall, sr = ms.getBoundingClientRect(), k = sr.width / 1920 || 1, fs = size;
     gEls.wb.classList.toggle('hasbr', !!breath);
     w.style.fontSize = fs + 'px'; w.firstChild.textContent = text;
@@ -882,16 +989,18 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
     var t = reduce ? G.prep + 1.6 : ((now - t0) / 1000) % G.per, r, elapsed, br = '', stat, cl, nSteps = E.steps.length;
     if (t < G.prep) {
       r = fig.atHold(0, Math.sin(now / 900) * 0.6); elapsed = t; stat = 'התכוני לעמדת הפתיחה'; cl = 'התכוני';
-      setGoWall('prep', E.start, E.start.length > 100 ? 56 : 66, false);
+      setGoWall('prep', E.start, E.start.length > 100 ? 56 : 66, false, E.id + '-p');
     } else if (t < G.prep + G.work) {
-      var wt = t - G.prep, si = G.hold ? Math.min(nSteps - 1, Math.floor(wt / (G.work / nSteps))) : Math.floor(wt / Math.max(3, G.cycle / nSteps)) % nSteps;
+      var wt = t - G.prep, si, spoken = false;
+      if (G.sl && !G.hold) { var u = wt % G.sum; si = 0; while (si < nSteps - 1 && u >= G.sl[si]) { u -= G.sl[si]; si++; } spoken = wt < G.sum; }
+      else si = G.hold ? Math.min(nSteps - 1, Math.floor(wt / (G.work / nSteps))) : Math.floor(wt / Math.max(3, G.cycle / nSteps)) % nSteps;
       r = goPose(wt); elapsed = t;
       var bm = /שאפ|שאיפ|נשפ|נשיפ/.exec(E.steps[si]); br = bm ? (bm[0].charAt(0) === 'ש' ? 'in' : 'out') : '';
       stat = 'סט 1 מתוך ' + E.sets + (G.hold ? '' : ' · חזרה ' + Math.min(Math.floor(wt / G.cycle) + 1, E.reps) + '/' + E.reps); cl = 'סט 1/' + E.sets;
-      setGoWall('w' + si, E.steps[si], 66, true);
+      setGoWall('w' + si + (spoken ? 's' : ''), E.steps[si], 66, true, spoken || G.hold ? E.id + '-s' + si : '');
     } else {
       r = fig.atHold(0, Math.sin(now / 900) * 0.6); elapsed = t; stat = 'מנוחה · הסט הבא 2 מתוך ' + E.sets; cl = 'מנוחה';
-      setGoWall('rest', 'נוחי ונשמי', 66, false);
+      setGoWall('rest', 'נוחי ונשמי', 66, false, 'g-rest');
     }
     fig.draw(r.pose);
     if (br !== G.br) { G.br = br; gEls.br.className = 'paint mbr' + (br ? ' ' + br : ''); gEls.br.textContent = br === 'in' ? 'שאיפה' : br === 'out' ? 'נשיפה' : ''; }
@@ -899,12 +1008,86 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
     if (stat !== G.stat) { G.stat = stat; gEls.stat.textContent = stat; }
     if (cl !== G.cl) { G.cl = cl; gEls.cl.textContent = cl; }
   }
+  /* ---- the third screen ("ברכי תדריכי"): the doll on her chair, waving, then a short scripted chat that loops ---- */
+  var CQ = 'איך עושים סקוואט נכון?', CHELLO = 'שלום! אני ברכי, המדריכה שלך. אפשר לשאול אותי על תרגיל שלא הבנת, לבקש תכנית אימונים לחיטוב ולירידה במשקל, או להתייעץ על כל דבר שקשור לאימון. במה להתחיל?',
+      CANS = 'שבי אחורה ולמטה כאילו את מתיישבת על כיסא. הברכיים עוקבות אחרי כיוון הבהונות והחזה גבוה. דחפי את הרצפה וחזרי לעמידה מלאה.\n\nאם קשה, רדי רק חצי מהדרך או הניחי יד על כיסא.',
+      CAV = '<span class="co-av"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="21" r="14" fill="#efb9a0"/><path d="M6 20c0-9 6-15 14-15s14 6 14 15c-3-5-8-8-14-8S9 15 6 20z" fill="#4a3b37"/><circle cx="14.5" cy="22" r="1.8" fill="#3a2f2d"/><circle cx="25.5" cy="22" r="1.8" fill="#3a2f2d"/><path d="M14.5 27.5q5.5 4.5 11 0" fill="none" stroke="#a85f66" stroke-width="2" stroke-linecap="round"/></svg></span>',
+      CT = { hello: 0.8, type: 8.2, ask: 10.4, think: 10.8, ans: 12.2, end: 26 };
+  var CK, CG = HTDoll.G;
+  function coachPose(k) { return Object.assign({ h: [200, CG - 52], t: 0, k: [190, CG - 5], l: [210, CG - 5], lf: 0.3 }, k); }
+  var CSCENE = { view: 'front', props: [{ type: 'chairf', x: 200 }], poses: [
+    coachPose({ ap: [-14, 52], bp: [14, 52] }), coachPose({ ap: [-14, 52], bp: [150, 56], n: 4 }), coachPose({ ap: [-14, 52], bp: [170, 56], n: -2 }), coachPose({ ap: [-14, 52], bp: [14, 52] }),
+    coachPose({ ap: [-48, 50], bp: [48, 50], n: 3 }), coachPose({ ap: [-74, 52], bp: [36, 50], n: -3 })] };
+  function cio(k) { return 0.5 - Math.cos(Math.PI * k) / 2; }
+  function cfmt(s) { return s.split(/\n{2,}/).map(function (p) { return '<div class="pp">' + esc(p) + '</div>'; }).join(''); }
+  function creveal(box) {
+    var n = 0, step = Math.min(0.05, 6 / Math.max(1, box.textContent.split(/\s+/).length)), tn = [], w = document.createTreeWalker(box, NodeFilter.SHOW_TEXT);
+    while (w.nextNode()) tn.push(w.currentNode);
+    tn.forEach(function (t) { var f = document.createDocumentFragment(); t.nodeValue.split(/(\s+)/).forEach(function (p) { if (!p) return; if (/^\s+$/.test(p)) { f.appendChild(document.createTextNode(p)); return; } var s = document.createElement('span'); s.className = 'cw'; s.style.animationDelay = (n++ * step).toFixed(3) + 's'; s.textContent = p; f.appendChild(s); }); t.parentNode.replaceChild(f, t); });
+    return n * step;
+  }
+  function buildCoach() {
+    ms.innerHTML = rect('', 'rug-round.png', 200, 890, 600, 210) +
+      '<div class="paint" style="left:390px;top:96px;width:640px;font-size:115px;line-height:.9;color:#4a3b3a"><p>ברכי תדריכי</p></div>' +
+      '<div class="paint" style="left:390px;top:262px;width:640px;line-height:.9;color:#a3304f"><p style="font-size:36px">שאלי אותי על כל תרגיל, תכנית או הסבר</p></div>' +
+      '<div class="coach"><div class="co-head"><span class="co-title">שיחה עם ברכי</span><span class="co-on"><i></i>זמינה לשאלות</span></div><div class="co-log" id="clog"></div>' +
+      '<div class="co-form"><div class="co-field"><span class="co-ph" id="cph">כתבי כאן את השאלה שלך…</span><button type="button" class="co-send" aria-label="שלחי"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H4M10 5.5 3.5 12l6.5 6.5"/></svg></button></div></div>' +
+      '<div class="co-foot"><p class="co-note">ברכי עונה על אימון ותנועה בלבד, ואינה תחליף לרופא.</p><div class="co-btns"><button type="button" class="co-faqbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2 1-1.2 1.9M12 17h.01"/></svg>שאלות נפוצות</button><button type="button" class="co-new"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>שיחה חדשה</button></div></div></div>' +
+      '<div class="doll" style="left:-60px;top:343px;width:1120px;height:745px"><svg role="img" aria-label="ברכי, המדריכה, יושבת על כיסא"></svg></div>';
+    fig = HTDoll.create(ms.querySelector('.doll svg'), CSCENE); t0 = performance.now();
+    CK = { st: -1, log: ms.querySelector('#clog'), ph: ms.querySelector('#cph'), think: false, mt: 0, mode: 'idle', mdur: 0 };
+    if (reduce) { coachMsg('bot', CHELLO, false); coachMsg('me', CQ, false); coachMsg('bot', CANS, false, true); CK.st = 9; fig.draw(fig.atIdx(4).pose); }
+  }
+  function coachMsg(who, text, anim, link) {
+    var m = document.createElement('div'), col = document.createElement('div'), b = document.createElement('div'), d = 0;
+    m.className = 'co-m ' + who; col.className = 'co-col'; b.className = 'co-b'; b.innerHTML = cfmt(text); col.appendChild(b); m.appendChild(col);
+    if (who === 'bot') m.insertAdjacentHTML('beforeend', CAV);
+    if (anim && who === 'bot') d = creveal(b);
+    if (link) { var ls = document.createElement('div'); ls.className = 'co-links' + (anim ? ' late' : ''); if (anim) ls.style.animationDelay = (d + 0.2).toFixed(2) + 's'; ls.innerHTML = '<span class="co-lk">סקוואט מהיר · אימון 16</span>'; col.appendChild(ls); }
+    CK.log.appendChild(m); CK.log.scrollTop = CK.log.scrollHeight;
+    return d;
+  }
+  function coachGo(m, dur) { CK.mode = m; CK.mt = performance.now(); CK.mdur = dur || 0; }
+  function coachEnter(s) {
+    if (s === 0) { CK.log.innerHTML = ''; CK.ph.className = 'co-ph'; CK.ph.textContent = 'כתבי כאן את השאלה שלך…'; CK.think = false; coachGo('wave'); }
+    else if (s === 1) { var d = coachMsg('bot', CHELLO, true); coachGo('speak', Math.max(2.2, d + 1.4)); }
+    else if (s === 2) { CK.ph.className = 'co-ph typed'; }
+    else if (s === 3) { CK.ph.className = 'co-ph'; CK.ph.textContent = 'כתבי כאן את השאלה שלך…'; coachMsg('me', CQ, false); }
+    else if (s === 4) { CK.think = true; var ty = document.createElement('div'); ty.className = 'co-m bot'; ty.id = 'cty'; ty.innerHTML = '<div class="co-col"><div class="co-b co-dots"><i></i><i></i><i></i></div></div>' + CAV; CK.log.appendChild(ty); CK.log.scrollTop = CK.log.scrollHeight; }
+    else if (s === 5) { CK.think = false; var y = ms.querySelector('#cty'); if (y) y.remove(); var d2 = coachMsg('bot', CANS, true, true); coachGo('speak', Math.max(2.2, d2 + 1.4)); }
+  }
+  function coachFrame(now) {
+    var t = reduce ? 99 : ((now - t0) / 1000) % CT.end, st = t < CT.hello ? 0 : t < CT.type ? 1 : t < CT.ask ? 2 : t < CT.think ? 3 : t < CT.ans ? 4 : 5;
+    if (reduce) st = 9;
+    if (st !== CK.st && !reduce) {
+      /* a slow frame may skip a stage (and the loop wraps around): enter every stage in between, in order */
+      for (var s = st < CK.st ? 0 : CK.st + 1; s <= st; s++) coachEnter(s);
+      CK.st = st;
+    }
+    if (st === 2 && !reduce) { var k = Math.min(1, (t - CT.type) / (CT.ask - CT.type - 0.4)); CK.ph.textContent = CQ.slice(0, Math.max(1, Math.round(CQ.length * k))); }
+    if (!reduce && CK.st >= 1 && CK.st <= 5) CK.log.scrollTop = CK.log.scrollHeight;
+    var tt = now / 1000, u = (now - CK.mt) / 1000, q = 0;
+    if (CK.mode === 'wave') {
+      if (u < 0.7) q = cio(u / 0.7); else if (u < 2.9) q = 1 + (0.5 + 0.5 * Math.sin((u - 0.7) * 8.5 - Math.PI / 2)); else if (u < 3.6) q = 2 + cio((u - 2.9) / 0.7); else CK.mode = 'idle';
+    } else if (CK.mode === 'speak') {
+      if (u < 0.6) q = 3 + cio(u / 0.6); else if (u < CK.mdur - 0.6) q = 4 + (0.5 + 0.5 * Math.sin((u - 0.6) * 2.4 - Math.PI / 2)); else if (u < CK.mdur) q = 5 + cio((u - (CK.mdur - 0.6)) / 0.6); else CK.mode = 'idle';
+    }
+    var r = fig.atIdx(q).pose;
+    r.h = [r.h[0], r.h[1] + Math.sin(tt * 1.7) * 0.5]; r.t = (r.t || 0) + Math.sin(tt * 0.8) * 1.2; r.n = (r.n || 0) + (CK.think ? Math.sin(tt * 2.2) * 3 + 5 : Math.sin(tt * 0.9) * 1.5);
+    fig.draw(r);
+  }
   var tabs = document.getElementById('mtabs');
   function setMode(m) {
     if (m === mode) return; mode = m;
     Array.prototype.forEach.call(tabs.querySelectorAll('button'), function (b) { b.setAttribute('aria-selected', b.dataset.mode === m ? 'true' : 'false'); });
-    fig = null; build(0);
+    fig = null; HTVoice.stop(); vBtn.hidden = m === 'coach'; build(0);
   }
+  vBtn.addEventListener('click', function () {
+    vOn = !vOn; vBtn.setAttribute('aria-pressed', vOn ? 'true' : 'false'); vBtn.lastChild.textContent = vOn ? 'הקראה: פועלת' : 'הקראה: כבויה';
+    HTVoice.enable(vOn);
+    if (!vOn) { HTVoice.stop(); if (mode === 'go') build(0); return; }
+    if (mode === 'go') build(0); else if (mode === 'how') render();
+  });
   document.addEventListener('click', function (e) {
     var m = e.target.closest('[data-mode]'); if (m && (tabs.contains(m) || mock.contains(m))) setMode(m.dataset.mode);
   });
@@ -917,6 +1100,7 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
   function frame(now) {
     if (visible && fig) {
       if (mode === 'go') { if (now - lastT > 33) { lastT = now; goFrame(now); } }
+      else if (mode === 'coach') { if (now - lastT > 33) { lastT = now; coachFrame(now); } }
       else {
         if (now > auto && !reduce) { step = (step + 1) % ins.length; auto = now + 6500; render(); }
         if (now - lastT > 33) { lastT = now; fig.draw(pose(now)); }
@@ -1129,6 +1313,7 @@ footer.fine .fl { font-family: "OH Noa Price", "Gveret Levin", cursive; font-wei
     '<a class="on" href="#" aria-current="page" data-here="1">' + ic('<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c.8-4 3.7-6 7.5-6s6.7 2 7.5 6"/>') + 'מי אני?</a>' +
     '<a href="index.html#/">' + ic('<path d="M3 11.5L12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>') + 'ראשי</a>' +
     '<a href="index.html#/lessons">' + ic('<path d="M6.5 6.5v11"/><path d="M17.5 6.5v11"/><path d="M3.5 9v6"/><path d="M20.5 9v6"/><path d="M6.5 12h11"/>') + 'תרגילים</a>' +
+    '<a href="index.html#/coach">' + ic('<circle cx="12" cy="8" r="3.4"/><path d="M5 20c.6-3.6 3.3-5.4 7-5.4s6.4 1.8 7 5.4"/><path d="M19 3.5v4M17 5.5h4"/>') + 'ברכי תדריכי</a>' +
     '<a href="index.html#/club">' + ic('<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H4.5A3 3 0 0 0 8 10"/><path d="M16 6h3.5A3 3 0 0 1 16 10"/><path d="M12 13v4"/><path d="M8.5 20h7"/>') + 'חדר מתעמלות</a>' +
     '<a href="' + (lp ? 'index.html#/ex/' + lp[0] + '/' + lp[1] : '#') + '"' + (lp ? '' : ' class="dis" aria-disabled="true" tabindex="-1"') + '>' + ic('<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7.5V12l3 2"/>') + 'התרגיל האחרון</a>' +
     '<a href="index.html?gloss=1#/">' + ic('<path d="M5 4.5h10a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h10"/><path d="M9.5 8.5h5"/>') + 'מושגים</a>' +

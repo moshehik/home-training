@@ -68,11 +68,12 @@
     lessons: ic('<path d="M6.5 6.5v11"/><path d="M17.5 6.5v11"/><path d="M3.5 9v6"/><path d="M20.5 9v6"/><path d="M6.5 12h11"/>'),
     last: ic('<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7.5V12l3 2"/>'),
     gloss: ic('<path d="M5 4.5h10a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h10"/><path d="M9.5 8.5h5"/>'),
+    coach: ic('<circle cx="12" cy="8" r="3.4"/><path d="M5 20c.6-3.6 3.3-5.4 7-5.4s6.4 1.8 7 5.4"/><path d="M19 3.5v4M17 5.5h4"/>'),
     club: ic('<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H4.5A3 3 0 0 0 8 10"/><path d="M16 6h3.5A3 3 0 0 1 16 10"/><path d="M12 13v4"/><path d="M8.5 20h7"/>'),
     who: ic('<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c.8-4 3.7-6 7.5-6s6.7 2 7.5 6"/>'),
     star: '<svg class="ic star" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3.2l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17.2 6.6 20.1l1-6.1L3.2 9.7l6.1-.9z"/></svg>'
   };
-  bar.innerHTML = '<button type="button" data-a="back">' + ICONS.back + 'חזרה</button><button type="button" data-a="who">' + ICONS.who + 'מי אני?</button><button type="button" data-a="home">' + ICONS.home + 'ראשי</button><button type="button" data-a="lessons">' + ICONS.lessons + 'תרגילים</button><button type="button" data-a="club">' + ICONS.club + 'חדר מתעמלות</button><button type="button" data-a="last">' + ICONS.last + 'התרגיל האחרון</button><button type="button" data-a="gloss">' + ICONS.gloss + 'מושגים</button><span class="sep"></span><span class="pts">' + ICONS.star + '<span><b id="ptsN">0</b> נקודות</span></span>';
+  bar.innerHTML = '<button type="button" data-a="back">' + ICONS.back + 'חזרה</button><button type="button" data-a="who">' + ICONS.who + 'מי אני?</button><button type="button" data-a="home">' + ICONS.home + 'ראשי</button><button type="button" data-a="lessons">' + ICONS.lessons + 'תרגילים</button><button type="button" data-a="coach">' + ICONS.coach + 'ברכי תדריכי</button><button type="button" data-a="club">' + ICONS.club + 'חדר מתעמלות</button><button type="button" data-a="last">' + ICONS.last + 'התרגיל האחרון</button><button type="button" data-a="gloss">' + ICONS.gloss + 'מושגים</button><span class="sep"></span><span class="pts">' + ICONS.star + '<span><b id="ptsN">0</b> נקודות</span></span>';
   stage.appendChild(bar);
   var cur = null;
   function updateBar(pop) {
@@ -82,7 +83,7 @@
     $('[data-a=back]', bar).disabled = !cur || !cur.parent;
     $('[data-a=back]', bar).lastChild.textContent = cur && cur.backLabel ? cur.backLabel : 'חזרה';
     /* a thin glowing frame around the toolbar button of the section she is in */
-    var seg = location.hash.replace(/^#\/?/, '').split('/')[0], here = !seg ? 'home' : /^(lessons|lesson|ex)$/.test(seg) ? 'lessons' : seg === 'club' ? 'club' : '';
+    var seg = location.hash.replace(/^#\/?/, '').split('/')[0], here = !seg ? 'home' : /^(lessons|lesson|ex)$/.test(seg) ? 'lessons' : seg === 'club' ? 'club' : seg === 'coach' ? 'coach' : '';
     Array.prototype.forEach.call(bar.querySelectorAll('button'), function (b) { var on = b.dataset.a === here; b.classList.toggle('on', on); if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
     if (pop) { var p = $('.pts', bar); p.classList.remove('pop'); void p.offsetWidth; p.classList.add('pop'); }
   }
@@ -93,6 +94,7 @@
     else if (a === 'home') location.hash = '#/';
     else if (a === 'lessons') location.hash = '#/lessons';
     else if (a === 'club') location.hash = '#/club';
+    else if (a === 'coach') location.hash = '#/coach';
     else if (a === 'gloss') HTGlossary.open();
     else if (a === 'who') location.href = 'landing.html?site=1';
     else if (a === 'last') { var l = findEx(store.g('ht-last')); if (l) location.hash = '#/ex/' + l.L.n + '/' + l.E.i; }
@@ -709,6 +711,7 @@
       '<div class="wallbox" id="wallbox"><div class="wall paint" id="wall"></div><div class="paint breath" id="breath" data-gl="breath" title="מה זה שאיפה ונשיפה?"></div></div>' +
       '<button type="button" class="hot" id="spk" aria-label="מוזיקה" style="left:40px;top:640px;width:230px;height:258px;background:url(' + A + 'speaker.png) 0 0/100% 100% no-repeat"><span class="pwr" id="spkPwr"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v8.5"/><path d="M7 6.6a7.6 7.6 0 1 0 10 0"/></svg></span></button>' +
       '<div class="vol" id="volBox" style="left:40px;top:915px;width:230px"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9z"/></svg><input type="range" id="vol" min="0" max="1" step="0.01" value="' + volStart + '" aria-label="עוצמת המוזיקה"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9z"/><path class="w" d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12"/></svg></div>' +
+      '<button type="button" class="hgo in tohow-s" id="vc" style="left:45px;top:962px"><span class="in-row"><span></span></span></button>' +
       '<div class="tip l" id="spkTip" style="left:280px;top:700px;width:130px">לחצי כאן להפעלת מוזיקה</div>' +
       '<div class="clock" id="clock" role="button" aria-label="טיימר"><div class="face"></div><div id="digits"></div><div class="cl" id="cl">' + E.dose + '</div><button type="button" class="pwr" id="pwr" aria-label="הפעלת הטיימר"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v8.5"/><path d="M7 6.6a7.6 7.6 0 1 0 10 0"/></svg></button></div>' +
       '<div class="tip l" id="clkTip" style="left:1604px;top:60px;width:290px">אדום: כבוי · ירוק: פועל. לחצי להפעלה</div>' +
@@ -731,7 +734,43 @@
     }
     var total = plan.reduce(function (a, p) { return a + p.dur; }, 0);
     var run = { i: -1, t: 0, running: false, last: 0, done: false }, started = false, tipT0 = performance.now(), musicWant = false, lastBeep = -1, idleT0 = performance.now(), timer = null;
-    var wallKey = '', lastDigits = '', brKey = '', rafAt = 0, fbTimer = null;
+    var wallKey = '', lastDigits = '', brKey = '', rafAt = 0, fbTimer = null, voiceKey = '';
+
+    /* ---- spoken instructions (clips from scripts/make-voice.js): so she can exercise without looking at the screen ---- */
+    var vc = el.querySelector('#vc'), hasVoice = false;
+    HTVoice.enable(store.g('ht-voice') !== '0');
+    function voiceLabel() { vc.querySelector('span span').textContent = HTVoice.enabled() ? 'הקראה: פועלת' : 'הקראה: כבויה'; }
+    vc.style.display = 'none';
+    HTVoice.ready(function () { hasVoice = HTVoice.has(E.id + '-p'); vc.style.display = hasVoice ? '' : 'none'; voiceLabel(); });
+    vc.addEventListener('click', function () { HTVoice.enable(!HTVoice.enabled()); store.s('ht-voice', HTVoice.enabled() ? '1' : '0'); voiceLabel(); voiceKey = ''; });
+    /* said once when the wall text changes: key = which text it is, clip = what to read ('' = nothing) */
+    function narrate(key, clip) { if (key === voiceKey) return; voiceKey = key; if (clip && started && run.running && !run.done) HTVoice.say(clip); }
+    /* The spoken walkthrough. The voice cannot say the steps at the doll's tempo, so before the first set - in the prep phase, once the
+     * starting position has been read - the doll does the movement one time in slow motion: each step lasts as long as its clip and the
+     * wall shows that step. The sets themselves then run at the real tempo, with only short cues ('התחילי', switch, rest) from the voice. */
+    var demoPlan = null, demoOn = false, startLen = 0;
+    function buildDemo() {
+      var runs = [], seen = {}, n = 240, last = -1, at = 0, j, k;
+      if (isHold) E.steps.forEach(function (s, i) { runs.push({ k: i }); });
+      else for (j = 0; j < n; j++) { k = stepOf(fig.atPhase((j + 0.5) / n)); if (k !== last) { runs.push({ k: k, f0: j / n }); last = k; } runs[runs.length - 1].f1 = (j + 1) / n; }
+      runs.forEach(function (r) {   /* a step that comes back (the pause at the far pose) is not read twice */
+        r.say = !seen[r.k]; seen[r.k] = 1;
+        r.T = r.say ? Math.max(2, HTVoice.length(E.id + '-s' + r.k, E.steps[r.k]) + 0.7) : Math.max(1.5, (r.f1 - r.f0) * cycle * 2);
+        r.t0 = at; at += r.T;
+      });
+      return { runs: runs, len: at };
+    }
+    function prepLen() {
+      demoOn = hasVoice && HTVoice.enabled(); if (!demoOn) return PREP;
+      demoPlan = demoPlan || buildDemo(); startLen = Math.ceil(HTVoice.length(E.id + '-p', E.start) + 1.5);
+      return startLen + Math.ceil(demoPlan.len) + 1;
+    }
+    function inDemo() { return started && !run.done && demoOn && plan[run.i].type === 'prep' && run.t >= startLen; }
+    function demoAt(t) {
+      var rs = demoPlan.runs, i = 0; while (i < rs.length - 1 && t >= rs[i].t0 + rs[i].T) i++;
+      return { i: i, run: rs[i], u: Math.min(1, Math.max(0, (t - rs[i].t0) / rs[i].T)) };
+    }
+    function setTotal() { total = plan.reduce(function (a, p) { return a + p.dur; }, 0); }
 
     /* The instruction on the wall keeps the exercise's own rhythm: in a repetition exercise the steps are spread over the
      * repetition and change with the doll's movement; in a hold the steps that lead into the pose are shown while the
@@ -837,7 +876,7 @@
       if (!started) return '';
       var p = plan[run.i];
       if (run.done) return 'כל הכבוד!';
-      if (p.type === 'prep') return 'התכוני לעמדת הפתיחה';
+      if (p.type === 'prep') return inDemo() ? 'הסבר לפני שמתחילים' : 'התכוני לעמדת הפתיחה';
       if (p.type === 'rest') return 'מנוחה · הסט הבא ' + (p.set + 1) + ' מתוך ' + E.sets;
       if (p.type === 'switch') return 'עברי לצד השני';
       var txt = 'סט ' + p.set + ' מתוך ' + E.sets + (p.side ? ' · צד ' + p.side : '');
@@ -866,23 +905,31 @@
         if (!isHold && !followDoll) { var bm = /שאפ|שאיפ|נשפ|נשיפ/.exec(E.steps[si]); r.br = bm ? (bm[0].charAt(0) === 'ש' ? 'in' : 'out') : ''; }   /* the instruction is on its own clock, so the breath cue follows its words, not the doll */
         fig.setMirror(!!ph.flip);
         setWall('w' + run.i + '.' + si, E.steps[si], false, stepLen, fastStep(si));
+        narrate('w' + run.i, 'g-go');   /* the steps were walked through before the first set; each set / side starts with a short "go" */
+      } else if (inDemo()) {
+        var dw = run.running ? run.t + Math.min(Math.max(performance.now() - run.last, 0) / 1000, 0.2) : run.t, dm = demoAt(dw - startLen), dr = dm.run, bw = /שאפ|שאיפ|נשפ|נשיפ/.exec(E.steps[dr.k]);
+        r = isHold ? fig.atHold(Math.min(1, (dw - startLen) / Math.max(2, demoPlan.len * 0.5)), 0) : fig.atPhase(dr.f0 + dm.u * (dr.f1 - dr.f0));
+        r.br = bw ? (bw[0].charAt(0) === 'ש' ? 'in' : 'out') : '';
+        fig.setMirror(false);
+        setWall('demo' + dm.i, E.steps[dr.k], false, dr.T, false);
+        narrate('demo' + dm.i, dr.say ? E.id + '-s' + dr.k : '');
       } else {
         r = fig.atHold(0, Math.sin(now / 900) * 0.6);
         var nx = plan[run.i + 1], nw = nx && nx.type === 'work' ? nx : ph;
         fig.setMirror(ph.type === 'switch' ? true : !!(nw && nw.flip && ph.type !== 'rest'));
-        if (ph.type === 'prep') setWall('prep', E.start, E.start.length > 100 ? 56 : 66);
-        else if (ph.type === 'switch') setWall('sw' + run.i, 'עברי לצד השני', true);
-        else setWall('rest' + run.i, 'נוחי ונשמי');
+        if (ph.type === 'prep') { setWall('prep', E.start, E.start.length > 100 ? 56 : 66); narrate('prep', E.id + '-p'); }
+        else if (ph.type === 'switch') { setWall('sw' + run.i, 'עברי לצד השני', true); narrate('sw' + run.i, 'g-switch'); }
+        else { setWall('rest' + run.i, 'נוחי ונשמי'); narrate('rest' + run.i + (ph.dur - run.t <= 8 ? 'n' : ''), ph.dur - run.t <= 8 ? 'g-next' : 'g-rest'); }
       }
       fig.draw(r.pose);
       /* the instruction and the breath (in / out) are both written on the wall, the breath under the instruction */
-      setBreath(started && !run.done && ph.type === 'work' ? (r.br || '') : '');
+      setBreath(started && !run.done && (ph.type === 'work' || inDemo()) ? (r.br || '') : '');
       render(); tips();
     }
 
     /* ---- timer logic ---- */
     function enter(i) {
-      run.i = i; run.t = 0; lastBeep = -1;
+      run.i = i; run.t = 0; lastBeep = -1; voiceKey = ''; HTVoice.stop();
       if (plan[i].type === 'work') HTMusic.sync();
       if (i > 0) HTMusic.tick(true);
     }
@@ -903,7 +950,7 @@
     function finish() {
       run.running = false; run.done = true;
       HTMusic.tick(true); setTimeout(function () { HTMusic.tick(true); }, 220);
-      HTMusic.stop(); musicWant = false;
+      HTMusic.stop(); musicWant = false; HTVoice.stop(); HTVoice.say('g-done');
       var acts = $e('acts'); $e('tohow').classList.add('hid');   /* the bottom row is taken by the finish buttons */
       acts.innerHTML = '<button type="button" class="pill gold rel" id="didit" style="height:100px;font-size:42px;padding:0 60px;animation:breathe 1.6s ease-in-out infinite">עשיתי את זה!</button>';
     }
@@ -922,15 +969,16 @@
     function startRun() {
       started = true; el.classList.add('go-run'); run.done = false; run.running = true; run.last = performance.now(); $e('acts').innerHTML = ''; $e('tohow').classList.remove('hid');
       if (musicWant) { HTMusic.stop(); HTMusic.start(E.bpm, musicStyle()); }
+      plan[0].dur = prepLen(); setTotal();
       enter(0);
     }
     function resetRun() {
-      started = false; el.classList.remove('go-run'); run.done = false; run.running = false; run.i = -1; run.t = 0; HTMusic.resume(); HTMusic.stop(); musicWant = false;
+      started = false; el.classList.remove('go-run'); run.done = false; run.running = false; run.i = -1; run.t = 0; HTMusic.resume(); HTMusic.stop(); musicWant = false; HTVoice.stop(); voiceKey = ''; plan[0].dur = PREP; setTotal();
       $e('acts').innerHTML = ''; $e('tohow').classList.remove('hid'); idleT0 = performance.now(); wallKey = '';
     }
     function togglePause() {
-      if (run.running) { run.running = false; HTMusic.pause(); }
-      else { run.running = true; run.last = performance.now(); HTMusic.resume(); }
+      if (run.running) { run.running = false; HTMusic.pause(); HTVoice.pause(); }
+      else { run.running = true; run.last = performance.now(); HTMusic.resume(); HTVoice.resume(); }
     }
     clock.addEventListener('click', function () {
       HTMusic.unlock();
@@ -976,8 +1024,8 @@
         }, '../landing/room.jpg');
       });
     };
-    s.destroy = function () { dead = true; clearInterval(timer); clearInterval(fbTimer); HTMusic.resume(); HTMusic.stop(); };
-    s.pause = function () { if (started && run.running && !run.done) { run.running = false; HTMusic.pause(); } };   /* the concepts window opens over a running workout */
+    s.destroy = function () { dead = true; clearInterval(timer); clearInterval(fbTimer); HTMusic.resume(); HTMusic.stop(); HTVoice.stop(); };
+    s.pause = function () { if (started && run.running && !run.done) { run.running = false; HTMusic.pause(); HTVoice.pause(); } };   /* the concepts window opens over a running workout */
     return s;
   }
 
@@ -1202,6 +1250,223 @@
     };
   }
 
+  /* ================= COACH (המדריכה הווירטואלית) =================
+   * The doll sits on a chair in the room, smiling, and a chat panel lets her ask questions about exercise only.
+   * HTCoach (shared/coach.js) answers: a real model through /api/coach when it is available, the site's own exercise data otherwise. */
+  function coachScreen() {
+    var el = scr(), dead = false, skipped = false, done = false, fig, busy = false, hist = [], shown = [];
+    var SC = 2.8, FX = 500, FLOOR = 990, G = HTDoll.G;
+    var lastE = findEx(store.g('ht-last') || ''), hasLast = !!(lastE && lastE.E);
+    var HELLO = hasLast ? 'שלום! אני ברכי, המדריכה שלך. ראיתי שהתרגיל האחרון שעשית היה "' + lastE.E.name + '". אם משהו בו לא הסתדר, פשוט כתבי לי ואדע על מה את מדברת. אפשר גם לבקש תכנית אימונים לחיטוב ולירידה במשקל, או לשאול על כל תרגיל אחר. במה להתחיל?'
+      : 'שלום! אני ברכי, המדריכה שלך. אפשר לשאול אותי על תרגיל שלא הבנת, לבקש תכנית אימונים לחיטוב ולירידה במשקל, או להתייעץ על כל דבר שקשור לאימון. במה להתחיל?';
+    var FAQ = [
+      ['תכנית אימונים וירידה במשקל', ['תכנית אימונים לירידה במשקל', 'אפשר לרדת במשקל רק מהבטן?', 'איזה אימון הכי שורף קלוריות?', 'איזה אימון מתאים לבטן?', 'איזה אימון מתאים לגב ולמתיחות?']],
+      ['תדירות וציוד', ['כמה פעמים בשבוע להתאמן?', 'מתי הכי טוב להתאמן?', 'איזה ציוד צריך?']],
+      ['להתחיל ולהתמיד', ['איך מתחילים?', 'איך מתמידים כשאין חשק?']],
+      ['בריאות ובטיחות', ['כואב לי הגב', 'למה השרירים כואבים אחרי האימון?', 'האם אפשר להתאמן בהריון?']],
+      ['תרגיל שלא הבנתי', ([]).concat(['איך עושים סקוואט סומו?', 'איך עושים פלאנק נכון?', 'איך נושמים נכון בזמן תרגיל?', 'מה ההבדל בין סט לחזרה?', 'איך מתחממים לפני אימון?'])]
+    ];
+    el.innerHTML = '<div class="bg" data-ext="../landing/room.jpg" style="background-image:url(' + A + '../landing/room.jpg)"></div>' + lampHtml(215, 0) + PAINT_SVG + logoLink +
+      rect('', 'rug-round.png', FX - 300, FLOOR - 100, 600, 210) +
+      '<div class="paint" id="p1" style="left:390px;top:96px;width:640px;font-size:115px;line-height:.9"><p class="tx">ברכי תדריכי</p></div>' +
+      '<div class="paint" id="p2" style="left:390px;top:240px;width:640px;line-height:.9"><p class="tx" style="font-size:36px">שאלי אותי על כל תרגיל, תכנית או הסבר</p></div>' +
+      '<div class="coach" id="coach"><div class="co-head"><span class="co-title">שיחה עם ברכי</span><span class="co-on"><i></i>זמינה לשאלות</span></div><div class="co-log" id="coLog" aria-live="polite"></div>' +
+      '<form class="co-form" id="coForm"><div class="co-field"><textarea id="coIn" rows="1" maxlength="400" dir="rtl" placeholder="כתבי כאן את השאלה שלך…" aria-label="שאלה לברכי"></textarea><button type="button" class="co-del" id="coDel" aria-label="מחקי את הכתוב" title="מחקי את הכתוב"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l.9 12.5h9.2L17.5 7M10 11v5.5M14 11v5.5"/></svg></button><button type="submit" class="co-send" id="coSend" aria-label="שלחי"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H4M10 5.5 3.5 12l6.5 6.5"/></svg></button></div></form>' +
+      '<div class="co-faq" id="coFaq" hidden><div class="co-faq-head"><span class="co-title" id="coFaqT">שאלות נפוצות</span><button type="button" class="co-faq-x" id="coFaqX" aria-label="סגרי"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div class="co-faq-list" id="coFaqL">' + FAQ.map(function (g) { return '<h4>' + esc(g[0]) + '</h4>' + g[1].map(function (q) { return '<button type="button" class="co-q" data-q="' + esc(q) + '"><span>' + esc(q) + '</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>'; }).join(''); }).join('') + '</div></div>' +
+      '<div class="co-foot"><p class="co-note">ברכי עונה על אימון ותנועה בלבד, ואינה תחליף לרופא.</p><div class="co-btns"><button type="button" class="co-faqbtn" id="coFaqBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2 1-1.2 1.9M12 17h.01"/></svg>שאלות נפוצות</button><button type="button" class="co-new" id="coClear"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>שיחה חדשה</button></div></div></div>';
+
+    /* the doll: seated on the chair facing the room, smiling; waves hello, gestures while she talks, tilts her head while she thinks */
+    var base = { h: [200, G - 52], t: 0, k: [190, G - 5], l: [210, G - 5], lf: 0.3 };
+    function P(o) { return Object.assign({}, base, o); }
+    var scene = { view: 'front', props: [{ type: 'chairf', x: 200 }], poses: [
+      P({ ap: [-14, 52], bp: [14, 52] }),                    /* 0 rest, hands beside the lap */
+      P({ ap: [-14, 52], bp: [150, 56], n: 4 }),             /* 1 waving: hand up */
+      P({ ap: [-14, 52], bp: [170, 56], n: -2 }),            /* 2 waving: hand tilted */
+      P({ ap: [-14, 52], bp: [14, 52] }),                    /* 3 rest (end of the wave) */
+      P({ ap: [-48, 50], bp: [48, 50], n: 3 }),              /* 4 explaining: both hands open */
+      P({ ap: [-74, 52], bp: [36, 50], n: -3 })              /* 5 explaining: hands moved */
+    ] };
+    var mode = 'idle', mt = 0, mdur = 0, next = null, think = false;
+    function go(m, dur) { if (mode !== 'idle' && m !== 'idle') { next = [m, dur]; return; } mode = m; mt = performance.now(); mdur = dur || 0; }
+    function frame(now) {
+      var t = now / 1000, u = (now - mt) / 1000, q = 0, io = ease.io;
+      if (mode === 'wave') {
+        if (u < 0.7) q = io(u / 0.7); else if (u < 2.9) q = 1 + (0.5 + 0.5 * Math.sin((u - 0.7) * 8.5 - Math.PI / 2)); else if (u < 3.6) q = 2 + io((u - 2.9) / 0.7); else mode = 'idle';
+      } else if (mode === 'speak') {
+        if (u < 0.6) q = 3 + io(u / 0.6); else if (u < mdur - 0.6) q = 4 + (0.5 + 0.5 * Math.sin((u - 0.6) * 2.4 - Math.PI / 2)); else if (u < mdur) q = 5 + io((u - (mdur - 0.6)) / 0.6); else mode = 'idle';
+      }
+      if (mode === 'idle' && next) { var n = next; next = null; go(n[0], n[1]); }
+      var r = fig.atIdx(q).pose;
+      r.h = [r.h[0], r.h[1] + Math.sin(t * 1.7) * 0.5];
+      r.t = (r.t || 0) + Math.sin(t * 0.8) * 1.2;
+      r.n = (r.n || 0) + (think ? Math.sin(t * 2.2) * 3 + 5 : Math.sin(t * 0.9) * 1.5);
+      fig.draw(r);
+    }
+
+    /* ----- chat ----- */
+    var log = $('#coLog', el), input = $('#coIn', el), form = $('#coForm', el);
+    function inl(t) { return esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'); }
+    function fmt(s) {
+      return String(s).split(/\n{2,}/).map(function (p) {
+        var out = '', items = [];
+        function flush() { if (items.length) { out += '<ul>' + items.join('') + '</ul>'; items = []; } }
+        p.split('\n').forEach(function (ln) {
+          var b = /^•\s+(.*)$/.exec(ln), n = /^(\d+)\.\s+(.*)$/.exec(ln);
+          if (b) items.push('<li>' + inl(b[1]) + '</li>');
+          else if (n) items.push('<li class="n" data-n="' + n[1] + '">' + inl(n[2]) + '</li>');
+          else { flush(); out += (out && !/<\/ul>$/.test(out) ? '<br>' : '') + inl(ln); }
+        });
+        flush();
+        return '<div class="pp">' + out + '</div>';
+      }).join('');
+    }
+    /* her little face next to every answer */
+    var AVATAR = '<span class="co-av"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="21" r="14" fill="#efb9a0"/><path d="M6 20c0-9 6-15 14-15s14 6 14 15c-3-5-8-8-14-8S9 15 6 20z" fill="#4a3b37"/><circle cx="14.5" cy="22" r="1.8" fill="#3a2f2d"/><circle cx="25.5" cy="22" r="1.8" fill="#3a2f2d"/><path d="M14.5 27.5q5.5 4.5 11 0" fill="none" stroke="#a85f66" stroke-width="2" stroke-linecap="round"/></svg></span>';
+    /* every word fades in one after another, like speech */
+    function reveal(box, step) {
+      var n = 0, w = document.createTreeWalker(box, NodeFilter.SHOW_TEXT), nodes = [];
+      while (w.nextNode()) nodes.push(w.currentNode);
+      nodes.forEach(function (tn) {
+        var f = document.createDocumentFragment();
+        tn.nodeValue.split(/(\s+)/).forEach(function (p) {
+          if (!p) return;
+          if (/^\s+$/.test(p)) { f.appendChild(document.createTextNode(p)); return; }
+          var s = document.createElement('span'); s.className = 'cw'; s.style.animationDelay = (n++ * step).toFixed(3) + 's'; s.textContent = p; f.appendChild(s);
+        });
+        tn.parentNode.replaceChild(f, tn);
+      });
+      return n;
+    }
+    function scrollDown() { log.scrollTop = log.scrollHeight; }
+    function stepOf(text) { return Math.min(0.05, 6 / Math.max(1, text.split(/\s+/).length)); }
+    /* underline the first mention of each linked lesson / exercise inside the answer; a link whose name the answer does not
+     * mention is added as an underlined line at the end of the same bubble */
+    function linkify(box, links) {
+      var rest = [];
+      links.forEach(function (l) {
+        var parts = String(l.l).split(' · '), ms = l.m && l.m.length ? l.m : [l.l].concat(parts.length > 1 ? parts : []), hit = false;
+        ms.some(function (m) {
+          var w = document.createTreeWalker(box, NodeFilter.SHOW_TEXT);
+          while (w.nextNode()) {
+            var tn = w.currentNode, i = tn.nodeValue.indexOf(m);
+            if (i < 0 || tn.parentNode.closest('a')) continue;
+            var mid = tn.splitText(i), a = document.createElement('a'); mid.splitText(m.length);
+            a.className = 'co-in'; a.href = l.h; mid.parentNode.replaceChild(a, mid); a.appendChild(mid);
+            return hit = true;
+          }
+          return false;
+        });
+        if (!hit) rest.push(l);
+      });
+      if (rest.length) box.insertAdjacentHTML('beforeend', '<div class="pp">' + rest.map(function (l) { return '<a class="co-in" href="' + esc(l.h) + '">' + esc(l.l) + '</a>'; }).join(' · ') + '</div>');
+    }
+    function addMsg(who, text, links, anim) {
+      var m = document.createElement('div'); m.className = 'co-m ' + who;
+      var col = document.createElement('div'); col.className = 'co-col'; m.appendChild(col);
+      if (who === 'bot') m.insertAdjacentHTML('beforeend', AVATAR);
+      var b = document.createElement('div'); b.className = 'co-b'; b.innerHTML = fmt(text); col.appendChild(b);
+      var words = 0;
+      if (links && links.length) linkify(b, links);   /* the links are underlined words inside the answer, not buttons under it */
+      if (anim && who === 'bot') words = reveal(b, stepOf(text));
+      log.appendChild(m); scrollDown();
+      return { el: m, words: words };
+    }
+    function save() { store.s('ht-coach', JSON.stringify(shown.slice(-24))); }
+    function say(who, text, links, anim) { var o = addMsg(who, text, links, anim); shown.push({ r: who, t: text, l: links || [] }); save(); return o; }
+    function speak(text, o) {
+      var w = o ? o.words : text.split(/\s+/).length, d = Math.max(2.2, Math.min(10, w * 0.05 + 1.2));
+      go('speak', d);
+      var iv = setInterval(function () { if (dead) return clearInterval(iv); scrollDown(); }, 120); setTimeout(function () { clearInterval(iv); }, d * 1000);
+    }
+    function autosize() { $('.co-field', el).classList.toggle('has', !!input.value); input.style.height = 'auto'; input.style.height = Math.min(120, input.scrollHeight) + 'px'; input.style.overflowY = input.scrollHeight > 120 ? 'auto' : 'hidden'; }
+    function send(text) {
+      text = String(text || '').trim().slice(0, 400);
+      if (!text || busy || !done) return;
+      busy = true; input.value = ''; autosize();
+      say('me', text);
+      var ty = document.createElement('div'); ty.className = 'co-m bot'; ty.innerHTML = '<div class="co-col"><div class="co-b co-dots"><i></i><i></i><i></i></div></div>' + AVATAR; log.appendChild(ty); scrollDown();
+      think = true;
+      Promise.all([HTCoach.ask(hist, text), new Promise(function (r) { setTimeout(r, 800); })]).then(function (r) {
+        if (dead) return;
+        var a = r[0]; think = false; ty.remove();
+        hist.push({ role: 'user', content: text }, { role: 'assistant', content: a.text });
+        hist = hist.slice(-10);
+        var o = say('bot', a.text, a.links, true); speak(a.text, o);
+        busy = false;
+      });
+    }
+    var faq = $('#coFaq', el);
+    var faqHtml = $('#coFaqL', el).innerHTML;
+    function openPanel(title, html) { $('#coFaqT', el).textContent = title; $('#coFaqL', el).innerHTML = html; $('#coFaqL', el).scrollTop = 0; faq.hidden = false; }
+    $('#coFaqBtn', el).addEventListener('click', function () { var at = faqHtml.indexOf('<h4>תרגיל שלא הבנתי</h4>'); openPanel('שאלות נפוצות', faqHtml.slice(0, at) + recentGroup() + faqHtml.slice(at)); });
+    /* questions about the exercises she finished lately ("עשיתי את זה!"), the latest first; each one is pinned to that exact exercise */
+    function recentGroup() {
+      var seen = {}, rows = [], lg = readLog();
+      function add(id) { var f = findEx(id); if (!f || !f.E || seen[id] || rows.length >= 5) return; seen[id] = 1; rows.push(f); }
+      for (var i = lg.length - 1; i >= 0; i--) add(lg[i][1]);
+      add(store.g('ht-last') || '');
+      if (!rows.length) return '<h4>על האימונים האחרונים שעשיתי</h4><p class="co-empty">עוד לא סימנת אף תרגיל כ"עשיתי את זה!". אחרי שתסיימי תרגיל ותלחצי על הכפתור, יופיעו כאן שאלות עליו.</p>';
+      function item(f, q) { return '<button type="button" class="co-q" data-ex="' + esc(f.L.n + '-' + f.E.i) + '" data-q="' + esc(q) + '"><span>' + esc(q) + '</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>'; }
+      var h = '<h4>על האימונים האחרונים שעשיתי</h4>', f0 = rows[0], n0 = '"' + f0.E.name + '"';
+      h += item(f0, 'לא הסתדרתי עם התרגיל ' + n0) + item(f0, 'איך להקל על ' + n0 + '?') + item(f0, 'על מה לשים לב ב' + n0 + '?');
+      rows.slice(1).forEach(function (f) { h += item(f, 'תסבירי לי על התרגיל "' + f.E.name + '" משיעור ' + f.L.n); });
+      return h;
+    }
+    $('#coFaqX', el).addEventListener('click', function () { faq.hidden = true; });
+    el.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !faq.hidden) faq.hidden = true; });
+    faq.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-q],[data-ex]'); if (!b || busy) return;
+      if (b.dataset.ex) { faq.hidden = true; HTCoach.pin(b.dataset.ex); send(b.dataset.q); return; }
+      faq.hidden = true; send(b.dataset.q);
+    });
+    input.addEventListener('input', autosize);
+    $('#coDel', el).addEventListener('click', function () { input.value = ''; autosize(); input.focus(); });
+    input.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(input.value); } });
+    form.addEventListener('submit', function (e) { e.preventDefault(); send(input.value); });
+    $('#coClear', el).addEventListener('click', function () { if (busy) return; shown = []; hist = []; save(); log.innerHTML = ''; go('wave'); var o = say('bot', HELLO, [], true); speak(HELLO, o); });
+
+    var tween = mkTween(function () { return dead; }, function () { return skipped; });
+    function finish() {
+      if (done) return;
+      done = true; $$('.ln', el).forEach(function (ln) { ln.style.setProperty('--w', 112); ln.style.setProperty('--g', -40); }); el.classList.add('lamp-on', 'coach-on');
+      var old = []; try { old = JSON.parse(store.g('ht-coach') || '[]'); } catch (e) {}
+      go('wave');
+      if (old.length) {
+        old.forEach(function (m) { shown.push(m); addMsg(m.r, m.t, m.l, false); hist.push({ role: m.r === 'me' ? 'user' : 'assistant', content: m.t }); });
+        hist = hist.slice(-10);
+        while (hist.length && hist[0].role !== 'user') hist.shift();
+      } else setTimeout(function () { if (!dead) { var o = say('bot', HELLO, [], true); speak(HELLO, o); } }, 900);
+    }
+    el.addEventListener('click', function () { if (!done && !skipped) { skipped = true; setTimeout(finish, 80); } });
+    return {
+      el: el, parent: '#/', destroy: function () { dead = true; },
+      start: function () {
+        fig = mountDoll(el, scene, FX - 200 * SC, FLOOR - 231 * SC, SC);
+        $('.doll', el).style.zIndex = 2;
+        loop(frame);
+        var p1 = $('#p1', el), p2 = $('#p2', el);
+        var fonts = document.fonts && document.fonts.load ? Promise.all([document.fonts.load('50px "OH Noa Price"', 'אבגד'), document.fonts.load('50px "OH Noa Price"', '8,.!?')]).then(function () { return document.fonts.ready; }).catch(function () {}) : Promise.resolve();
+        fonts.then(function () {
+          if (dead) return;
+          layoutLines(el);
+          p2.style.top = (p1.offsetTop + p1.offsetHeight + 34) + 'px';
+          $$('.ln', el).forEach(function (ln) { ln.style.marginInline = 'auto'; });
+          wallLum([[390, 96, 640, 160], [390, 260, 640, 60]], function (l) {
+            p1.style.setProperty('--ink', l[0] < 0.45 ? '#fff3ec' : '#4a3b3a');
+            p2.style.setProperty('--ink', l[1] < 0.45 ? '#ffe7ae' : '#a3304f');
+            if ((window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { finish(); return; }
+            tween(450, function () {})
+              .then(function () { return paintLines(p1, tween); })
+              .then(function () { return tween(300, function () {}); })
+              .then(function () { return paintLines(p2, tween); })
+              .then(function () { if (!dead && !done) { el.classList.add('lamp-on'); return tween(400, function () {}); } })
+              .then(function () { if (!dead) finish(); });
+          }, '../landing/room.jpg');
+        });
+      }
+    };
+  }
+
   HTGlossary.onOpen = function () { if (cur && cur.pause) cur.pause(); };
 
   /* ================= router ================= */
@@ -1211,6 +1476,7 @@
     if (!p.length) return show(homeScreen());
     if (p[0] === 'lessons') return show(lessonsScreen());
     if (p[0] === 'club') return show(clubScreen());
+    if (p[0] === 'coach') return show(coachScreen());
     if (p[0] === 'lesson' && (L = findLesson(p[1]))) return show(lessonScreen(L));
     if (p[0] === 'ex' && (L = findLesson(p[1])) && (E = L.exercises[+p[2] - 1])) {
       if (p[3] === 'note') return show(noteScreen(L, E));
